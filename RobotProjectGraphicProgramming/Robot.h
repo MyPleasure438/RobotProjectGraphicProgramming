@@ -7,6 +7,7 @@
 #include <ctime>
 #include <vector>
 #include <iostream>
+#include "LeftArm.h"
 
 #pragma comment (lib, "OpenGL32.lib")
 
@@ -16,7 +17,7 @@
 #include <GL/glu.h>
 #pragma comment(lib, "glu32.lib")
 
-#include "Arm.h"
+#include "LeftArm.h"
 #include "Body.h"
 #include "Head.h"
 #include "Leg.h"
@@ -25,7 +26,7 @@
 class Robot
 {
 private:
-	Arm arm;
+	LeftArm leftArm;
 	Body body;
 	Head head;
 	Leg leg;

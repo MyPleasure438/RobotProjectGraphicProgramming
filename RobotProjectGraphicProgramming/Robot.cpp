@@ -25,30 +25,32 @@ void Robot::draw() {
 
     //body.draw();
 
-    glPushMatrix();
-    glTranslatef(0, head.y, 0);
+        glPushMatrix();
+    //glTranslatef(0, head.y, 0);
     //head.draw();
-    glPopMatrix();
+        glPopMatrix();
 
-    glPushMatrix();
+        glPushMatrix();
     //glTranslatef(leftArm.x, leftArm.y, leftArm.z);
     //leftArm.draw();
-    glPopMatrix();
+        leftArm.draw();
 
-    glPushMatrix();
+        glPopMatrix();
+
+        glPushMatrix();
     //glTranslatef(rightArm.x, rightArm.y, rightArm.z);
     //rightArm.draw();
-    glPopMatrix();
+        glPopMatrix();
 
-    glPushMatrix();
+        glPushMatrix();
     //glTranslatef(leftLeg.x, leftLeg.y, leftLeg.z);
     //leftLeg.draw();
-    glPopMatrix();
+        glPopMatrix();
 
-    glPushMatrix();
+        glPushMatrix();
     //glTranslatef(rightLeg.x, rightLeg.y, rightLeg.z);
     //rightLeg.draw();
-    glPopMatrix();
+        glPopMatrix();
 
     glPopMatrix();
 }

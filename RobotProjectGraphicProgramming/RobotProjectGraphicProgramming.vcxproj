@@ -125,7 +125,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Arm.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LeftArm.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="Head.cpp" />
     <ClCompile Include="Leg.cpp" />
@@ -135,9 +136,11 @@
     <ClCompile Include="Shield.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Arm.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LeftArm.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="Head.h" />
     <ClInclude Include="Leg.h" />
@@ -146,6 +149,7 @@
     <ClInclude Include="Shield.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
