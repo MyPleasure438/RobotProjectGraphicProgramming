@@ -31,25 +31,10 @@ enum RobotDisplayParts
 LeftArm leftArm;
 
 
-float glTranslatefX = 0.0f;
-float glTranslatefY = 0.0f;
-float glTranslatefZ = 0.0f;
 float objectRed = 0.0f;
 float objectGreen = 0.0f;
 float objectBlue = 0.0f;
 
-
-float RobotEntireArm_3DRotationAngleX = 0.0f;
-float RobotEntireArm_3DRotationAngleY = 0.0f;
-float RobotEntireArm_3DRotationAngleZ = 0.0f;
-
-float RobotLowerArm_3DRotationAngleX = 0.0f;
-float RobotLowerArm_3DRotationAngleY = 0.0f;
-float RobotLowerArm_3DRotationAngleZ = 0.0f;
-
-float RobotEntireArm_TranslationX = 0.0f;
-float RobotEntireArm_TranslationY = 0.0f;
-float RobotEntireArm_TranslationZ = 0.0f;
 
 LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -72,68 +57,42 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			break;
 		
 		case 'O':
-			//rotate Y axis
 
-
-			//RobotLowerArm_3DRotationAngleX = -0.1f;
-			RobotEntireArm_3DRotationAngleY = RobotEntireArm_3DRotationAngleY - 0.5f;
-			//RobotLowerArm_3DRotationAngleZ = 0.0f;
 
 			break;
 		case 'L':
-			//rotate Y axis
 			
-			RobotEntireArm_3DRotationAngleY = RobotEntireArm_3DRotationAngleY + 0.5;
 			break;
 		case 'K':
-			//rotate X axis
 			
-			RobotEntireArm_3DRotationAngleX = RobotEntireArm_3DRotationAngleX - 0.5f;
 			break;
 		case VK_OEM_1:
-			//rotate X axis using ; key
 			
-			RobotEntireArm_3DRotationAngleX = RobotEntireArm_3DRotationAngleX + 0.5f;
 			break;
 
 		case VK_OEM_4:
-			//rotate Z axis using [ key
-			RobotEntireArm_3DRotationAngleZ = RobotEntireArm_3DRotationAngleZ - 0.5f;
+			//using [ key
 
 			break;
 		case VK_OEM_6:
-			//rotate Z axis using ] key
-			RobotEntireArm_3DRotationAngleZ = RobotEntireArm_3DRotationAngleZ + 0.5f;
+			//] key
 
 			break;
 		case VK_UP:
-			//move object up
-			RobotEntireArm_TranslationY = RobotEntireArm_TranslationY + 0.5f;
 			break;
 
 		case VK_DOWN:
-			//move object down
-			RobotEntireArm_TranslationY = RobotEntireArm_TranslationY - 0.5f;
 			break;
 
 		case VK_LEFT:
-			//move object left
-			glTranslatefX = glTranslatefX - 0.1f;
-			RobotEntireArm_TranslationX = RobotEntireArm_TranslationX - 0.5f;
 			break;
 
 		case VK_RIGHT:
-			//move object right
-			glTranslatefX = glTranslatefX + 0.1f;
-			RobotEntireArm_TranslationX = RobotEntireArm_TranslationX + 0.5f;
 			break;
 
 		case VK_SPACE:
 			//reset position
 			glLoadIdentity();
-			glTranslatefX = 0;
-			glTranslatefY = 0;
-			glTranslatefZ = 0;
 
 			
 			objectRed = 0.0f;
@@ -145,34 +104,20 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 
 		case VK_OEM_PERIOD:
-			//translate by Z axis using '.' key
-			RobotEntireArm_TranslationZ = RobotEntireArm_TranslationZ - 0.5f;
+			//using '.' key
 			break;
 
 		case VK_OEM_2:
-			//translate by Z axis using '/' key
-			RobotEntireArm_TranslationZ = RobotEntireArm_TranslationZ + 0.5f;
+			//using '/' key
 			break;
 
 		case 'R':
-			//turn object red
-			objectRed = 1.0f;
-			objectGreen = 0.0f;
-			objectBlue = 0.0f;
 			break;
 
 		case 'G':
-			//turn object green
-			objectRed = 0.0f;
-			objectGreen = 1.0f;
-			objectBlue = 0.0f;
 			break;
 
 		case 'B':
-			//turn object blue
-			objectRed = 0.0f;
-			objectGreen = 0.0f;
-			objectBlue = 1.0f;
 			break;
 		}
 		if (wParam == VK_ESCAPE) PostQuitMessage(0);
@@ -249,10 +194,6 @@ void Display(int QuestionsToRender)
 	switch (QuestionsToRender) {
 	case LEFTARM:
 
-		glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
-		glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-		glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-		glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
 		
 		//press k to start
 		leftArm.updateInput();

@@ -33,9 +33,6 @@ private:
 	Joint shoulder = { 1.0f, 0.0f, 1.0f };
 	Joint elbow = { 1.0f, -6.0f, 1.0f };
 	Joint wrist = { 1.0f, -9.0f, 1.0f };
-	
-
-
 
 
 public:
