@@ -35,6 +35,9 @@ float objectRed = 0.0f;
 float objectGreen = 0.0f;
 float objectBlue = 0.0f;
 
+float translateCameraX = 0.0f;
+float translateCameraY = 0.0f;
+float translateCameraZ = -5.0f;
 
 LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -56,10 +59,36 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			QuestionToRender = LEFTARM;
 			break;
 		
-		case 'O':
+		case '8':
 
+			translateCameraY = translateCameraY + 0.1f;
+			break;
+
+		case '5':
+			translateCameraY = translateCameraY - 0.1f;
 
 			break;
+
+		case '4':
+			translateCameraX = translateCameraX - 0.1f;
+
+			break;
+
+		case '6':
+			translateCameraX = translateCameraX + 0.1f;
+
+			break;
+
+		case '7':
+			translateCameraZ = translateCameraZ - 0.1f;
+
+			break;
+
+		case '9':
+			translateCameraZ = translateCameraZ + 0.1f;
+
+			break;
+			
 		case 'L':
 			
 			break;
@@ -167,6 +196,7 @@ void Display(int QuestionsToRender)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	//glOrtho(-2, 2, -2, 2, -2, 2);
 	float cameraScreenWidth = 1850.0f;
 	float cameraScreenHeight = 980.0f;
 	float currentMonitorWidth = 1920.0f;
@@ -176,14 +206,14 @@ void Display(int QuestionsToRender)
 	float offsetYToCenter = (currentMonitorHeight - cameraScreenHeight) / 2.0f;
 
 	float aspectRatio = cameraScreenWidth / cameraScreenHeight;
-	float cameraZoomOutZTranslation = -10.0f;
+	
 
 	gluPerspective(100.0f, aspectRatio, 0.1f, 100.0f);
 	glViewport(offsetXToCenter, offsetYToCenter, cameraScreenWidth, cameraScreenHeight);
 	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, cameraZoomOutZTranslation);
+	glTranslatef(translateCameraX, translateCameraY, translateCameraZ);
 
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);   // set background color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear BOTH buffers
@@ -197,7 +227,7 @@ void Display(int QuestionsToRender)
 		
 		//press k to start
 		leftArm.updateInput();
-		leftArm.draw();
+		leftArm.drawIceCream();
 		break;
 	}
 		
@@ -250,6 +280,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	//	make context current
 	if (!wglMakeCurrent(hdc, hglrc)) return false;
+
+	// Initialize LeftArm font (generate display lists once)
+	leftArm.initFont();
 
 	//--------------------------------
 	//	End initialization
