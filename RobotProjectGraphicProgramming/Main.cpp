@@ -9,6 +9,7 @@
 #include "InputManager.h"
 
 #include "LeftArm.h"
+#include "Body.h"
 
 #pragma comment (lib, "OpenGL32.lib")
 
@@ -18,17 +19,17 @@
 #include <GL/glu.h>
 #pragma comment(lib, "glu32.lib")
 
-
-
-int QuestionToRender = 0;
+int QuestionToRender = 1;
 
 enum RobotDisplayParts
 {
 	LEFTARM = 0
+	
 };
 
 //Global object initialization
 LeftArm leftArm;
+Body body;
 
 
 float objectRed = 0.0f;
@@ -54,6 +55,11 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		case '0':
 			//draw RobotArm 3D
 			QuestionToRender = LEFTARM;
+			break;
+
+		case '1':
+			//draw RobotArm 3D
+			QuestionToRender = 1;
 			break;
 		
 		case 'O':
@@ -176,7 +182,7 @@ void Display(int QuestionsToRender)
 	float offsetYToCenter = (currentMonitorHeight - cameraScreenHeight) / 2.0f;
 
 	float aspectRatio = cameraScreenWidth / cameraScreenHeight;
-	float cameraZoomOutZTranslation = -10.0f;
+	float cameraZoomOutZTranslation = -20.0f;
 
 	gluPerspective(100.0f, aspectRatio, 0.1f, 100.0f);
 	glViewport(offsetXToCenter, offsetYToCenter, cameraScreenWidth, cameraScreenHeight);
@@ -198,6 +204,11 @@ void Display(int QuestionsToRender)
 		//press k to start
 		leftArm.updateInput();
 		leftArm.draw();
+
+		break;
+	case 1:
+		body.updateInput();
+		body.drawBodyFrame();
 		break;
 	}
 		
