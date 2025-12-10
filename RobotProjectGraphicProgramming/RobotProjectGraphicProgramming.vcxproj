@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ExperimentationStation.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="LeftArm.cpp" />
     <ClCompile Include="Body.cpp" />
@@ -139,6 +140,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ExperimentationStation.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="LeftArm.h" />
     <ClInclude Include="Body.h" />

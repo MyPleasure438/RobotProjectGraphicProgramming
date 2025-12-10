@@ -327,6 +327,12 @@ void LeftArm::initFont()
     wglUseFontBitmaps(hdc, 0, 255, 1000); // generate display lists
     DeleteObject(font); // delete the HFONT; display lists remain
 }
+/*
+void LeftArm::drawBridge()
+{  
+    drawC
+}
+*/
 
 void LeftArm::drawIceCream()
 {   /*
@@ -521,17 +527,13 @@ void LeftArm::drawIceCream()
 }
 
 
-
-
 void LeftArm::draw() {
-    
-
-    
     /*drawJointMarker();
     glRasterPos3f(0, 0, 1);
     sprintf_s(buf, "Ori coordinate (%.1f %.1f %.1f)", 0.0, 0.0, 0.0);
     drawText3D(buf);
     */
+    //points for references
     glPushMatrix();
         glTranslatef(shoulder.x, shoulder.y, shoulder.z);
         drawJointMarker();
@@ -561,9 +563,8 @@ void LeftArm::draw() {
         drawText3D(buf);
     glPopMatrix();
 
+    //New Arm
     glPushMatrix();
-            
-
         glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
         glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
         glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);       
@@ -582,53 +583,97 @@ void LeftArm::draw() {
                 glColor3f(0.7, 0.7, 0.7);
 			    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL);
             glPopMatrix();
+            //Large connecting nerve
             glPushMatrix();
-
                 glTranslatef(0.0f, -1.0f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL);
             glPopMatrix();
+                
+            //upper arm cover cap
+            glPushMatrix();
                 glTranslatef(0.0f, -1.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 1.7f, 1.3f, 6.0f, FILL);
+                glColor3f(0.2, 0.2, 0.2);
+                drawCircle(1.7f);
+            glPopMatrix();
+            
             //upper arm
             glPushMatrix();
-
-            //glTranslatef(0.0f, -1.5f, 0.0f);
-            //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-            //drawCylinder(varCylinder, 0.5f, 2.0f, 0.3f);
+                    glColor3f(0.7, 0.7, 0.7);
+                glTranslatef(0.0f, -1.5f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinder(varCylinder, 1.7f, 1.3f, 6.0f, FILL);  
             glPopMatrix();
 
-
-			//drawCuboid(3.0f, 6.0f, 3.0f, 0.0f, -3.0f, 0.0f, 0.75f, 0.75f, 0.75f );
-            //drawSphere(varSphere, 2.0f, slices, stacks);
+            //Small connecting nerve to elbow
             glPushMatrix();
-			    /*
-                glTranslatef(0.0f, 0.0f, -2.0f);
-                glRotatef(90.0f, 1.0f, 0.0f, 0.0f); 
-                drawCylinder(varCylinder, 1.0f, 0.0f, 4.0f);
-				drawCylinder(varCylinder2, 0.8f, 0.8f, 3.6f);
-                
-                drawCircleWithHole(1.0f, 0.5f, 180);
-                glEnd();
-                */
+                glTranslatef(0.0f, -7.5f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL);
             glPopMatrix();
-            glPushMatrix();
 
+            //elbow joint
+            glPushMatrix();
                 glTranslatef(elbowOffsetFromShoulder.x, elbowOffsetFromShoulder.y, elbowOffsetFromShoulder.z);
                 glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
                 glRotatef(RobotElbow_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
                 glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-				drawCuboid(3.0f, 6.0f, 3.0f, 0.0f, -2.0f, 0.0f, 0.10f, 0.10f, 0.10f);
-               
+                glPushMatrix();
+                    glColor3f(0.2, 0.2, 0.2);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+				    drawSphere(varSphere, 1.0f, 100, 100);
+                glPopMatrix();
+                //elbow joint small connecting nerve
+                glPushMatrix();
+                    glTranslatef(0.0f, 0.0f, 0.0f);
+				    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glColor3f(0.7, 0.7, 0.7);
+                    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL);
+                glPopMatrix();
+                //elbow joint large connecting nerve
+                glPushMatrix();
+                    glTranslatef(0.0f, -1.0f, 0.0f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL);
+                glPopMatrix();
+
+                // lowerarm cover cap
+                glPushMatrix();
+                    glTranslatef(0.0f, -1.5f, 0.0f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glColor3f(0.2, 0.2, 0.2);
+                    drawCircle(1.7f);
+                glPopMatrix();
+
+                //lower arm
+                glPushMatrix();
+                    glTranslatef(0.0f, -1.5f, 0.0f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glColor3f(0.7, 0.7, 0.7);
+                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL);
+                glPopMatrix();
+
+				//Small connecting nerve to wrist
+                glPushMatrix();
+                    glTranslatef(0.0f, -7.5f, 0.0f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL);
+                glPopMatrix();
+
+				//wrist joint
                 glPushMatrix();
                     glTranslatef(wristOffsetFromElbow.x, wristOffsetFromElbow.y, wristOffsetFromElbow.z);
                     glRotatef(RobotWrist_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
                     glRotatef(RobotWrist_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
                     glRotatef(RobotWrist_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-					drawCuboid(4.0f, 3.0f, 2.0f, 0.0f, -0.5f, 0.0f, 0.10f, 0.10f, 0.10f);
+                    
 
                     glPushMatrix();
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    //drawSphere(varSphere, 1.0f, 100, 100
+                    drawCylinder(varCylinder, 0.5f, 0.7f, 0.3f, FILL);
+                    
                         //fingers rotate transformation if needed
                         /*
                         glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
