@@ -1,9 +1,10 @@
 #pragma once
 
 #include "RobotPart.h"
+#include "ExperimentationStation.h"
 
 #include <Windows.h>
-#include <math.h>
+#include <cmath>
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
@@ -27,12 +28,13 @@ private:
 	float BodyTranslateZ;
 
 	float time_value;
+	float waves_value;
 
 public:
 	
 	void updateInput() override;
 	void drawBodyFrame();
-	void drawBody();
+	void drawScales(float cx,float cy, float cz,float facingR, float offset);
 	void drawEnergyStone(float cx, float cy,float cz);
 	void animation();
 

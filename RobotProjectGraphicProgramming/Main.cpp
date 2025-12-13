@@ -37,6 +37,7 @@ float objectGreen = 0.0f;
 float objectBlue = 0.0f;
 
 
+
 LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)

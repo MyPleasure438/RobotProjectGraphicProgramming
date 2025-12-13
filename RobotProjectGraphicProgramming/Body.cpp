@@ -1,7 +1,10 @@
 #include "Body.h"
 
+ExperimentationStation ES;
+
 GLUquadricObj* ERStone = gluNewQuadric();
 float time_value = 0.0f;
+float waves_time = 0.0f;
 
 
 void Body::updateInput() {
@@ -84,15 +87,15 @@ void Body::drawBodyFrame() {
 	glRotatef(BodyRotateZ, 0.0f, 0.0f, 1.0f);
 		
 		glColor3f(1.0, 1.0, 1.0);
-		glBegin(GL_LINE_LOOP); //back
+		glBegin(GL_QUADS); //back
 		glVertex3f(-0.3, 0.4, 0.2);
 		glVertex3f(-0.3, -0.4, 0.2);
 		glVertex3f(0.3, -0.4, 0.2);
 		glVertex3f(0.3, 0.4, 0.2);
 		glEnd();
 
-
-		glBegin(GL_LINE_LOOP); //left
+		glColor3f(1.0, 0, 0);
+		glBegin(GL_POLYGON); //left
 		glVertex3f(-0.3, 0.4, -0.2);
 		glVertex3f(-0.3, 0.1, -0.3);
 		glVertex3f(-0.3, -0.4, -0.2);
@@ -100,18 +103,24 @@ void Body::drawBodyFrame() {
 		glVertex3f(-0.3, 0.4, 0.2);
 		glEnd();
 
-
-		glBegin(GL_LINE_LOOP);//front
+		glColor3f(0, 1, 0);
+		glBegin(GL_QUADS);
 		glVertex3f(-0.3, 0.4, -0.2);
 		glVertex3f(-0.3, 0.1, -0.3);
-		glVertex3f(-0.3, -0.4, -0.2);
-		glVertex3f(0.3, -0.4, -0.2);
 		glVertex3f(0.3, 0.1, -0.3);
 		glVertex3f(0.3, 0.4, -0.2);
 		glEnd();
 
+		glColor3f(0, 0, 0);
+		glBegin(GL_QUADS);
+		glVertex3f(-0.3, 0.1, -0.3);
+		glVertex3f(-0.3, -0.4, -0.2);
+		glVertex3f(0.3, -0.4, -0.2);
+		glVertex3f(0.3, 0.1, -0.3);
+		glEnd();
 
-		glBegin(GL_LINE_LOOP);//right
+		glColor3f(0, 0, 1.0);
+		glBegin(GL_POLYGON);//right
 		glVertex3f(0.3, 0.4, -0.2);
 		glVertex3f(0.3, 0.1, -0.3);
 		glVertex3f(0.3, -0.4, -0.2);
@@ -119,16 +128,16 @@ void Body::drawBodyFrame() {
 		glVertex3f(0.3, 0.4, 0.2);
 		glEnd();
 
-
-		glBegin(GL_LINE_LOOP);//top
+		glColor3f(1, 0, 1);
+		glBegin(GL_QUADS);//top
 		glVertex3f(-0.3, 0.4, -0.2);
 		glVertex3f(-0.3, 0.4, 0.2);
 		glVertex3f(0.3, 0.4, 0.2);
 		glVertex3f(0.3, 0.4, -0.2);
 		glEnd();
 
-
-		glBegin(GL_LINE_LOOP);//bottom
+		glColor3f(0, 1, 1);
+		glBegin(GL_QUADS);//bottom
 		glVertex3f(-0.3, -0.4, -0.2);
 		glVertex3f(-0.3, -0.4, 0.2);
 		glVertex3f(0.3, -0.4, 0.2);
@@ -140,13 +149,45 @@ void Body::drawBodyFrame() {
 		glVertex3f(0.3, 0.1, -0.3);
 		glEnd();
 
+		//----------------------------------------------------------------------
+
+		for (int i = 0; i < 20; i++) {
+			float zPos = 0.19 - (i * 0.02);
+			float offset = 0 + (i * 0.5);
+			drawScales(0.3001, 0.45, zPos, 90, offset);
+		}
+
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glRotatef(90, 0, 1.0, 0);
+		glTranslatef(0, 0.15, 0.3001);
+		ES.drawCircle(0.1);
+		glPopMatrix();
+		waves_time += 0.005;
+
+		
+		//----------------------------------------------------------------------
 		drawEnergyStone(0.0, 0.1, -0.25);
 
 	glPopMatrix();
 }
 
-void Body::drawBody() {
-
+void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset) {
+	float swing = (sin(waves_time+ offset) + 1.0f) * 7.5f;
+	glPushMatrix();
+	glTranslatef(cx, cy, cz);
+	glTranslatef(0, -0.05, 0);
+	glRotatef(facingR, 0, 1.0, 0);
+	glRotatef(-swing, 1.0, 0, 0);
+	
+	glColor3f(0.5, 0.5, 0.5);
+	glBegin(GL_QUADS);
+	glVertex3f(-0.01,0,0);
+	glVertex3f(-0.01, -0.05, 0);
+	glVertex3f(0.01, -0.05, 0);
+	glVertex3f(0.01, 0, 0);
+	glEnd();
+	glPopMatrix();
 }
 
 void Body::drawEnergyStone(float cx, float cy,float cz) {
@@ -157,5 +198,4 @@ void Body::drawEnergyStone(float cx, float cy,float cz) {
 		gluSphere(ERStone, 0.1, 100, 100);
 	glPopMatrix();
 	time_value += 0.005;
-	
 }
