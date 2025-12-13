@@ -157,6 +157,12 @@ void Body::drawBodyFrame() {
 			drawScales(0.3001, 0.45, zPos, 90, offset);
 		}
 
+		for (int i = 0; i < 30; i++) {
+			float xPos = -0.29 + (i * 0.02);
+			float offset = 0 + (i * 0.5);
+			drawScales(xPos, 0.45, 0.2001, 0, offset);
+		}
+
 		glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
 		glRotatef(90, 0, 1.0, 0);
@@ -193,6 +199,7 @@ void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset
 void Body::drawEnergyStone(float cx, float cy,float cz) {
 	float red = sin(time_value);
 	glPushMatrix();
+	
 		glTranslatef(cx, cy, cz);
 		glColor3f(red, 0.2, 0.2);
 		gluSphere(ERStone, 0.1, 100, 100);
