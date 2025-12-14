@@ -1025,6 +1025,8 @@ void ExperimentationStation::draw2()
 }
 
 void ExperimentationStation::draw3() {
+
+    /*
     glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
     glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
     glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
@@ -1033,11 +1035,22 @@ void ExperimentationStation::draw3() {
     glPushMatrix();
 	    //drawColumnOfTower(0.0f, 0.0f, 0.0f);
         glColor3f(1.0f, 0.0f, 0.0f);
-        //drawCylinderAlongCurve(0, 360, 3.0f, 3.0f, 0.5, LINE);
-        //drawBeautifulCircleWithFlowers(2.0f, 2.0f, 2.0f, 1.0, 100, FILL);
+        
+        //drawCylinderAlongCurve(0, 270, 2.0f, 3.0f, 0.5, FILL);
+        drawBeautifulCircleWithFlowers(2.0f, 2.0f, 2.0f, 1.0, 100, FILL);
         //drawBeautifulCircleWithFlowers(5.0f, 2.0f, 2.0f, 1.0, 100, FILL);
         //drawBeautifulCircleWithFlowers(5.0f, 2.0f, 2.0f, 1.0, 100, FILL);
 	glPopMatrix();
+
+    */
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glBegin(GL_TRIANGLE_STRIP);
+    glVertex2f(0.0f, 1.0f);
+    glVertex2f(1.0f, 1.0f);
+    glVertex2f(1.0f, 0.0f);
+    glVertex2f(-1.0f, 1.0f);
+    glVertex2f(-1.0f, 0.0f);
+    glEnd();
 }
 
 void ExperimentationStation::lightingTestCube()
@@ -1111,7 +1124,8 @@ void ExperimentationStation::lightingTestPyramidAndSphere()
 {
     glPushMatrix();
 
-    glTranslatef(RobotEntireArm_3DRotationAngleX*0.1, RobotEntireArm_3DRotationAngleY*0.1, RobotEntireArm_3DRotationAngleZ*0.1);
+    glTranslatef(RobotEntireArm_3DRotationAngleX * 0.1, RobotEntireArm_3DRotationAngleY * 0.1, RobotEntireArm_3DRotationAngleZ * 0.1);
+    glTranslatef(1.5f, 0.0f, 0.0f);
     glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
     glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
     glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
@@ -1127,5 +1141,48 @@ void ExperimentationStation::lightingTestPyramidAndSphere()
     glPopMatrix();
 }
 
+void ExperimentationStation::shadeModel()
+{
+    // create ground plane
+    glPushMatrix();
+        glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
+        glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+        glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+        glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
 
+
+        glPushMatrix();
+            glScalef(5.0f, 5.0f, 5.0f);
+            glColor3f(0.0f, 0.0f, 0.0f);
+            glBegin(GL_QUADS);
+            //glTranslatef(0, -0.5f, 0.0f);
+            glVertex3f(0.5f, 0.5f, -0.5f);
+            glVertex3f(0.5f, 0.5f, 0.5f);
+            glVertex3f(-0.5f, 0.5f, 0.5f);
+            glVertex3f(-0.5f, 0.5f, -0.5f);
+            glEnd();
+        glPopMatrix();
+
+        //create sphere object
+
+        //drawSphere(varSphere, 1.0f, 20, 20);
+        glPushMatrix();
+            /*
+            glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, cyanColour);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, cyanColour);
+            glTranslatef(0, 1, 0);
+            gluQuadricTeture(var, true);
+            gluSphere(var, 0.2, starPoints, starPoints);*/
+            glTranslatef(0, 1, 0);
+            drawSphere(varSphere, 1.0f, 20, 20);
+        glPopMatrix();
+
+        //clone the sphere above
+        //translate the clone, to the same location as the sphere
+        //squash the clone
+        //translate the clone to the ground
+        //transform the clone to be scaled and translated to match the light position
+
+    glPopMatrix();
+}
 
