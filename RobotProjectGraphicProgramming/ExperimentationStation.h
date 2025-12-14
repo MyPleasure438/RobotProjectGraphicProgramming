@@ -76,6 +76,23 @@ private:
 		float z;
 	};
 
+	//this maccam put in main above switch
+	//sorry i think is display
+	//light1Pos is diffuseLightPosition
+	/*GLfloat matrix[16] = {light1Pos[1], 0, 0, 0,
+							-light1Pos[0], 0, -light1Pos[2], -1,
+							0,0, light1Pos[1], 0,
+							0, 0, 0, light1Pos[1] };
+	*/
+
+	/*
+	ly, 0, 0, 0
+	-lx, 0, -lz, -1
+	0, 0, ly, 0
+	0, 0, 0, ly
+
+	*/
+
 public:
 	ExperimentationStation();
 	void updateInput() override;
@@ -102,6 +119,9 @@ public:
 	void draw3();
 	void lightingTestCube();
 	void lightingTestPyramidAndSphere();
+
+	void shadeModel();
+
 
 };
 

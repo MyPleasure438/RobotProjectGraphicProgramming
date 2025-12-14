@@ -76,7 +76,7 @@ float diffuseLightPositionZ = 0.7f;
 
 GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f };
 GLfloat diffuseLight[] = { 0.7f, 0.7f, 0.7f };
-GLfloat diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ };
+GLfloat diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ, 1.0f };
 
 GLUquadricObj* quadLightBulb = NULL;
 
@@ -227,6 +227,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			break;
 
 		case 'R':
+
 			break;
 
 		case 'G':
@@ -291,22 +292,38 @@ void Display(int QuestionsToRender)
 	{
 		perspectiveProjection();
 	}
-	
-	//End Camera///
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	//glTranslatef(translateCameraX, translateCameraY, translateCameraZ);
-
-	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);   // set background color
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear BOTH buffers
-
 	glTranslatef(translateCameraX, translateCameraY, translateCameraZ);
 	glRotatef(rotateCameraX, 1.0f, 0.0f, 0.0f);
 	glRotatef(rotateCameraY, 0.0f, 1.0f, 0.0f);
 	glRotatef(rotateCameraZ, 0.0f, 0.0f, 1.0f);
+	
+
+	//End Camera///
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	//glTranslatef(translateCameraX, translateCameraY, translateCameraZ);
+	
+
+
+	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);   // set background color
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear BOTH buffers
+
+	
 
 	//lighting///
 	//diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ };
+	
+	/*
+	diffuseLightPosition[0] = diffuseLightPositionX;
+	diffuseLightPosition[1] = diffuseLightPositionY;
+	diffuseLightPosition[2] = diffuseLightPositionZ;
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+	glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
+	*/
+	// 4. DEFINE WORLD-FIXED LIGHT POSITION
+	// The matrix now contains only the View transformation (from step 3).
+	// This ensures the light position is defined in world space, relative to the camera's fixed position.
 	diffuseLightPosition[0] = diffuseLightPositionX;
 	diffuseLightPosition[1] = diffuseLightPositionY;
 	diffuseLightPosition[2] = diffuseLightPositionZ;
@@ -314,10 +331,12 @@ void Display(int QuestionsToRender)
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
 
-
 	//glEnable(GL_LIGHT0);
 	//glEnable(GL_LIGHTING);
-	//drawLightBulb();
+	glPushMatrix();
+		//glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
+		drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
+	glPopMatrix();
 	//End Lighting///
 
 	glEnable(GL_DEPTH_TEST);   // enable depth test (stay ON forever)
@@ -333,13 +352,15 @@ void Display(int QuestionsToRender)
 		glPopMatrix();
 		
 		//press k to start
-		//experimentationStation.updateInput();
-		//experimentationStation.draw3();
+		experimentationStation.updateInput();
+		//experimentationStation.draw();
+		experimentationStation.draw3();
+		//experimentationStation.shadeModel();
 		//experimentationStation.lightingTestCube();
 		//experimentationStation.lightingTestPyramidAndSphere();
 		//leftArm.updateInput();
 		//leftArm.draw();
-		drawCube();
+		//drawCube();
 		break;
 	}
 		
@@ -406,7 +427,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	ZeroMemory(&msg, sizeof(msg));
 
 	//texture loading
-	
+	/*
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 	HBITMAP hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "Box.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
 	GetObject(hBMP, sizeof(BMP), &BMP);
@@ -437,7 +458,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	glLoadIdentity();
 	glScalef(30.0, 10.0, 1.0);
 	
-
+	*/
 	///end texture loading///
 
 	while (true)
@@ -465,8 +486,8 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 void orthographicProjection()
 {
 	glLoadIdentity();
-	glOrtho(-10, 10, -10, 10, -10, 10);
-	
+	glOrtho(-5, 5, -5, 5, -5, 5);
+	//glOrtho(-10, 10, -10, 10, -10, 10);
 }
 
 void perspectiveProjection()
@@ -509,7 +530,7 @@ void drawLightBulb()
 
 void drawCube()
 {
-	/*
+	
 	glBegin(GL_QUADS);	
 	glVertex3f(0.5f, 0.5f, -0.5f);
 	glVertex3f(0.5f, 0.5f, 0.5f);
@@ -545,9 +566,10 @@ void drawCube()
 	glVertex3f(-0.5f, 0.5f, 0.5f);
 	glVertex3f(-0.5f, -0.5f, 0.5f);
 	glVertex3f(-0.5f, -0.5f, -0.5f);
-	*/
+	
 	//ENABLE THIS TEXTURE CODE IF YOU WANT TO TEST TEXTURES
 	
+	/*
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0f, 0.0f);
@@ -571,5 +593,6 @@ void drawCube()
 	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-1.0f, 0.0f, 0.0f);
 	glEnd();
-	
+	*/
 }
+
