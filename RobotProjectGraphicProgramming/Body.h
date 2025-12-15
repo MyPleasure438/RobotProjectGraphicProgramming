@@ -2,6 +2,7 @@
 
 #include "RobotPart.h"
 #include "ExperimentationStation.h"
+#include "Jetpack.h"
 
 #include <Windows.h>
 #include <cmath>

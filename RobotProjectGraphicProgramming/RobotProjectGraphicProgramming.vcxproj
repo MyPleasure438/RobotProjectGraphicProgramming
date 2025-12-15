@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="ExperimentationStation.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Jetpack.cpp" />
     <ClCompile Include="LeftArm.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="Head.cpp" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="ExperimentationStation.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Jetpack.h" />
     <ClInclude Include="LeftArm.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="Head.h" />

@@ -10,6 +10,7 @@
 
 #include "LeftArm.h"
 #include "Body.h"
+#include "Jetpack.h"
 
 #pragma comment (lib, "OpenGL32.lib")
 
@@ -30,6 +31,7 @@ enum RobotDisplayParts
 //Global object initialization
 LeftArm leftArm;
 Body body;
+Jetpack jpk;
 
 
 float objectRed = 0.0f;
@@ -53,10 +55,10 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			PostQuitMessage(0);
 			break;
 
-		case '0':
-			//draw RobotArm 3D
-			QuestionToRender = LEFTARM;
-			break;
+		//case '0':
+		//	//draw RobotArm 3D
+		//	QuestionToRender = LEFTARM;
+		//	break;
 
 		case '1':
 			//draw RobotArm 3D
@@ -209,6 +211,7 @@ void Display(int QuestionsToRender)
 		break;
 	case 1:
 		body.updateInput();
+		jpk.jetpackInput();
 		body.drawBodyFrame();
 		break;
 	}

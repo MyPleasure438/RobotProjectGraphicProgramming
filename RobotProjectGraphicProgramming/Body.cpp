@@ -1,11 +1,13 @@
 #include "Body.h"
-#include "ExperimentationStation.h"
 
 ExperimentationStation ES;
+Jetpack Jpk;
 
 GLUquadricObj* ERStone = gluNewQuadric();
 float time_value = 0.0f;
 float waves_time = 0.0f;
+float anim_value = 0.0f;
+bool anim_flag = false;
 
 
 void Body::updateInput() {
@@ -73,6 +75,15 @@ void Body::updateInput() {
 	if (diKeys[DIK_SPACE] & 0x80) {
 		BodyTranslateX = BodyTranslateY = BodyTranslateZ = 0;
 		BodyRotateX = BodyRotateY = BodyRotateZ = 0;
+	}
+
+	if (diKeys[DIK_0] & 0x80) {
+		if (!anim_flag) {
+			anim_flag = true;
+		}
+		else {
+			anim_flag = false;
+		}
 	}
 
 }
@@ -164,17 +175,28 @@ void Body::drawBodyFrame() {
 			for (int i = 0; i < 30; i++) {
 				float xPos = -0.29 + (i * 0.02);
 				float offset2 = 0 + (i * 0.1);
-				drawScales(xPos, yPos, 0.2001, 0, offset+offset2);
+				if ((i <= 5 || i >= 25)) {
+					drawScales(xPos, yPos, 0.2001, 0, offset + offset2);
+				}
+				else if(j<5 || j>10){
+					drawScales(xPos, yPos, 0.2001, 0, offset + offset2);
+				}
 			}
 		}
 		
 
-		glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glRotatef(90, 0, 1.0, 0);
-		glTranslatef(0, 0.15, 0.3001);
-		ES.drawCircle(0.1);
-		glPopMatrix();
+		if (anim_flag && anim_value <0.31){
+			Jpk.drawJetpack(0.01, 0, anim_value);
+			anim_value += 0.001;
+		}
+		else if (!anim_flag && anim_value > 0) {
+			Jpk.drawJetpack(0.01, 0, anim_value);
+			anim_value -= 0.001;
+		}
+		else {
+			Jpk.drawJetpack(0.01, 0, anim_value);
+		}
+
 		waves_time += 0.005;
 
 		
@@ -212,9 +234,9 @@ void Body::drawEnergyStone(float cx, float cy,float cz) {
 		glPushMatrix();
 		glColor3f(0, 0, b1);
 		glTranslatef(0, 0, -0.05);
-		ES.drawCylinderAlongCurve(0, 180, 0.1, 0.1, 0.01, 1);
+		//ES.drawCylinderAlongCurve(0, 180, 0.1, 0.1, 0.01, 1);
 		glColor3f(0, 0, b2);
-		ES.drawCylinderAlongCurve(180, 360, 0.1, 0.1, 0.01, 1);
+		//ES.drawCylinderAlongCurve(180, 360, 0.1, 0.1, 0.01, 1);
 		glPopMatrix();
 		glColor3f(red, 0.2, 0.2);
 		gluSphere(ERStone, 0.1, 100, 100);
