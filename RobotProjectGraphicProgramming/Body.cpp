@@ -1,4 +1,5 @@
 #include "Body.h"
+#include "ExperimentationStation.h"
 
 ExperimentationStation ES;
 
@@ -157,11 +158,16 @@ void Body::drawBodyFrame() {
 			drawScales(0.3001, 0.45, zPos, 90, offset);
 		}
 
-		for (int i = 0; i < 30; i++) {
-			float xPos = -0.29 + (i * 0.02);
-			float offset = 0 + (i * 0.5);
-			drawScales(xPos, 0.45, 0.2001, 0, offset);
+		for (int j = 0; j < 16; j++) {
+			float yPos = 0.45 - (j * 0.05);
+			float offset = 0 + (j * 0.5);
+			for (int i = 0; i < 30; i++) {
+				float xPos = -0.29 + (i * 0.02);
+				float offset2 = 0 + (i * 0.1);
+				drawScales(xPos, yPos, 0.2001, 0, offset+offset2);
+			}
 		}
+		
 
 		glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
