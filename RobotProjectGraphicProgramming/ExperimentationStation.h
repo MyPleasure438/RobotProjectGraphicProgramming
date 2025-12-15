@@ -54,6 +54,8 @@ private:
 	int slices = 5;
 	int stacks = 5;
 
+	int choice = 0;
+
 	enum DrawStyle {
 		FILL,
 		LINE,

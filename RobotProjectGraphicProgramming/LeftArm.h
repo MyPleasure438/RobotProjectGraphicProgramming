@@ -44,10 +44,10 @@ private:
 	Joint finger3OffsetFromWrist = { 0.425f, -5.1f, 0.275f };
 	Joint finger4OffsetFromWrist = { 1.275f, -5.1f, 0.275f };
 
-	Joint fingerMiddleJoint1OffsetFromFinger = { 0.0f, -1.2f, 3.0f };
-	Joint fingerMiddleJoint2OffsetFromFinger = { -0.425f, -1.2f, 0.275f };
-	Joint fingerMiddleJoint3OffsetFromFinger = { 0.425f, -1.2f, 0.275f };
-	Joint fingerMiddleJoint4OffsetFromFinger = { 1.275f, -1.2f, 0.275f };
+	Joint fingerMiddleJoint1OffsetFromFinger = { 0.0f, -2.0f, 0.0f };
+	Joint fingerMiddleJoint2OffsetFromFinger = { 0.0f, -2.0f, 0.0f };
+	Joint fingerMiddleJoint3OffsetFromFinger = { 0.0f, -2.0f, 0.0f };
+	Joint fingerMiddleJoint4OffsetFromFinger = { 0.0f, -2.0f, 0.0f };
 	char buf[64];
 
 	GLUquadricObj *quad = NULL;
@@ -90,6 +90,7 @@ public:
 	void drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture);
 	void drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks, GLuint texture);
 	void drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture);
+	void drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture);
 	void drawCircle(float circleRadius, GLuint texture);
 	void drawCircleWithHole(float outerRadius, float innerRadius, int segments);
 	void drawPyramid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, GLuint texture);
@@ -104,6 +105,7 @@ public:
 	void deleteTextures();
 	void drawIceCream();
 	void draw();
+	void draw2();
 
 };
 

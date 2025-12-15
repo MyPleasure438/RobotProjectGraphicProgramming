@@ -119,11 +119,13 @@ void ExperimentationStation::updateInput() {
     if (diKeys[DIK_N] & 0x80) {
         stacks--;
         openAndCloseGate = openAndCloseGate - 1;
+        choice = 0;
     }
 
     if (diKeys[DIK_M] & 0x80) {
         stacks++;
         openAndCloseGate = openAndCloseGate + 1;
+        choice = 1;
     }
 
     // Example: simple arm swing animation
@@ -1710,6 +1712,7 @@ void ExperimentationStation::lightingTestPyramidAndSphere()
 {
     glPushMatrix();
 
+
     glTranslatef(RobotEntireArm_3DRotationAngleX * 0.1, RobotEntireArm_3DRotationAngleY * 0.1, RobotEntireArm_3DRotationAngleZ * 0.1);
     glTranslatef(1.5f, 0.0f, 0.0f);
     glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
@@ -1722,8 +1725,28 @@ void ExperimentationStation::lightingTestPyramidAndSphere()
     glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
     glRotatef(RobotElbow_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
     glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-    glColor3f(0.0f, 1.0f, 0.0f);
-    drawPyramid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, NULL);
+    glColor3f(1.0f, 1.0f, 1.0f);
+    if (choice == 0)
+    {
+        drawPyramid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, texture);
+    }
+    else
+    {
+        drawPyramid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, metal);
+    }
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(2.8f, 0.0f, 0.0f);
+    if (choice == 0)
+    {
+        drawCuboid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, texture);
+    }
+    else
+    {
+        drawCuboid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, metal);
+    }
+    
     glPopMatrix();
 }
 

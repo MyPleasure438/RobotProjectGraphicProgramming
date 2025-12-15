@@ -364,8 +364,9 @@ void Display(int QuestionsToRender)
 		//experimentationStation.lightingTestCube();
 		//experimentationStation.lightingTestPyramidAndSphere();
 		//leftArm.updateInput();
+		//leftArm.draw2();
 		//leftArm.draw();
-		drawCube();
+		//drawCube();
 		break;
 	}
 		
@@ -496,7 +497,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 void orthographicProjection()
 {
 	glLoadIdentity();
-	glOrtho(-15, 15, -15, 15, -15, 15);
+	glOrtho(-2, 2, -2, 2, -2, 2);
 	//glOrtho(-10, 10, -10, 10, -10, 10);
 }
 
