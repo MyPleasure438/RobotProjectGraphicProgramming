@@ -203,12 +203,21 @@ void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset
 }
 
 void Body::drawEnergyStone(float cx, float cy,float cz) {
-	float red = sin(time_value);
+	float red = sin(time_value*5);
+	float b1 = cos(time_value*5);
+	float b2 = sin(time_value * 2.5);
 	glPushMatrix();
 	
 		glTranslatef(cx, cy, cz);
+		glPushMatrix();
+		glColor3f(0, 0, b1);
+		glTranslatef(0, 0, -0.05);
+		ES.drawCylinderAlongCurve(0, 180, 0.1, 0.1, 0.01, 1);
+		glColor3f(0, 0, b2);
+		ES.drawCylinderAlongCurve(180, 360, 0.1, 0.1, 0.01, 1);
+		glPopMatrix();
 		glColor3f(red, 0.2, 0.2);
 		gluSphere(ERStone, 0.1, 100, 100);
 	glPopMatrix();
-	time_value += 0.005;
+	time_value += 0.01;
 }
