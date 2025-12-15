@@ -54,6 +54,7 @@
     <ClCompile Include="ExperimentationStation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Jetpack.cpp">
     <ClCompile Include="LeftLeg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -95,6 +96,7 @@
     <ClInclude Include="ExperimentationStation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Jetpack.h">
     <ClInclude Include="LeftLeg.h">
       <Filter>Header Files</Filter>
     </ClInclude>

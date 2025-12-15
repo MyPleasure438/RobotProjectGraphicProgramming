@@ -9,6 +9,9 @@
 #include "InputManager.h"
 
 #include "LeftArm.h"
+#include "Body.h"
+#include "Jetpack.h"
+
 #include "ExperimentationStation.h"
 #pragma comment (lib, "OpenGL32.lib")
 
@@ -18,17 +21,18 @@
 #include <GL/glu.h>
 #pragma comment(lib, "glu32.lib")
 
-
-
-int QuestionToRender = 0;
+int QuestionToRender = 1;
 
 enum RobotDisplayParts
 {
 	LEFTARM = 0
+	
 };
 
 //Global object initialization
 LeftArm leftArm;
+Body body;
+Jetpack jpk;
 ExperimentationStation experimentationStation;
 
 
@@ -88,6 +92,7 @@ BITMAP BMP;
 HBITMAP hBMP = NULL;
 */
 
+
 LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
@@ -103,9 +108,14 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			PostQuitMessage(0);
 			break;
 
-		case '0':
+		//case '0':
+		//	//draw RobotArm 3D
+		//	QuestionToRender = LEFTARM;
+		//	break;
+
+		case '1':
 			//draw RobotArm 3D
-			QuestionToRender = LEFTARM;
+			QuestionToRender = 1;
 			break;
 		
 		case '8':
@@ -355,7 +365,6 @@ void Display(int QuestionsToRender)
 			//gluSphere(quad
 		glPopMatrix();
 		
-		
 		experimentationStation.updateInput();
 		//experimentationStation.drawIceCream();
 		experimentationStation.draw();
@@ -367,6 +376,11 @@ void Display(int QuestionsToRender)
 		//leftArm.draw2();
 		//leftArm.draw();
 		//drawCube();
+    break;
+  case 1:
+		body.updateInput();
+		jpk.jetpackInput();
+		body.drawBodyFrame();
 		break;
 	}
 		
