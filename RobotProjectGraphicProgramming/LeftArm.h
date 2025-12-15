@@ -4,8 +4,11 @@
 #include <Windows.h>   // Must come first in Win32 projects
 #include <GL/gl.h>
 #include <GL/glu.h>
-#pragma comment (lib, "OpenGL32.lib")
+#include <cstdio>
 
+#include <cmath>
+#pragma comment (lib, "OpenGL32.lib")
+#pragma comment (lib, "GLU32.lib")
 
 
 class LeftArm : public RobotPart
@@ -29,22 +32,80 @@ private:
 	float RobotElbow_3DRotationAngleY = 0.0f;
 	float RobotElbow_3DRotationAngleZ = 0.0f;
 
+	float RobotWrist_3DRotationAngleX = 0.0f;
+	float RobotWrist_3DRotationAngleY = 0.0f;
+	float RobotWrist_3DRotationAngleZ = 0.0f;
 
-	Joint shoulder = { 1.0f, 0.0f, 1.0f };
-	Joint elbow = { 1.0f, -6.0f, 1.0f };
-	Joint wrist = { 1.0f, -9.0f, 1.0f };
+	Joint shoulder = { 0.0f, 0.0f, 0.0f };
+	Joint elbowOffsetFromShoulder = { 0.0f, -8.5f, 0.0f };
+	Joint wristOffsetFromElbow = { 0.0f, -7.5f, 0.0f };
+	Joint finger1OffsetFromWrist = { -1.275f, -5.1f, 0.275f };
+	Joint finger2OffsetFromWrist = { -0.425f, -5.1f, 0.275f };
+	Joint finger3OffsetFromWrist = { 0.425f, -5.1f, 0.275f };
+	Joint finger4OffsetFromWrist = { 1.275f, -5.1f, 0.275f };
 
+	Joint fingerMiddleJoint1OffsetFromFinger = { 0.0f, -2.0f, 0.0f };
+	Joint fingerMiddleJoint2OffsetFromFinger = { 0.0f, -2.0f, 0.0f };
+	Joint fingerMiddleJoint3OffsetFromFinger = { 0.0f, -2.0f, 0.0f };
+	Joint fingerMiddleJoint4OffsetFromFinger = { 0.0f, -2.0f, 0.0f };
+	char buf[64];
 
+	GLUquadricObj *quad = NULL;
+	GLUquadricObj *varSphere = NULL;
+	GLUquadricObj *varCylinder = NULL;
+	GLUquadricObj *varCylinder2 = NULL;
+	int slices = 5;
+	int stacks = 5;
+
+	enum DrawStyle {
+		FILL,
+		LINE,
+		POINT,
+		SILHOUETTE
+	};
+
+	//vector3D
+	struct Vector3D {
+		float x;
+		float y;
+		float z;
+	};
+
+	struct Point3D {
+		float x;
+		float y;
+		float z;
+	};
+
+	//Load Texture///
+	GLuint texture = 0;
+	GLuint metal = 0;
+	BITMAP BMP;
+	HBITMAP hBMP = NULL;
+	
 public:
 	LeftArm();
 	void updateInput() override;
+	void drawJointMarker();
+	void drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture);
+	void drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks, GLuint texture);
+	void drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture);
+	void drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture);
+	void drawCircle(float circleRadius, GLuint texture);
+	void drawCircleWithHole(float outerRadius, float innerRadius, int segments);
+	void drawPyramid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, GLuint texture);
+	LeftArm::Vector3D findNormalVector(Point3D v1, Point3D v2, Point3D v3);
+	void drawBeautifulCircleWithFlowers(float circleRadius, float baseRadius, float topRadius, float height, int numCylinders, int selectedDrawStyle);
+	void drawCylinderAlongCurve(float angleBegins, float angleEnds, float circleXRadius, float circleYRadius, float cylinderRadius, int selectedDrawStyle, GLuint texture);
+	void drawText3D(const char* text);
+	void initFont();
+	void loadTextures();
+	void beginScaleTexture(float scaleX, float scaleY);
+	void endScaleTexture();
+	void deleteTextures();
+	void drawIceCream();
 	void draw();
-	void setLength(float len);
-	void setThickness(float thick);
-	void setJointAngle(float angle);
-	float getLength() const;
-	float getThickness() const;
-	float getJointAngle() const;
+	void draw2();
 
 };
 
