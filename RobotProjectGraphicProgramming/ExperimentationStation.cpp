@@ -137,7 +137,7 @@ void ExperimentationStation::drawJointMarker()
     gluDeleteQuadric(quad);
 }
 
-void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue)
+void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture)
 {
     glPushMatrix();
     //translate the center point for transformation of the cuboid (This acts as a pivot point to rotate the cuboid)
@@ -145,52 +145,90 @@ void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ
     //scale first
     glScalef(scaleX, scaleY, scaleZ);
     glColor3f(red, green, blue);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    Vector3D normal = findNormalVector(Point3D{ -0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    //done
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, -0.5f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, -0.5f);
     glEnd();
 
+    normal = findNormalVector(Point3D{ 0.5f, 0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, -0.5f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, 0.5f);
     glEnd();
 
+    normal = findNormalVector(Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ -0.5f, 0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, 0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(0.5f, 0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, 0.5f);
     glEnd();
 
+    normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ 0.5f, 0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_QUADS);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, 0.5f);
     glEnd();
 
+    normal = findNormalVector(Point3D{ -0.5f, 0.5f, -0.5f }, Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ -0.5f, -0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glEnd();
 
+    normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glEnd();
 
     glPopMatrix();
 }
 
-void ExperimentationStation::drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks)
+void ExperimentationStation::drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks, GLuint texture)
 {
     // a) declare quadric pointer
     quad = NULL;
@@ -203,9 +241,12 @@ void ExperimentationStation::drawSphere(GLUquadricObj* quad, float radius, int s
         return;
     }
 
+    gluQuadricTexture(quad, GL_TRUE);
     // e) set quadric draw style
     // Options: GLU_FILL, GLU_LINE, GLU_SILHOUETTE, GLU_POINT
     gluQuadricDrawStyle(quad, GLU_FILL);   // wireframe sphere
+
+    glBindTexture(GL_TEXTURE_2D, texture);
 
     // c) draw sphere at origin
     gluSphere(quad, radius, slices, stacks);   // radius = 1, slices & stacks = 20
@@ -214,7 +255,7 @@ void ExperimentationStation::drawSphere(GLUquadricObj* quad, float radius, int s
     gluDeleteQuadric(quad);
 }
 
-void ExperimentationStation::drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle)
+void ExperimentationStation::drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture)
 {
     // a) declare quadric pointer
     quad = NULL;
@@ -227,8 +268,10 @@ void ExperimentationStation::drawCylinder(GLUquadricObj* quad, float baseRadius,
         return;
     }
 
-
+    gluQuadricTexture(quad, GL_TRUE);
     glPushMatrix();
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texture);
     // e) set quadric draw style
     // Options: GLU_FILL, GLU_LINE, GLU_SILHOUETTE, GLU_POINT
 
@@ -264,14 +307,60 @@ void ExperimentationStation::drawCylinder(GLUquadricObj* quad, float baseRadius,
     glPopMatrix();
 }
 
-void ExperimentationStation::drawCircle(float circleRadius)
+void ExperimentationStation::drawCircle(float circleRadius, GLuint texture)
 {
+    // 1. Bind the texture
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // 2. Set the color filter to white so the texture appears in its true colors
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    // Use GL_TRIANGLE_FAN for better performance and guaranteed behavior
+    glBegin(GL_TRIANGLE_FAN);
+
+    // --- CENTER VERTEX ---
+    // A. Texture Coordinate: Center of the texture (U=0.5, V=0.5)
+    glTexCoord2f(0.5f, 0.5f);
+    // B. Geometry: Center of the circle (0, 0, 0)
+    glVertex3f(0.0f, 0.0f, 0.0f);
+
+    // --- PERIMETER VERTICES ---
+    // Calculate 360 points (or 36-60 for better performance)
+    int segments = 60; // Use fewer segments for better performance
+    for (int i = 0; i <= segments; i++)
+    {
+        float angle = i * 360.0f / segments;
+        float convertToRadian = angle * 3.14159f / 180.0f;
+
+        // Calculate X and Y vertex positions
+        float x = sin(convertToRadian) * circleRadius;
+        float y = cos(convertToRadian) * circleRadius;
+
+        // Texture mapping principle for a circle:
+        // The position on the circle is mapped to a radius of 0.5 on the texture map.
+        // U = 0.5 + 0.5 * cos(angle)
+        // V = 0.5 + 0.5 * sin(angle)
+
+        // A. Texture Coordinate: 
+        glTexCoord2f(
+            0.5f + 0.5f * sin(convertToRadian),
+            0.5f + 0.5f * cos(convertToRadian)
+        );
+
+        // B. Geometry: 
+        glVertex3f(x, y, 0.0f);
+    }
+
+    glEnd();
+
+    /*
     glBegin(GL_POLYGON);
     for (float angle = 0; angle <= 360; angle++) {
         float convertToRadian = angle * 3.14159 / 180.0;
         glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
     }
     glEnd();
+    */
 }
 
 void ExperimentationStation::drawCircleWithHole(float outerRadius, float innerRadius, int segments)
@@ -295,7 +384,7 @@ void ExperimentationStation::drawCircleWithHole(float outerRadius, float innerRa
     glEnd();
 }
 
-void ExperimentationStation::drawPyramid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ)
+void ExperimentationStation::drawPyramid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, GLuint texture)
 {
     glPushMatrix();
     //translate the center point for transformation of the cuboid (This acts as a pivot point to rotate the cuboid)
@@ -305,42 +394,59 @@ void ExperimentationStation::drawPyramid(float scaleX, float scaleY, float scale
 
     Vector3D normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D { 0.5f, -0.5f, 0.5f }, Point3D { 0.5f, -0.5f, -0.5f });
     glNormal3f(normal.x, normal.y, normal.z);
+    glBindTexture(GL_TEXTURE_2D, texture);
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glEnd();
 
     normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ 0.0f, 0.5f, 0.0f }, Point3D{ 0.5f, -0.5f, 0.5f });
     glNormal3f(normal.x, normal.y, normal.z);
 	glBegin(GL_TRIANGLES);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(0.5f, 1.0f);
     glVertex3f(0.0f, 0.5f, 0.0f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, 0.5f);
     glEnd();
 
     normal = findNormalVector(Point3D{ 0.0f, 0.5f, 0.0f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, 0.5f });
     glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_TRIANGLES);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(0.0f, 0.5f, 0.0f);
+    glTexCoord2f(0.5f, 1.0f);
 	glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(0.5f, -0.5f, 0.5f);
     glEnd();
 
     normal = findNormalVector(Point3D{ 0.0f, 0.5f, 0.0f }, Point3D{ -0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f });
     glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_TRIANGLES);
+    glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(0.0f, 0.5f, 0.0f);
+    glTexCoord2f(0.5f, 1.0f);
 	glVertex3f(-0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(0.5f, -0.5f, -0.5f);
     glEnd();
 
     normal = findNormalVector(Point3D{ 0.0f, 0.5f, 0.0f }, Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ -0.5f, -0.5f, -0.5f });
     glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_TRIANGLES);
+    glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(0.0f, 0.5f, 0.0f);
+    glTexCoord2f(0.5f, 1.0f);
 	glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(-0.5f, -0.5f, -0.5f);
     glEnd();
     glPopMatrix();
@@ -437,10 +543,8 @@ void ExperimentationStation::drawBeautifulCircleWithFlowers(float circleRadius, 
     glPopMatrix(); // Restore the matrix before the cylinder drawing loop
 }
 
-void ExperimentationStation::drawCylinderAlongCurve(float angleBegins, float angleEnds, float circleXRadius, float circleYRadius, float cylinderRadius, int selectedDrawStyle)
+void ExperimentationStation::drawCylinderAlongCurve(float angleBegins, float angleEnds, float circleXRadius, float circleYRadius, float cylinderRadius, int selectedDrawStyle, GLuint texture)
 {
-   
-    
     for (float angle = angleBegins; angle <= angleEnds; angle++) {
         float convertToRadian = angle * 3.14159 / 180.0;
         glPushMatrix();
@@ -450,18 +554,18 @@ void ExperimentationStation::drawCylinderAlongCurve(float angleBegins, float ang
             switch (selectedDrawStyle)
             {
             case FILL:
-                drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle);
+                drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle, texture);
                 break;
             case LINE:
-                drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle);
+                drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle, texture);
                 break;
 
             case SILHOUETTE:
-                drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle);
+                drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle, texture);
                 break;
 
             case POINT:
-                drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle);
+                drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle, texture);
                 break;
             }
             
@@ -505,6 +609,294 @@ void ExperimentationStation::initFont()
     DeleteObject(font); // delete the HFONT; display lists remain
 }
 
+void ExperimentationStation::loadTextures()
+{
+    //first texture
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    HBITMAP hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "Box.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //second texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "metal.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &metal);
+    glBindTexture(GL_TEXTURE_2D, metal);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+	//tower brick texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "lightTowerBrick.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &lightTowerBrick);
+    glBindTexture(GL_TEXTURE_2D, lightTowerBrick);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "darkTowerBrick.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &darkTowerBrick);
+    glBindTexture(GL_TEXTURE_2D, darkTowerBrick);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //Ground Bridge texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "groundBridge.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &groundBridge);
+    glBindTexture(GL_TEXTURE_2D, groundBridge);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+	//Upper Bridge texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "bridgeRailing.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &bridgeRailing);
+    glBindTexture(GL_TEXTURE_2D, bridgeRailing);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //sea texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "sea.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &sea);
+    glBindTexture(GL_TEXTURE_2D, sea);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //ship texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "shipHull.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &shipHull);
+    glBindTexture(GL_TEXTURE_2D, shipHull);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "shipUpperPart.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &shipUpperPart);
+    glBindTexture(GL_TEXTURE_2D, shipUpperPart);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //pyramid Roof Texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "pyramidRoof.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &pyramidRoof);
+    glBindTexture(GL_TEXTURE_2D, pyramidRoof);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //tower Window
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "towerWindow.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &towerWindow);
+    glBindTexture(GL_TEXTURE_2D, towerWindow);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //Bridge Rope
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "bridgeRope.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &bridgeRope);
+    glBindTexture(GL_TEXTURE_2D, bridgeRope);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //Wall window
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "wallWindow.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &wallWindow);
+    glBindTexture(GL_TEXTURE_2D, wallWindow);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //tower Entrance
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "towerEntrance.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &towerEntrance);
+    glBindTexture(GL_TEXTURE_2D, towerEntrance);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //white color brick
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "whiteColorBrick.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &whiteColorBrick);
+    glBindTexture(GL_TEXTURE_2D, whiteColorBrick);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //strawberry ice cream 
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "strawberryIceCream.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &strawberryIceCream);
+    glBindTexture(GL_TEXTURE_2D, strawberryIceCream);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //chocolate ice cream 
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "chocolateIceCream.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &chocolateIceCream);
+    glBindTexture(GL_TEXTURE_2D, chocolateIceCream);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+    //glMatrixMode(GL_TEXTURE);
+    //glLoadIdentity();
+    //glScalef(30.0, 20.0, 1.0);
+
+	glMatrixMode(GL_MODELVIEW);
+
+    //chocolate cylinder
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "chocolateCylinder.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &chocolateCylinder);
+    glBindTexture(GL_TEXTURE_2D, chocolateCylinder);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //oreo
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "oreo.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &oreo);
+    glBindTexture(GL_TEXTURE_2D, oreo);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //ice cream cone
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "iceCreamCone.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &iceCreamCone);
+    glBindTexture(GL_TEXTURE_2D, iceCreamCone);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+    //glMatrixMode(GL_TEXTURE);
+    //glLoadIdentity();
+    //glScalef(30.0, 20.0, 1.0);
+
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void ExperimentationStation::beginScaleTexture(float scaleX, float scaleY)
+{
+    glMatrixMode(GL_TEXTURE);
+    glPushMatrix();
+    glScalef(scaleX, scaleY, 1.0f);
+    glMatrixMode(GL_MODELVIEW); // Switch back to MODELVIEW for drawing
+}
+
+void ExperimentationStation::endScaleTexture()
+{
+    glMatrixMode(GL_TEXTURE); // Switch to TEXTURE mode to access the stack
+    glPopMatrix();            // Restore the saved 1x matrix
+    glMatrixMode(GL_MODELVIEW); // Switch back to MODELVIEW for rendering the next object
+}
+
+void ExperimentationStation::deleteTextures()
+{
+    // a) Disable state change (Optional at exit)
+    glDisable(GL_TEXTURE_2D);
+
+    // b) Free the Windows GDI object
+    DeleteObject(hBMP);
+
+    glDeleteTextures(1, &texture);
+    glDeleteTextures(1, &metal);
+    glDeleteTextures(1, &lightTowerBrick);
+    glDeleteTextures(1, &darkTowerBrick);
+    glDeleteTextures(1, &groundBridge);
+    glDeleteTextures(1, &bridgeRailing);
+    glDeleteTextures(1, &sea);
+    glDeleteTextures(1, &shipHull);
+    glDeleteTextures(1, &shipUpperPart);
+	glDeleteTextures(1, &pyramidRoof);
+}
+
 void ExperimentationStation::drawColumnOfTower(float translationX, float translationY, float translationZ)
 {
     //Cylinder Bottom
@@ -512,7 +904,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(translationX, translationY, translationZ);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.743, 0.655, 0.572);
-                drawCylinder(varCylinder, 0.2f, 0.2f, 1.0f, FILL);
+                drawCylinder(varCylinder, 0.2f, 0.2f, 1.0f, FILL, towerWindow);
                 //drawCylinder(varCylinder, 0.3f, 0.3f, 6.0f, FILL);
             glPopMatrix();
             //Cylinder Black spot
@@ -521,7 +913,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.380f, 0.320f, 0.270f);
-                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL, darkTowerBrick);
             glPopMatrix();
             //Cylinder a bit color before reaching another black spot
             glPushMatrix();
@@ -529,7 +921,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.743f, 0.655f, 0.572f);
-                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL, lightTowerBrick);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
@@ -537,7 +929,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.380f, 0.320f, 0.270f);
-                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL, darkTowerBrick);
             glPopMatrix();
             //Cylinder colors
             glPushMatrix();
@@ -545,7 +937,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.743f, 0.655f, 0.572f);
-                drawCylinder(varCylinder, 0.2f, 0.2f, 0.7f, FILL);
+                drawCylinder(varCylinder, 0.2f, 0.2f, 0.7f, FILL, towerWindow);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
@@ -553,7 +945,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.380f, 0.320f, 0.270f);
-                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL, darkTowerBrick);
             glPopMatrix();
             //Cylinder a bit color before reaching another black spot
             glPushMatrix();
@@ -561,7 +953,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.743f, 0.655f, 0.572f);
-                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL, lightTowerBrick);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
@@ -569,7 +961,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.380f, 0.320f, 0.270f);
-                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.2f, 0.2f, 0.1f, FILL, darkTowerBrick);
             glPopMatrix();
             //Cylinder colors
             glPushMatrix();
@@ -577,7 +969,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.743f, 0.655f, 0.572f);
-                drawCylinder(varCylinder, 0.2f, 0.2f, 0.5f, FILL);
+                drawCylinder(varCylinder, 0.2f, 0.2f, 0.5f, FILL, towerWindow);
             glPopMatrix();
             //Cylinder colors but expanded column
             glPushMatrix();
@@ -585,7 +977,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.743f, 0.655f, 0.572f);
-                drawCylinder(varCylinder, 0.25f, 0.25f, 0.3f, FILL);
+                drawCylinder(varCylinder, 0.25f, 0.25f, 0.3f, FILL, lightTowerBrick);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
@@ -593,7 +985,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.380f, 0.320f, 0.270f);
-                drawCylinder(varCylinder, 0.25f, 0.25f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.25f, 0.25f, 0.1f, FILL, darkTowerBrick);
             glPopMatrix();
             //a bit Cylinder colors & expanded column
             glPushMatrix();
@@ -601,7 +993,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.743f, 0.655f, 0.572f);
-                drawCylinder(varCylinder, 0.25f, 0.25f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.25f, 0.25f, 0.1f, FILL, lightTowerBrick);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
@@ -609,7 +1001,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.380f, 0.320f, 0.270f);
-                drawCylinder(varCylinder, 0.25f, 0.25f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.25f, 0.25f, 0.1f, FILL, darkTowerBrick);
             glPopMatrix();
             //a bit Cylinder colors & expanded column
             glPushMatrix();
@@ -617,7 +1009,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.743f, 0.655f, 0.572f);
-                drawCylinder(varCylinder, 0.25f, 0.25f, 0.8f, FILL);
+                drawCylinder(varCylinder, 0.25f, 0.25f, 0.8f, FILL, towerWindow);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
@@ -625,7 +1017,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.380f, 0.320f, 0.270f);
-                drawCylinder(varCylinder, 0.25f, 0.25f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.25f, 0.25f, 0.1f, FILL, darkTowerBrick);
             glPopMatrix();
             //a bit Cylinder colors & expanded column
             glPushMatrix();
@@ -633,7 +1025,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.870f, 0.800f, 0.690f);
-                drawCylinder(varCylinder, 0.25f, 0.25f, 0.4f, FILL);
+                drawCylinder(varCylinder, 0.25f, 0.25f, 0.4f, FILL, towerWindow);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
@@ -641,7 +1033,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.380f, 0.320f, 0.270f);
-                drawCylinder(varCylinder, 0.25f, 0.25f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.25f, 0.25f, 0.1f, FILL, darkTowerBrick);
             glPopMatrix();
             //a bit Cylinder colors & expanded column
             glPushMatrix();
@@ -649,7 +1041,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.870f, 0.800f, 0.690f);
-                drawCylinder(varCylinder, 0.25f, 0.25f, 0.2f, FILL);
+                drawCylinder(varCylinder, 0.25f, 0.25f, 0.2f, FILL, lightTowerBrick);
             glPopMatrix();
             //Cone Top
             glPushMatrix();
@@ -657,7 +1049,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.743f, 0.655f, 0.572f);
-                drawCylinder(varCylinder, 0.25f, 0.10f, 0.8f, FILL);
+                drawCylinder(varCylinder, 0.25f, 0.10f, 0.8f, FILL, lightTowerBrick);
             glPopMatrix();
             //Sphere on top of cone
             glPushMatrix();
@@ -665,7 +1057,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.743f, 0.655f, 0.572f);
-			    drawSphere(varSphere, 0.1f, 50, 50);
+			    drawSphere(varSphere, 0.1f, 50, 50, NULL);
             glPopMatrix();
             //cone on top of the top sphere
             glPushMatrix();
@@ -673,7 +1065,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.870f, 0.800f, 0.690f);
-                drawCylinder(varCylinder, 0.1f, 0.05f, 0.05f, FILL);
+                drawCylinder(varCylinder, 0.1f, 0.05f, 0.05f, FILL, lightTowerBrick);
             glPopMatrix();
             //small cylinder on top of the cone on top of the top shere
             glPushMatrix();
@@ -681,7 +1073,7 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.870f, 0.800f, 0.690f);
-                drawCylinder(varCylinder, 0.05f, 0.05f, 0.2f, FILL);
+                drawCylinder(varCylinder, 0.05f, 0.05f, 0.2f, FILL, lightTowerBrick);
             glPopMatrix();
             //wings beside the small cylinder
             glPushMatrix();
@@ -713,18 +1105,18 @@ void ExperimentationStation::drawColumnOfTower(float translationX, float transla
                 glTranslatef(0.f, 1.0f, 0.0f);
                 glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.870f, 0.800f, 0.690f);
-                drawCylinder(varCylinder, 0.06f, 0.03f, 0.1f, FILL);
+                drawCylinder(varCylinder, 0.06f, 0.03f, 0.1f, FILL, lightTowerBrick);
 
             glPopMatrix();
 }
 
-void ExperimentationStation::drawWall(float translationX, float translationY, float translationZ, float length, float depth)
+void ExperimentationStation::drawWall(float translationX, float translationY, float translationZ, float length, float depth, GLuint texture)
 {
         //Wall Bottom
         glPushMatrix();
             glTranslatef(translationX, translationY, translationZ);
             glColor3f(0.743, 0.655, 0.572);
-            drawCuboid(length, 1.0f, depth, 0.0f, 0.5f, 0.0f, 0.743f, 0.655f, 0.572f);
+            drawCuboid(length, 1.0f, depth, 0.0f, 0.5f, 0.0f, 0.743f, 0.655f, 0.572f, texture);
 
             //drawCylinder(varCylinder, 0.3f, 0.3f, 6.0f, FILL);
         glPopMatrix();
@@ -732,113 +1124,113 @@ void ExperimentationStation::drawWall(float translationX, float translationY, fl
         glPushMatrix();
             glTranslatef(translationX, 0.5f, translationZ);
             glTranslatef(0.f, 1.0f, 0.0f);
-            drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f);
+            drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f, darkTowerBrick);
 
         glPopMatrix();
             //Cylinder a bit color before reaching another black spot
             glPushMatrix();
                 glTranslatef(translationX, 0.6f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.743f, 0.655f, 0.572f);
+                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.743f, 0.655f, 0.572f, lightTowerBrick);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
                 glTranslatef(translationX, 0.7f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f);
+                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f, darkTowerBrick);
             glPopMatrix();
             //Cylinder colors
             glPushMatrix();
                 glTranslatef(translationX, 0.8f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.7f, depth, 0.0f, 0.35f, 0.0f, 0.743f, 0.655f, 0.572f);
+                drawCuboid(length, 0.7f, depth, 0.0f, 0.35f, 0.0f, 0.743f, 0.655f, 0.572f, wallWindow);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
                 glTranslatef(translationX, 1.5f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f);
+                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f, darkTowerBrick);
             glPopMatrix();
             //Cylinder a bit color before reaching another black spot
             glPushMatrix();
                 glTranslatef(translationX, 1.6f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.743f, 0.655f, 0.572f);
+                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.743f, 0.655f, 0.572f, lightTowerBrick);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
                 glTranslatef(translationX, 1.7f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f);
+                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f, darkTowerBrick);
             glPopMatrix();
             //Cylinder colors
             glPushMatrix();
                 glTranslatef(translationX, 1.8f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.5f, depth, 0.0f, 0.25f, 0.0f, 0.743f, 0.655f, 0.572f);
+                drawCuboid(length, 0.5f, depth, 0.0f, 0.25f, 0.0f, 0.743f, 0.655f, 0.572f, wallWindow);
             glPopMatrix();
             //Cylinder colors but expanded column
             glPushMatrix();
                 glTranslatef(translationX, 2.3f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.3f, depth, 0.0f, 0.15f, 0.0f, 0.743f, 0.655f, 0.572f);
+                drawCuboid(length, 0.3f, depth, 0.0f, 0.15f, 0.0f, 0.743f, 0.655f, 0.572f, lightTowerBrick);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
                 glTranslatef(translationX, 2.6f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f);
+                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f, darkTowerBrick);
             glPopMatrix();
             //a bit Cylinder colors & expanded column
             glPushMatrix();
                 glTranslatef(translationX, 2.7f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.743f, 0.655f, 0.572f);
+                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.743f, 0.655f, 0.572f, lightTowerBrick);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
                 glTranslatef(translationX, 2.8f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f);
+                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f, darkTowerBrick);
             glPopMatrix();
             //a bit Cylinder colors & expanded column
             glPushMatrix();
                 glTranslatef(translationX, 2.9f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.8f, depth, 0.0f, 0.4f, 0.0f, 0.743f, 0.655f, 0.572f);
+                drawCuboid(length, 0.8f, depth, 0.0f, 0.4f, 0.0f, 0.743f, 0.655f, 0.572f, wallWindow);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
                 glTranslatef(translationX, 3.7f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f);
+                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f, darkTowerBrick);
             glPopMatrix();
             //a bit Cylinder colors & expanded column
             glPushMatrix();
                 glTranslatef(translationX, 3.8f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.4f, depth, 0.0f, 0.2f, 0.0f, 0.870f, 0.800f, 0.690f);
+                drawCuboid(length, 0.4f, depth, 0.0f, 0.2f, 0.0f, 0.870f, 0.800f, 0.690f, lightTowerBrick);
             glPopMatrix();
             //Cylinder Black spot
             glPushMatrix();
                 glTranslatef(translationX, 4.2f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f);
+                drawCuboid(length, 0.1f, depth, 0.0f, 0.05f, 0.0f, 0.380f, 0.320f, 0.270f, darkTowerBrick);
             glPopMatrix();
             //a bit Cylinder colors & expanded column
             glPushMatrix();
                 glTranslatef(translationX, 4.3f, translationZ);
                 glTranslatef(0.f, 1.0f, 0.0f);
-                drawCuboid(length, 0.2f, depth, 0.0f, 0.1f, 0.0f, 0.870f, 0.800f, 0.690f);
+                drawCuboid(length, 0.2f, depth, 0.0f, 0.1f, 0.0f, 0.870f, 0.800f, 0.690f, lightTowerBrick);
             glPopMatrix();
-}\
+}
 
 void ExperimentationStation::drawGroundBridge1(float translationX, float translationY, float translationZ, float length, float depth)
 {
     glPushMatrix();
     glTranslatef(translationX, translationY, translationZ);
     glRotatef(openAndCloseGate, 0, 0, 1);
-    drawCuboid(length, 0.2f, depth, length/2, 0.0f, 0.0f, 0.902f, 0.902f, 0.902f);
+    drawCuboid(length, 0.2f, depth, length/2, 0.0f, 0.0f, 0.902f, 0.902f, 0.902f, groundBridge);
     
     glPopMatrix();
 }
@@ -848,7 +1240,7 @@ void ExperimentationStation::drawGroundBridge2(float translationX, float transla
     glPushMatrix();
     glTranslatef(translationX, translationY, translationZ);
     glRotatef(-openAndCloseGate, 0, 0, 1);
-    drawCuboid(length, 0.2f, depth, -length/2, 0.0f, 0.0f, 0.902f, 0.902f, 0.902f);
+    drawCuboid(length, 0.2f, depth, -length/2, 0.0f, 0.0f, 0.902f, 0.902f, 0.902f, groundBridge);
 
     glPopMatrix();
 }
@@ -857,7 +1249,7 @@ void ExperimentationStation::drawGroundBridge3And4(float translationX, float tra
 {
     glPushMatrix();
     glTranslatef(translationX, translationY, translationZ);
-    drawCuboid(length, 0.2f, depth, length / 2, 0.0f, 0.0f, 0.902f, 0.902f, 0.902f);
+    drawCuboid(length, 0.2f, depth, length / 2, 0.0f, 0.0f, 0.902f, 0.902f, 0.902f, groundBridge);
 
     glPopMatrix();
 }
@@ -868,16 +1260,16 @@ void ExperimentationStation::drawBridge(float translationX, float translationY, 
     glPushMatrix();
         glTranslatef(translationX, translationY, translationZ);
         //deck
-        drawCuboid(length, 0.2f, depth, 0.0f, 0.1f, 0.0f, red, green, blue);
+        drawCuboid(length, 0.2f, depth, 0.0f, 0.1f, 0.0f, red, green, blue, groundBridge);
         //railing 1
         glPushMatrix();
             glTranslatef(0.0f, 0.2f, -0.15f);
-            drawCuboid(length, 0.5f, 0.1f, 0.0f, 0.25f, 0.0f, 0.902f, 0.902f, 0.902f);
+            drawCuboid(length, 0.5f, 0.1f, 0.0f, 0.25f, 0.0f, 0.902f, 0.902f, 0.902f, bridgeRailing);
         glPopMatrix();
         //railing 2
         glPushMatrix();
             glTranslatef(0.0f, 0.2f, 0.15f);
-            drawCuboid(length, 0.5f, 0.1f, 0.0f, 0.25f, 0.0f, 0.902f, 0.902f, 0.902f);
+            drawCuboid(length, 0.5f, 0.1f, 0.0f, 0.25f, 0.0f, 0.902f, 0.902f, 0.902f, bridgeRailing);
         glPopMatrix();
     glPopMatrix();
 
@@ -904,48 +1296,48 @@ void ExperimentationStation::draw() {
             //Sea
             glPushMatrix();
 			    glTranslatef(0.0f, -0.5f, 0.0f);
-                drawCuboid(25.0f, 10.0f, 15.0f, 0.0f, -5.0f, 0.0, 0.68f, 0.85f, 0.90f);
+                drawCuboid(25.0f, 10.0f, 15.0f, 0.0f, -5.0f, 0.0, 0.68f, 0.85f, 0.90f, sea);
             glPopMatrix();
 
             //Ship
             glPushMatrix();
                 glTranslatef(3.25f, 0.0f, shipMovement);
-                drawCuboid(2.0f, 1.0f, 2.5f, 0.0f, -0.5f, 0.0, 0.22f, 0.32f, 0.41f);
+                drawCuboid(2.0f, 1.0f, 2.5f, 0.0f, -0.5f, 0.0, 0.22f, 0.32f, 0.41f, shipHull);
                 glTranslatef(0.0f, 0.0f, 0.0f);
-                drawCuboid(1.0f, 0.5f, 1.0f, 0.0f, 0.25f, 0.0, 0.92f, 0.92f, 0.92f);
+                drawCuboid(1.0f, 0.5f, 1.0f, 0.0f, 0.25f, 0.0, 0.92f, 0.92f, 0.92f, shipHull);
                 glTranslatef(0.0f, 0.5, 0.0f);
-                drawPyramid(1.0f, 0.5f, 1.0f, 0.0f, 0.25f, 0.0f);
+                drawPyramid(1.0f, 0.5f, 1.0f, 0.0f, 0.25f, 0.0f, shipUpperPart);
             glPopMatrix();
 
             //first tower structure
-            drawCuboid(3.5f, 1.0f, 3.0f, 0.0f, 0.0f, 0.0, 0.0f, 0.58f, 0.55f);
+            drawCuboid(3.5f, 1.0f, 3.0f, 0.0f, 0.0f, 0.0, 0.594, 0.524, 0.457, whiteColorBrick);
             drawColumnOfTower(-0.65f, 0.5f, 0.90f);
             drawColumnOfTower(0.65f, 0.5f, 0.90f);
             drawColumnOfTower(-0.65f, 0.5f, -0.90f);
             drawColumnOfTower(0.65f, 0.5f, -0.90f);
-            drawWall(0.0f, 0.5f, 0.65f, 1.0f, 0.3f);
-            drawWall(0.0f, 0.5f, -0.65f, 1.0f, 0.3f);
+            drawWall(0.0f, 0.5f, 0.65f, 1.0f, 0.3f, lightTowerBrick);
+            drawWall(0.0f, 0.5f, -0.65f, 1.0f, 0.3f, lightTowerBrick);
             glPushMatrix();
                 glColor3f(0.73f, 0.72f, 0.63f);
-                drawPyramid(1.1f, 2.5f, 1.1f, 0.0f, 6.5f, 0.0f);
+                drawPyramid(1.1f, 2.5f, 1.1f, 0.0f, 6.5f, 0.0f, pyramidRoof);
             glPopMatrix();
             glPushMatrix();
-                glColor3f(0.10f, 0.53f, 0.70f);
+                glColor3f(1.0f, 1.0f, 1.0f);
                 glTranslatef(-4.8f, 2.4f, -0.8f);
-                drawCylinderAlongCurve(90.0f, 180.0f, 4.0f, 2.0f, 0.15f, LINE);
+                drawCylinderAlongCurve(90.0f, 180.0f, 4.0f, 2.0f, 0.15f, FILL, bridgeRope);
             glPopMatrix();
             glPushMatrix();
-                glColor3f(0.10f, 0.53f, 0.70f);
+                glColor3f(1.0f, 1.0f, 1.0f);
                 glTranslatef(-4.8f, 2.4f, 0.8f);
-                drawCylinderAlongCurve(90.0f, 180.0f, 4.0f, 2.0f, 0.15f, LINE);
+                drawCylinderAlongCurve(90.0f, 180.0f, 4.0f, 2.0f, 0.15f, FILL, bridgeRope);
             glPopMatrix();
             glPushMatrix();
 			    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-                drawWall(0.0f, 0.5f, -0.65f, 1.5f, 0.3f);
+                drawWall(0.0f, 0.5f, -0.65f, 1.5f, 0.3f, towerEntrance);
             glPopMatrix();
             glPushMatrix();
                 glRotatef(270.0f, 0.0f, 1.0f, 0.0f);
-                drawWall(0.0f, 0.5f, -0.65f, 1.5f, 0.3f);
+                drawWall(0.0f, 0.5f, -0.65f, 1.5f, 0.3f, towerEntrance);
             glPopMatrix();
 
             glPushMatrix();
@@ -954,49 +1346,53 @@ void ExperimentationStation::draw() {
             drawGroundBridge1(1.75f, 0.3f, 0.0f, 1.5f, 2.0f);
             //glRotatef(-openAndCloseGate, 0, 0, 1);
             drawGroundBridge2(4.75f, 0.3f, 0.0f, 1.5f, 2.0f);
+            beginScaleTexture(5, 1);
             drawGroundBridge3And4(8.2f, 0.3f, 0.0f, 8.0f, 2.0f);
             drawGroundBridge3And4(-8.2f, 0.3f, 0.0f, 8.0f, 2.0f);
+			endScaleTexture();
             glPopMatrix();
             //second tower structure
 			glPushMatrix();
 			    glTranslatef(6.5f, 0.0f, 0.0f);
-                drawCuboid(3.5f, 1.0f, 3.0f, 0.0f, 0.0f, 0.0, 0.0f, 0.58f, 0.55f);
+                drawCuboid(3.5f, 1.0f, 3.0f, 0.0f, 0.0f, 0.0, 0.594, 0.524, 0.457, whiteColorBrick);
                 drawColumnOfTower(-0.65f, 0.5f, 0.90f);
                 drawColumnOfTower(0.65f, 0.5f, 0.90f);
                 drawColumnOfTower(-0.65f, 0.5f, -0.90f);
                 drawColumnOfTower(0.65f, 0.5f, -0.90f);
                 glPushMatrix();
                     glColor3f(0.73f, 0.72f, 0.63f);
-                    drawPyramid(1.1f, 2.5f, 1.1f, 0.0f, 6.5f, 0.0f);
+                    drawPyramid(1.1f, 2.5f, 1.1f, 0.0f, 6.5f, 0.0f, pyramidRoof);
                 glPopMatrix();
-                glPushMatrix();
-                    glColor3f(0.10f, 0.53f, 0.70f);
+                glPushMatrix();;
                     glTranslatef(4.8f, 2.4f, -0.8f);
-                    drawCylinderAlongCurve(180.0f, 270.0f, 4.0f, 2.0f, 0.15f, LINE);
+					glColor3f(1.0f, 1.0f, 1.0f);
+                    drawCylinderAlongCurve(180.0f, 270.0f, 4.0f, 2.0f, 0.15f, FILL, bridgeRope);
                 glPopMatrix();
                 glPushMatrix();
-                    glColor3f(0.10f, 0.53f, 0.70f);
                     glTranslatef(4.8f, 2.4f, 0.8f);
-                    drawCylinderAlongCurve(180.0f, 270.0f, 4.0f, 2.0f, 0.15f, LINE);
+                    glColor3f(1.0f, 1.0f, 1.0f);
+                    drawCylinderAlongCurve(180.0f, 270.0f, 4.0f, 2.0f, 0.15f, FILL, bridgeRope);
                 glPopMatrix();
 
-                drawWall(0.0f, 0.5f, 0.65f, 1.0f, 0.3f);
-                drawWall(0.0f, 0.5f, -0.65f, 1.0f, 0.3f);
+                drawWall(0.0f, 0.5f, 0.65f, 1.0f, 0.3f, lightTowerBrick);
+                drawWall(0.0f, 0.5f, -0.65f, 1.0f, 0.3f, lightTowerBrick);
                 glPushMatrix();
                     glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-                    drawWall(0.0f, 0.5f, -0.65f, 1.5f, 0.3f);
+                    drawWall(0.0f, 0.5f, -0.65f, 1.5f, 0.3f, towerEntrance);
                 glPopMatrix();
                 glPushMatrix();
                     glRotatef(270.0f, 0.0f, 1.0f, 0.0f);
-                    drawWall(0.0f, 0.5f, -0.65f, 1.5f, 0.3f);
+                    drawWall(0.0f, 0.5f, -0.65f, 1.5f, 0.3f, towerEntrance);
                 glPopMatrix();
             glPopMatrix();
 
             //bridge between two towers on upper floors
             glPushMatrix();
+                beginScaleTexture(5, 1);
                 drawBridge(3.25f, 4.1f, -0.6f, 4.9f, 0.4f, 0.157f, 0.600f, 0.737f);
 
                 drawBridge(3.25f, 4.1f, 0.6f, 4.9f, 0.4f, 0.157f, 0.600f, 0.737f);
+                endScaleTexture();
             glPopMatrix();
          glPopMatrix();
 
@@ -1026,7 +1422,7 @@ void ExperimentationStation::draw2()
 
 void ExperimentationStation::draw3() {
 
-    /*
+    
     glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
     glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
     glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
@@ -1035,14 +1431,16 @@ void ExperimentationStation::draw3() {
     glPushMatrix();
 	    //drawColumnOfTower(0.0f, 0.0f, 0.0f);
         glColor3f(1.0f, 0.0f, 0.0f);
-        
-        //drawCylinderAlongCurve(0, 270, 2.0f, 3.0f, 0.5, FILL);
-        drawBeautifulCircleWithFlowers(2.0f, 2.0f, 2.0f, 1.0, 100, FILL);
+        drawCylinder(quad, 2.0f, 2.0f, 3.0f, FILL, NULL);
+        //drawCircleWithHole(3.0f, 1.0f, 50);
+        //drawCylinderAlongCurve(0, 360, 3.0f, 3.0f, 0.5, FILL);
+        //drawBeautifulCircleWithFlowers(2.0f, 2.0f, 2.0f, 1.0, 100, FILL);
         //drawBeautifulCircleWithFlowers(5.0f, 2.0f, 2.0f, 1.0, 100, FILL);
         //drawBeautifulCircleWithFlowers(5.0f, 2.0f, 2.0f, 1.0, 100, FILL);
 	glPopMatrix();
 
-    */
+    
+    /*
     glColor3f(1.0f, 0.0f, 0.0f);
     glBegin(GL_TRIANGLE_STRIP);
     glVertex2f(0.0f, 1.0f);
@@ -1051,6 +1449,194 @@ void ExperimentationStation::draw3() {
     glVertex2f(-1.0f, 1.0f);
     glVertex2f(-1.0f, 0.0f);
     glEnd();
+    */
+}
+
+void ExperimentationStation::drawIceCream()
+{   /*
+    glPushMatrix();
+    glTranslatef(shoulder.x, shoulder.y, shoulder.z);
+    drawJointMarker();
+    glRasterPos3f(0, 0, 1);
+    sprintf_s(buf, "Shoulder (%.1f %.1f %.1f)", 0.0f, -1.0f, 0.0f);
+    drawText3D(buf);
+    glPopMatrix();
+    */
+
+    //glMatrixMode(GL_MODELVIEW);
+    //glLoadIdentity();
+    glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
+    glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+    glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+    glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+
+    glPushMatrix();
+    glColor3f(0.82f, 0.60f, 0.33f);
+    glTranslatef(0.0f, -1.0f, 0.0f);
+    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+    drawCylinder(varCylinder, 1.0f, 0.0f, 3.0f, FILL, iceCreamCone);
+    glPopMatrix();
+
+    /*
+    glPushMatrix();
+    glColor3f(0.41f, 0.30f, 0.165f);
+    glTranslatef(0.0f, -1.0f, 0.0f);
+    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+    drawCylinder(varCylinder, 1.0f, 0.0f, 3.0f, LINE);
+    glPopMatrix();
+    */
+
+    glPushMatrix();
+    glColor3f(0.96f, 0.36f, 0.50f);
+    glTranslatef(0.0f, -0.5f, 0.0f);
+    drawSphere(varSphere, 1.0f, 100, 100, strawberryIceCream);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(1.00f, 0.95f, 0.82f);
+    glTranslatef(0.0f, 0.5f, 0.0f);
+    //glTranslatef(0.0f, 0.5f, 0.0f);
+    drawSphere(varSphere, 1.0f, 100, 100, chocolateIceCream);
+    glPopMatrix();
+
+
+    /*
+    glPushMatrix();
+    glTranslatef(0.0f, 0.5f, 0.0f);
+    float circleRadius = 1.05f;
+    glBegin(GL_POLYGON);
+    for (int j = 0; j <= 4; j++)
+    {
+        glPushMatrix();
+        glRotatef(70.0f * j, 1.0f, 0.0f, 0.0f);
+        glRotatef(70.0f * j, 0.0f, 1.0f, 0.0f);
+        glRotatef(70.0f * j, 0.0f, 0.0f, 1.0f);
+        for (float angle = 270; angle <= 450; angle++) {
+            float convertToRadian = angle * 3.14159 / 180.0;
+            glColor3f(0.22f, 0.10f, 0.05f);
+            glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
+        }
+        glEnd();
+        glPopMatrix();
+    }
+    glPopMatrix();
+    */
+
+    glPushMatrix();
+    glColor3f(0.22f, 0.10f, 0.05f);
+
+
+    glTranslatef(0.6f, 0.6f, 0.0f);
+    glRotatef(-110.0f, 1.0f, 0.0f, 0.0f);
+    glRotatef(60.0f, 1.0f, 0.0f, 1.0f);
+    drawCylinder(varCylinder2, 0.2f, 0.2f, 2.0f, FILL, chocolateCylinder);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0.22f, 0.10f, 0.05f);
+
+
+    glTranslatef(-0.85f, 1.1f, 0.6f);
+    glRotatef(-160.0f, 1.0f, 0.0f, 0.0f);
+    //glRotatef(60.0f, 1.0f, 0.0f, 1.0f);
+    //glTranslatef(2.0f, 2.0f, 2.0f);
+    drawCylinder(varCylinder2, 0.5f, 0.5f, 0.15f, FILL, oreo);
+    glPushMatrix();
+    drawCircle(0.5f, oreo);
+
+    glPushMatrix();
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glTranslatef(0.0f, 0.0f, 0.15f);
+    drawCylinder(varCylinder2, 0.5f, 0.5f, 0.15f, FILL, NULL);
+    glPushMatrix();
+    glColor3f(0.22f, 0.10f, 0.05f);
+    glTranslatef(0.0f, 0.0f, 0.15f);
+    drawCylinder(varCylinder2, 0.5f, 0.5f, 0.15f, FILL, oreo);
+    drawCircle(0.5f, oreo);
+    glTranslatef(0.0f, 0.0f, 0.15f);
+    drawCircle(0.5f, oreo);
+    glPopMatrix();
+    glPopMatrix();
+    glPopMatrix();
+    glPopMatrix();
+
+    glPushMatrix();
+    glRotatef(270.0f, 0.0f, 1.0f, 0.0f);
+    glTranslatef(-0.6f, 1.45f, 0.0f);
+    glColor3f(0.85f, 0.08f, 0.10f);
+    drawSphere(varSphere, 0.2f, 100, 100, NULL);
+    glPushMatrix();
+    glTranslatef(1.15f, 0.0f, 0.0f);
+    glBegin(GL_LINE_STRIP);
+    float ovalCenterCoordinateX = 0.0f;
+    float ovalCenterCoordinateY = 0.1f;
+    float ovalXRadius = 1.15f;
+    float ovalYRadius = 1.15f;
+    glRotatef(30.0f, 1.0f, 0.0f, 0.0f);
+
+    glLineWidth(5.0f);
+    for (float angle = 270; angle <= 300; angle++) {
+        float convertToRadian = angle * 3.14159 / 180.0;
+        glColor3f(0.85f, 0.15f, 0.20f);
+        glVertex2f(sin(convertToRadian) * ovalXRadius + ovalCenterCoordinateX, cos(convertToRadian) * ovalYRadius + ovalCenterCoordinateY);
+    }
+
+    glEnd();
+
+    glPopMatrix();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.0f, 1.5f, 0.0f);
+    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f, NULL);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.0f, 1.45f, 0.1f);
+    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f, NULL);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.1f, 1.45f, -0.15f);
+    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f, NULL);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-0.3f, 1.45f, 0.05f);
+    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f, NULL);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-0.3f, 1.45f, 0.05f);
+    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f, NULL);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.5f, 1.35f, 0.05f);
+    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f, NULL);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.5f, 1.20f, 0.5f);
+    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f, NULL);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-0.3f, 1.3f, 0.5f);
+    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f, NULL);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-0.1f, 1.35f, 0.5f);
+    glRotatef(45.0f, 1.0f, 0.0f, 1.0f);
+    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f, NULL);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.2f, 1.35f, 0.4f);
+    glRotatef(-45.0f, 1.0f, 0.0f, 1.0f);
+    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f, NULL);
+    glPopMatrix();
 }
 
 void ExperimentationStation::lightingTestCube()
@@ -1130,14 +1716,14 @@ void ExperimentationStation::lightingTestPyramidAndSphere()
     glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
     glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
     glColor3f(1.0f, 0.0f, 0.0f);
-    drawSphere(varSphere, 0.5f, 50, 50);
+    drawSphere(varSphere, 0.5f, 50, 50, NULL);
     glPopMatrix();
     glPushMatrix();
     glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
     glRotatef(RobotElbow_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
     glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
     glColor3f(0.0f, 1.0f, 0.0f);
-    drawPyramid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+    drawPyramid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, NULL);
     glPopMatrix();
 }
 
@@ -1174,7 +1760,7 @@ void ExperimentationStation::shadeModel()
             gluQuadricTeture(var, true);
             gluSphere(var, 0.2, starPoints, starPoints);*/
             glTranslatef(0, 1, 0);
-            drawSphere(varSphere, 1.0f, 20, 20);
+            drawSphere(varSphere, 1.0f, 20, 20, NULL);
         glPopMatrix();
 
         //clone the sphere above

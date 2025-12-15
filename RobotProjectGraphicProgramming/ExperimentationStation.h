@@ -47,6 +47,7 @@ private:
 	char buf[64];
 
 	GLUquadricObj* quad = NULL;
+	GLUquadricObj* quadNew = NULL;
 	GLUquadricObj* varSphere = NULL;
 	GLUquadricObj* varCylinder = NULL;
 	GLUquadricObj* varCylinder2 = NULL;
@@ -93,27 +94,59 @@ private:
 
 	*/
 
+	//Load Texture///
+	//bridge
+	GLuint texture = 0;
+	GLuint metal = 0;
+	GLuint lightTowerBrick = 0;
+	GLuint darkTowerBrick = 0;
+	GLuint groundBridge = 0;
+	GLuint bridgeRailing = 0;
+	GLuint sea = 0;
+	GLuint shipHull = 0;
+	GLuint shipUpperPart = 0;
+	GLuint pyramidRoof = 0;
+	GLuint bridgeRope = 0;
+	GLuint towerWindow = 0;
+	GLuint wallWindow = 0;
+	GLuint towerEntrance = 0;
+	GLuint whiteColorBrick = 0;
+	BITMAP BMP;
+	HBITMAP hBMP = NULL;
+
+	//ice cream
+	GLuint  strawberryIceCream= 0;
+	GLuint  chocolateIceCream= 0;
+	GLuint  oreo= 0;
+	GLuint  chocolateCylinder= 0;
+	GLuint  iceCreamCone = 0;
+
 public:
 	ExperimentationStation();
 	void updateInput() override;
 	void drawJointMarker();
-	void drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue);
-	void drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks);
-	void drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle);
-	void drawCircle(float circleRadius);
+	void drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture);
+	void drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks, GLuint texture);
+	void drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture);
+	void drawCircle(float circleRadius, GLuint texture);
 	void drawCircleWithHole(float outerRadius, float innerRadius, int segments);
-	void drawPyramid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ);
+	void drawPyramid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, GLuint texture);
 	ExperimentationStation::Vector3D findNormalVector(Point3D v1, Point3D v2, Point3D v3);
 	void drawBeautifulCircleWithFlowers(float circleRadius, float baseRadius, float topRadius, float height, int numCylinders, int selectedDrawStyle);
-	void drawCylinderAlongCurve(float angleBegins, float angleEnds, float circleXRadius, float circleYRadius, float cylinderRadius, int selectedDrawStyle);
+	void drawCylinderAlongCurve(float angleBegins, float angleEnds, float circleXRadius, float circleYRadius, float cylinderRadius, int selectedDrawStyle, GLuint texture);
 	void drawText3D(const char* text);
 	void initFont();
+	void loadTextures();
+	void beginScaleTexture(float scaleX, float scaleY);
+	void endScaleTexture();
+	void deleteTextures();
 	void drawColumnOfTower(float translationX, float translationY, float translationZ);
-	void drawWall(float translationX, float translationY, float translationZ, float length, float depth);
+	void drawWall(float translationX, float translationY, float translationZ, float length, float depth, GLuint texture);
 	void drawGroundBridge1(float translationX, float translationY, float translationZ, float length, float depth);
 	void drawGroundBridge2(float translationX, float translationY, float translationZ, float length, float depth);
 	void drawGroundBridge3And4(float translationX, float translationY, float translationZ, float length, float depth);
 	void drawBridge(float translationX, float translationY, float translationZ, float length, float depth, float red, float green, float blue);
+	void drawIceCream();
 	void draw();
 	void draw2();
 	void draw3();

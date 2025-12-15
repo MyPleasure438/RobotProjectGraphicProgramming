@@ -134,7 +134,7 @@ void LeftArm::drawJointMarker()
     gluDeleteQuadric(quad);
 }
 
-void LeftArm::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue)
+void LeftArm::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture)
 {
     glPushMatrix();
     //translate the center point for transformation of the cuboid (This acts as a pivot point to rotate the cuboid)
@@ -142,52 +142,90 @@ void LeftArm::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerP
     //scale first
     glScalef(scaleX, scaleY, scaleZ);
     glColor3f(red, green, blue);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    Vector3D normal = findNormalVector(Point3D{ -0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    //done
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, -0.5f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, -0.5f);
     glEnd();
 
+    normal = findNormalVector(Point3D{ 0.5f, 0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, -0.5f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, 0.5f);
     glEnd();
 
+    normal = findNormalVector(Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ -0.5f, 0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, 0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(0.5f, 0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, 0.5f);
     glEnd();
 
+    normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ 0.5f, 0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_QUADS);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, 0.5f);
     glEnd();
 
+    normal = findNormalVector(Point3D{ -0.5f, 0.5f, -0.5f }, Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ -0.5f, -0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glEnd();
 
+    normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
     glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glEnd();
 
     glPopMatrix();
 }
 
-void LeftArm::drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks)
+void LeftArm::drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks, GLuint texture)
 {
     // a) declare quadric pointer
     quad = NULL;
@@ -200,9 +238,12 @@ void LeftArm::drawSphere(GLUquadricObj* quad, float radius, int slices, int stac
         return;
     }
 
+    gluQuadricTexture(quad, GL_TRUE);
     // e) set quadric draw style
     // Options: GLU_FILL, GLU_LINE, GLU_SILHOUETTE, GLU_POINT
     gluQuadricDrawStyle(quad, GLU_FILL);   // wireframe sphere
+
+    glBindTexture(GL_TEXTURE_2D, texture);
 
     // c) draw sphere at origin
     gluSphere(quad, radius, slices, stacks);   // radius = 1, slices & stacks = 20
@@ -211,7 +252,7 @@ void LeftArm::drawSphere(GLUquadricObj* quad, float radius, int slices, int stac
     gluDeleteQuadric(quad);
 }
 
-void LeftArm::drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle)
+void LeftArm::drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture)
 {
     // a) declare quadric pointer
     quad = NULL;
@@ -223,52 +264,100 @@ void LeftArm::drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadiu
         printf("Failed to create quadric!\n");
         return;
     }
-    
-    
+
+    gluQuadricTexture(quad, GL_TRUE);
     glPushMatrix();
-        // e) set quadric draw style
-        // Options: GLU_FILL, GLU_LINE, GLU_SILHOUETTE, GLU_POINT
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    // e) set quadric draw style
+    // Options: GLU_FILL, GLU_LINE, GLU_SILHOUETTE, GLU_POINT
 
     switch (selectedDrawStyle)
     {
-        case FILL:
-            gluQuadricDrawStyle(quad, GLU_FILL);   // wireframe sphere
-            break;
-        case LINE:
-            gluQuadricDrawStyle(quad, GLU_LINE);   // wireframe sphere
-            break;
+    case FILL:
+        gluQuadricDrawStyle(quad, GLU_FILL);   // wireframe sphere
+        break;
+    case LINE:
+        gluQuadricDrawStyle(quad, GLU_LINE);   // wireframe sphere
+        break;
 
-        case SILHOUETTE:
-            gluQuadricDrawStyle(quad, GLU_SILHOUETTE);   // wireframe sphere
-            break;
+    case SILHOUETTE:
+        gluQuadricDrawStyle(quad, GLU_SILHOUETTE);   // wireframe sphere
+        break;
 
-        case POINT:
-            gluQuadricDrawStyle(quad, GLU_POINT);   // wireframe sphere
-            break;
+    case POINT:
+        gluQuadricDrawStyle(quad, GLU_POINT);   // wireframe sphere
+        break;
     }
-        
 
-        // c) draw sphere at origin
-        gluCylinder(quad,
-            baseRadius,     // bottom radius
-            topRadius,      // top radius
-            height,         // height
-            20,             // slices
-            10);            // stacks
 
-        // f) delete quadric (free memory)
-        gluDeleteQuadric(quad);
+    // c) draw sphere at origin
+    gluCylinder(quad,
+        baseRadius,     // bottom radius
+        topRadius,      // top radius
+        height,         // height
+        20,             // slices
+        10);            // stacks
+
+    // f) delete quadric (free memory)
+    gluDeleteQuadric(quad);
     glPopMatrix();
 }
 
-void LeftArm::drawCircle(float circleRadius) 
+void LeftArm::drawCircle(float circleRadius, GLuint texture)
 {
+    // 1. Bind the texture
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // 2. Set the color filter to white so the texture appears in its true colors
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    // Use GL_TRIANGLE_FAN for better performance and guaranteed behavior
+    glBegin(GL_TRIANGLE_FAN);
+
+    // --- CENTER VERTEX ---
+    // A. Texture Coordinate: Center of the texture (U=0.5, V=0.5)
+    glTexCoord2f(0.5f, 0.5f);
+    // B. Geometry: Center of the circle (0, 0, 0)
+    glVertex3f(0.0f, 0.0f, 0.0f);
+
+    // --- PERIMETER VERTICES ---
+    // Calculate 360 points (or 36-60 for better performance)
+    int segments = 60; // Use fewer segments for better performance
+    for (int i = 0; i <= segments; i++)
+    {
+        float angle = i * 360.0f / segments;
+        float convertToRadian = angle * 3.14159f / 180.0f;
+
+        // Calculate X and Y vertex positions
+        float x = sin(convertToRadian) * circleRadius;
+        float y = cos(convertToRadian) * circleRadius;
+
+        // Texture mapping principle for a circle:
+        // The position on the circle is mapped to a radius of 0.5 on the texture map.
+        // U = 0.5 + 0.5 * cos(angle)
+        // V = 0.5 + 0.5 * sin(angle)
+
+        // A. Texture Coordinate: 
+        glTexCoord2f(
+            0.5f + 0.5f * sin(convertToRadian),
+            0.5f + 0.5f * cos(convertToRadian)
+        );
+
+        // B. Geometry: 
+        glVertex3f(x, y, 0.0f);
+    }
+
+    glEnd();
+
+    /*
     glBegin(GL_POLYGON);
     for (float angle = 0; angle <= 360; angle++) {
         float convertToRadian = angle * 3.14159 / 180.0;
         glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
     }
     glEnd();
+    */
 }
 
 void LeftArm::drawCircleWithHole(float outerRadius, float innerRadius, int segments)
@@ -292,6 +381,195 @@ void LeftArm::drawCircleWithHole(float outerRadius, float innerRadius, int segme
     glEnd();
 }
 
+void LeftArm::drawPyramid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, GLuint texture)
+{
+    glPushMatrix();
+    //translate the center point for transformation of the cuboid (This acts as a pivot point to rotate the cuboid)
+    glTranslatef(centerPointTransformationTranslationX, centerPointTransformationTranslationY, centerPointTransformationTranslationZ);
+    //scale first
+    glScalef(scaleX, scaleY, scaleZ);
+
+    Vector3D normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glEnd();
+
+    normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ 0.0f, 0.5f, 0.0f }, Point3D{ 0.5f, -0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_TRIANGLES);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(0.5f, 1.0f);
+    glVertex3f(0.0f, 0.5f, 0.0f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, 0.5f);
+    glEnd();
+
+    normal = findNormalVector(Point3D{ 0.0f, 0.5f, 0.0f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_TRIANGLES);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(0.0f, 0.5f, 0.0f);
+    glTexCoord2f(0.5f, 1.0f);
+    glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, 0.5f);
+    glEnd();
+
+    normal = findNormalVector(Point3D{ 0.0f, 0.5f, 0.0f }, Point3D{ -0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_TRIANGLES);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(0.0f, 0.5f, 0.0f);
+    glTexCoord2f(0.5f, 1.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(0.5f, -0.5f, -0.5f);
+    glEnd();
+
+    normal = findNormalVector(Point3D{ 0.0f, 0.5f, 0.0f }, Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ -0.5f, -0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_TRIANGLES);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(0.0f, 0.5f, 0.0f);
+    glTexCoord2f(0.5f, 1.0f);
+    glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glEnd();
+    glPopMatrix();
+}
+
+LeftArm::Vector3D LeftArm::findNormalVector(Point3D v1, Point3D v2, Point3D v3)
+{
+    //remember to input points from most bottom to top so that it is in (clockwise order)
+    //P2 - P1 (from p1 to p2)
+    Vector3D vectorA = { v2.x - v1.x, v2.y - v1.y, v2.z - v1.z };
+
+    //P3 - P1 (from p1 to p3)
+    Vector3D vectorB = { v3.x - v1.x, v3.y - v1.y, v3.z - v1.z };
+
+    Vector3D normal = { vectorA.y * vectorB.z - vectorA.z * vectorB.y, -(vectorA.x * vectorB.z - vectorA.z * vectorB.x), vectorA.x * vectorB.y - vectorA.y * vectorB.x };
+
+    float lengthOfNormalTravelled = sqrt((normal.x * normal.x) + (normal.y * normal.y) + (normal.z * normal.z));
+
+    Vector3D normalizedNormal = { normal.x / lengthOfNormalTravelled, normal.y / lengthOfNormalTravelled , normal.z / lengthOfNormalTravelled };
+
+    //since for some reason this stupid code idk why it gives me the inner normal instead of outer normal, we negative to reverse it to outer normal.
+    normalizedNormal = { -normalizedNormal.x, -normalizedNormal.y, -normalizedNormal.z };
+    return normalizedNormal;
+}
+
+void LeftArm::drawBeautifulCircleWithFlowers(float circleRadius, float baseRadius, float topRadius, float height, int numCylinders, int selectedDrawStyle)
+{
+    // a) declare quadric pointer
+    quad = NULL;
+
+    // b) create quadric object
+    quad = gluNewQuadric();
+    if (quad == NULL)
+    {
+        printf("Failed to create quadric!\n");
+        return;
+    }
+
+
+    glPushMatrix();
+    // e) set quadric draw style
+    // Options: GLU_FILL, GLU_LINE, GLU_SILHOUETTE, GLU_POINT
+
+    switch (selectedDrawStyle)
+    {
+    case FILL:
+        gluQuadricDrawStyle(quad, GLU_FILL);   // wireframe sphere
+        break;
+    case LINE:
+        gluQuadricDrawStyle(quad, GLU_LINE);   // wireframe sphere
+        break;
+
+    case SILHOUETTE:
+        gluQuadricDrawStyle(quad, GLU_SILHOUETTE);   // wireframe sphere
+        break;
+
+    case POINT:
+        gluQuadricDrawStyle(quad, GLU_POINT);   // wireframe sphere
+        break;
+    }
+    for (int i = 0; i < numCylinders; i++)
+    {
+        float angle = (float)i * (360.0 / numCylinders); // Calculate angle for current cylinder
+        float convertToRadian = angle * 3.14159 / 180.0;
+
+        // Calculate the position (x, y) on the circle's circumference
+        float x = sin(convertToRadian) * circleRadius;
+        float y = cos(convertToRadian) * circleRadius;
+
+        glPushMatrix(); // Save the current matrix (the world/scene matrix)
+
+        // 1. Translate the drawing origin to the calculated position (x, y)
+        glTranslatef(x, y, 0.0);
+
+        // 2. Rotate the cylinder to be perpendicular to the circle's radius
+        // We rotate it around the Z-axis by the current angle + 90 degrees
+        // (since a cylinder is typically drawn standing up along the Z-axis)
+        glRotatef(-angle + 90.0, 0.0, 0.0, 1.0);
+
+        // 3. Draw the cylinder
+        gluCylinder(quad,
+            baseRadius,     // bottom radius
+            topRadius,      // top radius
+            height,         // height
+            10,             // slices
+            5);             // stacks
+
+        glPopMatrix(); // Restore the previous matrix (remove the translation and rotation)
+    }
+
+    // f) Delete quadric (free memory)
+    gluDeleteQuadric(quad);
+
+    glPopMatrix(); // Restore the matrix before the cylinder drawing loop
+}
+
+void LeftArm::drawCylinderAlongCurve(float angleBegins, float angleEnds, float circleXRadius, float circleYRadius, float cylinderRadius, int selectedDrawStyle, GLuint texture)
+{
+    for (float angle = angleBegins; angle <= angleEnds; angle++) {
+        float convertToRadian = angle * 3.14159 / 180.0;
+        glPushMatrix();
+        glTranslatef(sin(convertToRadian) * circleXRadius, cos(convertToRadian) * circleYRadius, 0);
+        glRotatef(90.0f - angle, 0.0f, 0.0f, 1.0f);
+        glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+        switch (selectedDrawStyle)
+        {
+        case FILL:
+            drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle, texture);
+            break;
+        case LINE:
+            drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle, texture);
+            break;
+
+        case SILHOUETTE:
+            drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle, texture);
+            break;
+
+        case POINT:
+            drawCylinder(quad, cylinderRadius, cylinderRadius, 0.1f, selectedDrawStyle, texture);
+            break;
+        }
+
+        glPopMatrix();
+    }
+
+}
 
 void LeftArm::drawText3D(const char* text)
 {
@@ -327,6 +605,69 @@ void LeftArm::initFont()
     wglUseFontBitmaps(hdc, 0, 255, 1000); // generate display lists
     DeleteObject(font); // delete the HFONT; display lists remain
 }
+
+void LeftArm::loadTextures()
+{
+    //first texture
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    HBITMAP hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "Box.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //second texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "metal.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &metal);
+    glBindTexture(GL_TEXTURE_2D, metal);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    
+    //glMatrixMode(GL_TEXTURE);
+    //glLoadIdentity();
+    //glScalef(30.0, 20.0, 1.0);
+
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void LeftArm::beginScaleTexture(float scaleX, float scaleY)
+{
+    glMatrixMode(GL_TEXTURE);
+    glPushMatrix();
+    glScalef(scaleX, scaleY, 1.0f);
+    glMatrixMode(GL_MODELVIEW); // Switch back to MODELVIEW for drawing
+}
+
+void LeftArm::endScaleTexture()
+{
+    glMatrixMode(GL_TEXTURE); // Switch to TEXTURE mode to access the stack
+    glPopMatrix();            // Restore the saved 1x matrix
+    glMatrixMode(GL_MODELVIEW); // Switch back to MODELVIEW for rendering the next object
+}
+
+void LeftArm::deleteTextures()
+{
+    // a) Disable state change (Optional at exit)
+    glDisable(GL_TEXTURE_2D);
+
+    // b) Free the Windows GDI object
+    DeleteObject(hBMP);
+
+    glDeleteTextures(1, &texture);
+    glDeleteTextures(1, &metal);
+}
 /*
 void LeftArm::drawBridge()
 {  
@@ -334,197 +675,7 @@ void LeftArm::drawBridge()
 }
 */
 
-void LeftArm::drawIceCream()
-{   /*
-    glPushMatrix();
-    glTranslatef(shoulder.x, shoulder.y, shoulder.z);
-    drawJointMarker();
-    glRasterPos3f(0, 0, 1);
-    sprintf_s(buf, "Shoulder (%.1f %.1f %.1f)", 0.0f, -1.0f, 0.0f);
-    drawText3D(buf);
-    glPopMatrix();
-    */
-    
-    //glMatrixMode(GL_MODELVIEW);
-    //glLoadIdentity();
-    glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
-    glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-    glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-    glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-    
-    glPushMatrix();
-    glColor3f(0.82f, 0.60f, 0.33f);
-    glTranslatef(0.0f, -1.0f, 0.0f);
-    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.0f, 0.0f, 3.0f, FILL);
-    glPopMatrix();
 
-    glPushMatrix();
-    glColor3f(0.41f, 0.30f, 0.165f);
-    glTranslatef(0.0f, -1.0f, 0.0f);
-    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.0f, 0.0f, 3.0f, LINE);
-    glPopMatrix();
-
-
-    glPushMatrix();
-    glColor3f(0.96f, 0.36f, 0.50f);
-    glTranslatef(0.0f, -0.5f, 0.0f);
-    drawSphere(varSphere, 1.0f, 100, 100);
-    glPopMatrix(); 
-
-    glPushMatrix();
-    glColor3f(1.00f, 0.95f, 0.82f);
-    glTranslatef(0.0f, 0.5f, 0.0f);
-    //glTranslatef(0.0f, 0.5f, 0.0f);
-    drawSphere(varSphere, 1.0f, 100, 100);
-    glPopMatrix();
-
-    glPushMatrix();
-    glColor3f(1.00f, 0.95f, 0.82f);
-    glTranslatef(0.0f, 0.5f, 0.0f);
-    //glTranslatef(0.0f, 0.5f, 0.0f);
-    drawSphere(varSphere, 1.0f, 100, 100);
-    glPopMatrix();
-    
-    /*
-    glPushMatrix();
-    glTranslatef(0.0f, 0.5f, 0.0f);
-    float circleRadius = 1.05f;
-    glBegin(GL_POLYGON);
-    for (int j = 0; j <= 4; j++)
-    {
-        glPushMatrix();
-        glRotatef(70.0f * j, 1.0f, 0.0f, 0.0f);
-        glRotatef(70.0f * j, 0.0f, 1.0f, 0.0f);
-        glRotatef(70.0f * j, 0.0f, 0.0f, 1.0f);
-        for (float angle = 270; angle <= 450; angle++) {
-            float convertToRadian = angle * 3.14159 / 180.0;
-            glColor3f(0.22f, 0.10f, 0.05f);
-            glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
-        }
-        glEnd();
-        glPopMatrix();
-    }
-    glPopMatrix();
-    */
-    
-    glPushMatrix();
-    glColor3f(0.22f, 0.10f, 0.05f);
-    
-   
-    glTranslatef(0.6f, 0.6f, 0.0f);
-    glRotatef(-110.0f, 1.0f, 0.0f, 0.0f);
-    glRotatef(60.0f, 1.0f, 0.0f, 1.0f);
-	drawCylinder(varCylinder2, 0.2f, 0.2f, 2.0f, FILL);
-    glPopMatrix();
-    
-    glPushMatrix();
-        glColor3f(0.22f, 0.10f, 0.05f);
-
-
-        glTranslatef(-0.85f, 1.1f, 0.6f);
-        glRotatef(-160.0f, 1.0f, 0.0f, 0.0f);
-        //glRotatef(60.0f, 1.0f, 0.0f, 1.0f);
-        //glTranslatef(2.0f, 2.0f, 2.0f);
-        drawCylinder(varCylinder2, 0.5f, 0.5f, 0.15f, FILL);
-        glPushMatrix();
-            drawCircle(0.5f);
-
-            glPushMatrix();
-                glColor3f(1.0f, 1.0f, 1.0f);
-			    glTranslatef(0.0f, 0.0f, 0.15f);
-                drawCylinder(varCylinder2, 0.5f, 0.5f, 0.15f, FILL);
-                glPushMatrix();
-                    glColor3f(0.22f, 0.10f, 0.05f);
-                    glTranslatef(0.0f, 0.0f, 0.15f);
-                    drawCylinder(varCylinder2, 0.5f, 0.5f, 0.15f, FILL);
-					drawCircle(0.5f);
-					glTranslatef(0.0f, 0.0f, 0.15f);
-                    drawCircle(0.5f);
-                glPopMatrix();
-            glPopMatrix();
-        glPopMatrix();
-    glPopMatrix();
-
-    glPushMatrix();
-    glRotatef(270.0f, 0.0f, 1.0f, 0.0f);
-    glTranslatef(-0.6f, 1.45f, 0.0f);
-    glColor3f(0.85f, 0.08f, 0.10f);
-	drawSphere(varSphere, 0.2f, 100, 100);
-    glPushMatrix();
-	glTranslatef(1.15f, 0.0f, 0.0f);
-    glBegin(GL_LINE_STRIP);
-        float ovalCenterCoordinateX = 0.0f;
-        float ovalCenterCoordinateY = 0.1f;
-        float ovalXRadius = 1.15f;
-        float ovalYRadius = 1.15f;
-        glRotatef(30.0f, 1.0f, 0.0f, 0.0f);
-
-        glLineWidth(5.0f);
-        for (float angle = 270; angle <= 300; angle++) {
-            float convertToRadian = angle * 3.14159 / 180.0;
-            glColor3f(0.85f, 0.15f, 0.20f);
-            glVertex2f(sin(convertToRadian) * ovalXRadius + ovalCenterCoordinateX, cos(convertToRadian) * ovalYRadius + ovalCenterCoordinateY);
-        }
-
-    glEnd();
-
-        glPopMatrix();
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(0.0f, 1.5f, 0.0f);
-        drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f);
-	glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(0.0f, 1.45f, 0.1f);
-        drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(0.1f, 1.45f, -0.15f);
-    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(-0.3f, 1.45f, 0.05f);
-    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(-0.3f, 1.45f, 0.05f);
-    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(0.5f, 1.35f, 0.05f);
-    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(0.5f, 1.20f, 0.5f);
-    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(-0.3f, 1.3f, 0.5f);
-    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(-0.1f, 1.35f, 0.5f);
-    glRotatef(45.0f, 1.0f, 0.0f, 1.0f);
-    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(0.2f, 1.35f, 0.4f);
-    glRotatef(-45.0f, 1.0f, 0.0f, 1.0f);
-    drawCuboid(0.1f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 0.45f, 0.75f, 1.00f);
-    glPopMatrix();
-}
 
 
 void LeftArm::draw() {
@@ -573,7 +724,7 @@ void LeftArm::draw() {
         glPushMatrix();
 	        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
             glColor3f(0.2, 0.2, 0.2);
-			drawSphere(varSphere, 1.0f, 100, 100);
+			drawSphere(varSphere, 1.0f, 100, 100, NULL);
 
             glColor3f(0.0f, 1.0f, 0.0f);
 
@@ -581,13 +732,13 @@ void LeftArm::draw() {
             glPushMatrix();
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.7, 0.7, 0.7);
-			    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL);
+			    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, NULL);
             glPopMatrix();
             //Large connecting nerve
             glPushMatrix();
                 glTranslatef(0.0f, -1.0f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL);
+                drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, NULL);
             glPopMatrix();
                 
             //upper arm cover cap
@@ -595,7 +746,7 @@ void LeftArm::draw() {
                 glTranslatef(0.0f, -1.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.2, 0.2, 0.2);
-                drawCircle(1.7f);
+                drawCircle(1.7f, NULL);
             glPopMatrix();
             
             //upper arm
@@ -603,14 +754,14 @@ void LeftArm::draw() {
                     glColor3f(0.7, 0.7, 0.7);
                 glTranslatef(0.0f, -1.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 1.7f, 1.3f, 6.0f, FILL);  
+                drawCylinder(varCylinder, 1.7f, 1.3f, 6.0f, FILL, NULL);  
             glPopMatrix();
 
             //Small connecting nerve to elbow
             glPushMatrix();
                 glTranslatef(0.0f, -7.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL);
+                drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, NULL);
             glPopMatrix();
 
             //elbow joint
@@ -622,20 +773,20 @@ void LeftArm::draw() {
                 glPushMatrix();
                     glColor3f(0.2, 0.2, 0.2);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-				    drawSphere(varSphere, 1.0f, 100, 100);
+				    drawSphere(varSphere, 1.0f, 100, 100, NULL);
                 glPopMatrix();
                 //elbow joint small connecting nerve
                 glPushMatrix();
                     glTranslatef(0.0f, 0.0f, 0.0f);
 				    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.7, 0.7, 0.7);
-                    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL);
+                    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, NULL);
                 glPopMatrix();
                 //elbow joint large connecting nerve
                 glPushMatrix();
                     glTranslatef(0.0f, -1.0f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL);
+                    drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, NULL);
                 glPopMatrix();
 
                 // lowerarm cover cap
@@ -643,7 +794,7 @@ void LeftArm::draw() {
                     glTranslatef(0.0f, -1.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.2, 0.2, 0.2);
-                    drawCircle(1.7f);
+                    drawCircle(1.7f, NULL);
                 glPopMatrix();
 
                 //lower arm
@@ -651,14 +802,14 @@ void LeftArm::draw() {
                     glTranslatef(0.0f, -1.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.7, 0.7, 0.7);
-                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL);
+                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL, NULL);
                 glPopMatrix();
 
 				//Small connecting nerve to wrist
                 glPushMatrix();
                     glTranslatef(0.0f, -7.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL);
+                    drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, NULL);
                 glPopMatrix();
 
 				//wrist joint
@@ -670,10 +821,17 @@ void LeftArm::draw() {
                     
 
                     glPushMatrix();
-                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    //drawSphere(varSphere, 1.0f, 100, 100
-                    drawCylinder(varCylinder, 0.5f, 0.7f, 0.3f, FILL);
+                        glTranslatef(0.0f, -1.0f, 0.0f);
+                        glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                        drawCylinder(varCylinder, 0.5f, 0.7f, 0.3f, FILL, NULL);
+                    glPopMatrix();
+                    glPushMatrix();
+                        glTranslatef(0.0f, -1.3f, 0.0f);
+                        drawCuboid(3.4f, 3.8f, 1.4f, 0.0f, -1.9f, 0.0f, 1.0f, 1.0f, 1.0f, NULL);
+                        //drawSphere(varSphere, 1.0f, 100, 100
                     
+                    glPopMatrix();
+                    glPushMatrix();
                         //fingers rotate transformation if needed
                         /*
                         glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
@@ -681,21 +839,36 @@ void LeftArm::draw() {
                         glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
                         */
 					    glTranslatef(finger1OffsetFromWrist.x, finger1OffsetFromWrist.y, finger1OffsetFromWrist.z);
-                        drawCuboid(1.0f, 1.0f, 2.0f, 0.0f, -0.5f, 0.0f, 0.75f, 0.75f, 0.75f);
+                        glRotatef(90.0f, 1.0f, 0.0f , 0.0f);
+                        glColor3f(1.0f, 0.0f, 0.0f);
+                        drawCylinder(varCylinder, 0.425f, 0.2f, 1.2f, FILL, NULL);
+                        glPushMatrix();
+                            glTranslatef(fingerMiddleJoint1OffsetFromFinger.x, fingerMiddleJoint1OffsetFromFinger.y, fingerMiddleJoint1OffsetFromFinger.z);
+                            
+							drawCylinder(varCylinder, 0.2f, 0.15f, 0.8f, FILL, NULL);
+                            
+                        glPopMatrix();
                     glPopMatrix();
                     glPushMatrix();
                         glTranslatef(finger2OffsetFromWrist.x, finger2OffsetFromWrist.y, finger2OffsetFromWrist.z);
-						drawCuboid(1.0f, 1.0f, 2.0f, 0.0f, -0.5f, 0.0f, 0.75f, 0.75f, 0.75f);
+                        glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                        glColor3f(1.0f, 0.0f, 0.0f);
+                        drawCylinder(varCylinder, 0.425f, 0.2f, 1.2f, FILL, NULL);
                     glPopMatrix();
                     glPushMatrix();
-                    glTranslatef(finger3OffsetFromWrist.x, finger3OffsetFromWrist.y, finger3OffsetFromWrist.z);
-                    drawCuboid(1.0f, 1.0f, 2.0f, 0.0f, -0.5f, 0.0f, 0.75f, 0.75f, 0.75f);
+                        glTranslatef(finger3OffsetFromWrist.x, finger3OffsetFromWrist.y, finger3OffsetFromWrist.z);
+                        glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                        glColor3f(1.0f, 0.0f, 0.0f);
+                        drawCylinder(varCylinder, 0.425f, 0.2f, 1.2f, FILL, NULL);
+                        //drawCuboid(1.0f, 1.0f, 2.0f, 0.0f, -0.5f, 0.0f, 0.75f, 0.75f, 0.75f, NULL);
                     glPopMatrix();
                     glPushMatrix();
-                    glTranslatef(finger4OffsetFromWrist.x, finger4OffsetFromWrist.y, finger4OffsetFromWrist.z);
-                    drawCuboid(1.0f, 1.0f, 2.0f, 0.0f, -0.5f, 0.0f, 0.75f, 0.75f, 0.75f);
+                        glTranslatef(finger4OffsetFromWrist.x, finger4OffsetFromWrist.y, finger4OffsetFromWrist.z);
+                        glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                        glColor3f(1.0f, 0.0f, 0.0f);
+                        drawCylinder(varCylinder, 0.425f, 0.2f, 1.2f, FILL, NULL);
+                        //drawCuboid(1.0f, 1.0f, 2.0f, 0.0f, -0.5f, 0.0f, 0.75f, 0.75f, 0.75f, NULL);
                     glPopMatrix();
-
                 glPopMatrix();
             glPopMatrix();
         glPopMatrix();

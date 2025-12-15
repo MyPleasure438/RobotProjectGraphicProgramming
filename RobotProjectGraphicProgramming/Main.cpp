@@ -81,10 +81,12 @@ GLfloat diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY,
 GLUquadricObj* quadLightBulb = NULL;
 
 ///textures////
+/*
 GLuint texture = 0;
 GLuint metal = 0;
 BITMAP BMP;
 HBITMAP hBMP = NULL;
+*/
 
 LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -162,10 +164,12 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			break;
 
 		case VK_NUMPAD0:
+			// 0 key on numpad
 			rotateCameraZ = rotateCameraZ - 1.0f;
 			break;
 
 		case VK_DECIMAL:
+			// '.' key on numpad
 			rotateCameraZ = rotateCameraZ + 1.0f;
 			break;
 
@@ -327,15 +331,15 @@ void Display(int QuestionsToRender)
 	diffuseLightPosition[0] = diffuseLightPositionX;
 	diffuseLightPosition[1] = diffuseLightPositionY;
 	diffuseLightPosition[2] = diffuseLightPositionZ;
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
-	glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
+	//glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+	//glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+	//glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
 
 	//glEnable(GL_LIGHT0);
 	//glEnable(GL_LIGHTING);
 	glPushMatrix();
 		//glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
-		drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
+	//drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
 	glPopMatrix();
 	//End Lighting///
 
@@ -351,16 +355,17 @@ void Display(int QuestionsToRender)
 			//gluSphere(quad
 		glPopMatrix();
 		
-		//press k to start
+		
 		experimentationStation.updateInput();
-		//experimentationStation.draw();
-		experimentationStation.draw3();
+		//experimentationStation.drawIceCream();
+		experimentationStation.draw();
+		//experimentationStation.draw3();
 		//experimentationStation.shadeModel();
 		//experimentationStation.lightingTestCube();
 		//experimentationStation.lightingTestPyramidAndSphere();
 		//leftArm.updateInput();
 		//leftArm.draw();
-		//drawCube();
+		drawCube();
 		break;
 	}
 		
@@ -426,6 +431,9 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
 
+
+	//texture initialization
+	experimentationStation.loadTextures();
 	//texture loading
 	/*
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -456,9 +464,9 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
-	glScalef(30.0, 10.0, 1.0);
-	
+	glScalef(2.0, 1.0, 1.0);
 	*/
+	
 	///end texture loading///
 
 	while (true)
@@ -476,6 +484,8 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 		SwapBuffers(hdc);
 	}
 
+	//Delete texture after closes window
+	experimentationStation.deleteTextures();
 	UnregisterClass(WINDOW_TITLE, wc.hInstance);
 
 	return true;
@@ -486,7 +496,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 void orthographicProjection()
 {
 	glLoadIdentity();
-	glOrtho(-5, 5, -5, 5, -5, 5);
+	glOrtho(-15, 15, -15, 15, -15, 15);
 	//glOrtho(-10, 10, -10, 10, -10, 10);
 }
 
@@ -530,7 +540,7 @@ void drawLightBulb()
 
 void drawCube()
 {
-	
+	/*
 	glBegin(GL_QUADS);	
 	glVertex3f(0.5f, 0.5f, -0.5f);
 	glVertex3f(0.5f, 0.5f, 0.5f);
@@ -566,7 +576,7 @@ void drawCube()
 	glVertex3f(-0.5f, 0.5f, 0.5f);
 	glVertex3f(-0.5f, -0.5f, 0.5f);
 	glVertex3f(-0.5f, -0.5f, -0.5f);
-	
+	*/
 	//ENABLE THIS TEXTURE CODE IF YOU WANT TO TEST TEXTURES
 	
 	/*
