@@ -14,7 +14,8 @@
 class Jetpack : public RobotPart
 {
 private:
-	float anim_time;
+	float transitionX;
+	float firepower;
 
 public:
 	void jetpackInput();

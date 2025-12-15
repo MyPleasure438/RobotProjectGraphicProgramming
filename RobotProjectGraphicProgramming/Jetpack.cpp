@@ -5,8 +5,8 @@ ExperimentationStation Es;
 GLUquadricObj* rocket = gluNewQuadric();
 GLUquadricObj* fire = gluNewQuadric();
 
-float anim_time = 0;
 float transitionX = 0;
+float firepower = 0;
 bool jp_anim_flag = false;
 
 void Jetpack::jetpackInput() {
@@ -19,6 +19,12 @@ void Jetpack::jetpackInput() {
 		}
 		else {
 			jp_anim_flag = false;
+			firepower = 0;
+		}
+	}
+	if (diKeys[DIK_8] & 0x80) {
+		if (firepower < 1) {
+			firepower += 0.01;
 		}
 	}
 }
@@ -32,39 +38,45 @@ void Jetpack::drawJetpack(float cx, float cy, float cz) {
 	glColor3f(1, 0, 0);
 	glRotatef(90, 1.0, 0, 0);
 
-	if (jp_anim_flag && transitionX <=0.23) {
-		glPushMatrix();
-		glTranslatef(transitionX, 0, -0.05);
-		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
-		glTranslatef(0, 0, 0.1);
-		Es.drawCylinder(fire, 0.05, 0, 0.1, 0);
-		glPopMatrix();
+		if (jp_anim_flag && transitionX <= 0.23) {
+			glPushMatrix();
+			glTranslatef(transitionX, 0, -0.05);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			glPopMatrix();
 
-		glPushMatrix();
-		glTranslatef(-transitionX, 0, -0.05);
-		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
-		glTranslatef(0, 0, 0.1);
-		Es.drawCylinder(fire, 0.05, 0, 0.1, 0);
-		glPopMatrix();
-		transitionX += 0.01;
-	}
-	else {
-		glPushMatrix();
-		glTranslatef(transitionX, 0, -0.05);
-		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
-		glTranslatef(0, 0, 0.1);
-		Es.drawCylinder(fire, 0.05, 0, 0.1, 0);
-		glPopMatrix();
+			glPushMatrix();
+			glTranslatef(-transitionX, 0, -0.05);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			glPopMatrix();
+			transitionX += 0.01;
+		}
+		else if (!jp_anim_flag && transitionX > 0) {
+			glPushMatrix();
+			glTranslatef(transitionX, 0, -0.05);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			glPopMatrix();
 
-		glPushMatrix();
-		glTranslatef(-transitionX, 0, -0.05);
-		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
-		glTranslatef(0, 0, 0.1);
-		Es.drawCylinder(fire, 0.05, 0, 0.1, 0);
-		glPopMatrix();
-	}
-	
+			glPushMatrix();
+			glTranslatef(-transitionX, 0, -0.05);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			glPopMatrix();
+			transitionX -= 0.01;
+		}
+		else {
+			glPushMatrix();
+			glTranslatef(transitionX, 0, -0.05);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			glTranslatef(0, 0, 0.1);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0);
+			glPopMatrix();
 
+			glPushMatrix();
+			glTranslatef(-transitionX, 0, -0.05);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			glTranslatef(0, 0, 0.1);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0);
+			glPopMatrix();
+		}
 	glPopMatrix();
 	glPopMatrix();
 } 
