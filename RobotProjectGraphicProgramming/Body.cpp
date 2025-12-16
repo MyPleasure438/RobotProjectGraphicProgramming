@@ -94,7 +94,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 	glShadeModel(GL_SHADE_MODEL);
 	glLineWidth(5.0);
 	glPushMatrix();
-	glScalef(20, 20, 20);
+	//glScalef(20, 20, 20);
 	glTranslatef(BodyTranslateX, BodyTranslateY, BodyTranslateZ);
 	glRotatef(BodyRotateX, 1.0f, 0.0f, 0.0f);
 	glRotatef(BodyRotateY+180, 0.0f, 1.0f, 0.0f);

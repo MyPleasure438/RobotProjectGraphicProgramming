@@ -75,7 +75,7 @@ float aspectRatio = cameraScreenWidth / cameraScreenHeight;
 
 //lighting
 float diffuseLightPositionX = 0.0f;
-float diffuseLightPositionY = 0.8f;
+float diffuseLightPositionY = 2.0f;
 float diffuseLightPositionZ = 0.7f;
 
 GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f };
@@ -327,14 +327,14 @@ void Display(int QuestionsToRender)
 	//lighting///
 	//diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ };
 	
-	/*
+	
 	diffuseLightPosition[0] = diffuseLightPositionX;
 	diffuseLightPosition[1] = diffuseLightPositionY;
 	diffuseLightPosition[2] = diffuseLightPositionZ;
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
-	*/
+	
 	// 4. DEFINE WORLD-FIXED LIGHT POSITION
 	// The matrix now contains only the View transformation (from step 3).
 	// This ensures the light position is defined in world space, relative to the camera's fixed position.
@@ -345,11 +345,11 @@ void Display(int QuestionsToRender)
 	//glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	//glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
 
-	//glEnable(GL_LIGHT0);
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
 	glPushMatrix();
 		//glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
-	//drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
+	drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
 	glPopMatrix();
 	//End Lighting///
 
@@ -536,7 +536,7 @@ void drawLightBulb()
 
 	// e) set quadric draw style
 	// Options: GLU_FILL, GLU_LINE, GLU_SILHOUETTE, GLU_POINT
-	gluQuadricDrawStyle(quadLightBulb, GLU_LINE);   // wireframe sphere
+	gluQuadricDrawStyle(quadLightBulb, GLU_FILL);   // wireframe sphere
 
 	glPushMatrix();
 	glTranslatef(diffuseLightPosition[0], diffuseLightPosition[1], diffuseLightPosition[2]);
