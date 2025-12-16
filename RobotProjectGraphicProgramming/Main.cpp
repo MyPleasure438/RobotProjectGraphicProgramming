@@ -32,7 +32,7 @@ enum RobotDisplayParts
 //Global object initialization
 LeftArm leftArm;
 Body body;
-Jetpack jpk;
+Jetpack* jpk = new Jetpack();
 ExperimentationStation experimentationStation;
 
 
@@ -379,8 +379,8 @@ void Display(int QuestionsToRender)
     break;
   case 1:
 		body.updateInput();
-		jpk.jetpackInput();
-		body.drawBodyFrame();
+		jpk->jetpackInput();
+		body.drawBodyFrame(jpk);
 		break;
 	}
 		
@@ -449,7 +449,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	//texture initialization
 	experimentationStation.loadTextures();
-	jpk.initTexture();
+	jpk->initTexture();
 	//texture loading
 	/*
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -502,7 +502,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	//Delete texture after closes window
 	experimentationStation.deleteTextures();
-	jpk.clearTexture();
+	jpk->clearTexture();
 	UnregisterClass(WINDOW_TITLE, wc.hInstance);
 
 	return true;

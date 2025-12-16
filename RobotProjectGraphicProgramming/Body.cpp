@@ -1,13 +1,13 @@
 #include "Body.h"
 
 ExperimentationStation ES;
-Jetpack Jpk;
 
 GLUquadricObj* ERStone = gluNewQuadric();
 float time_value = 0.0f;
 float waves_time = 0.0f;
 float anim_value = 0.0f;
 bool anim_flag = false;
+static bool isAnim_flag = false;
 
 
 void Body::updateInput() {
@@ -78,17 +78,18 @@ void Body::updateInput() {
 	}
 
 	if (diKeys[DIK_0] & 0x80) {
-		if (!anim_flag) {
-			anim_flag = true;
+		if (!isAnim_flag) {
+			anim_flag = !anim_flag;
+			isAnim_flag = true;
 		}
-		else {
-			anim_flag = false;
-		}
+	}
+	else {
+		isAnim_flag = false;
 	}
 
 }
 
-void Body::drawBodyFrame() {
+void Body::drawBodyFrame(Jetpack *jpk) {
 	glShadeModel(GL_SHADE_MODEL);
 	glLineWidth(5.0);
 	glPushMatrix();
@@ -186,15 +187,15 @@ void Body::drawBodyFrame() {
 		
 
 		if (anim_flag && anim_value <0.31){
-			Jpk.drawJetpack(0.01, 0, anim_value);
+			jpk->drawJetpack(0.01, 0, anim_value);
 			anim_value += 0.001;
 		}
 		else if (!anim_flag && anim_value > 0) {
-			Jpk.drawJetpack(0.01, 0, anim_value);
+			jpk->drawJetpack(0.01, 0, anim_value);
 			anim_value -= 0.001;
 		}
 		else {
-			Jpk.drawJetpack(0.01, 0, anim_value);
+			jpk->drawJetpack(0.01, 0, anim_value);
 		}
 
 		waves_time += 0.005;

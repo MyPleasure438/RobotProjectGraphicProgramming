@@ -5,7 +5,6 @@ ExperimentationStation Es;
 GLUquadricObj* rocket = gluNewQuadric();
 GLUquadricObj* fire = gluNewQuadric();
 
-float transitionX = 0;
 bool jp_anim_flag = false;
 static bool isKey9Pressed = false;
 
@@ -49,27 +48,24 @@ void Jetpack::jetpackInput() {
 	LPDIRECTINPUTDEVICE8 dInputKeyboardDevice = inputManager.getDInputKeyboardDevice();
 	HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
 	if (diKeys[DIK_9] & 0x80) {
-		// Only execute if the key was NOT pressed in the previous frame
 		if (!isKey9Pressed) {
-			jp_anim_flag = !jp_anim_flag; // Simple toggle
-			isKey9Pressed = true;         // Lock it so it doesn't run again next frame
+			jp_anim_flag = !jp_anim_flag; 
+			isKey9Pressed = true;         
 		}
 	}
 	else {
-		// Key released, unlock it so we can press it again later
 		isKey9Pressed = false;
 	}
 
 	if (diKeys[DIK_K] & 0x80) {
 		if (firepower < 1.0f) {
 			firepower += 0.01f;
-			std::cout << firepower;
-			std::cout << "It work" << std::endl;
 		}
 	}
 }
 
 void Jetpack::drawJetpack(float cx, float cy, float cz) {
+
 	if (jp_anim_flag) {
 		if (transitionX < 0.23) {
 			transitionX += 0.01;
@@ -91,12 +87,10 @@ void Jetpack::drawJetpack(float cx, float cy, float cz) {
 	glPushMatrix();
 
 		glTranslatef(transitionX, 0, -0.05);
-		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
-		std::cout << "Current fp" << firepower << std::endl;
+		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0, steel);
 		if (firepower >0) {
 			glTranslatef(0, 0, 0.3);
 			Es.drawCylinder(fire, 0.05, 0, firepower, 0,steel);
-			std::cout << "Test" << std::endl;
 		}
 		glPopMatrix();
 
