@@ -829,12 +829,6 @@ void LeftArm::deleteTextures()
     glDeleteTextures(1, &texture);
     glDeleteTextures(1, &metal);
 }
-/*
-void LeftArm::drawBridge()
-{  
-    drawC
-}
-*/
 
 void LeftArm::drawMissle()
 {

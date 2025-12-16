@@ -9,6 +9,7 @@
 #include "InputManager.h"
 
 #include "LeftArm.h"
+#include "Head.h"
 #include "ExperimentationStation.h"
 #pragma comment (lib, "OpenGL32.lib")
 
@@ -29,6 +30,7 @@ enum RobotDisplayParts
 
 //Global object initialization
 LeftArm leftArm;
+Head head;
 ExperimentationStation experimentationStation;
 
 
@@ -357,9 +359,12 @@ void Display(int QuestionsToRender)
 		//experimentationStation.shadeModel();
 		//experimentationStation.lightingTestCube();
 		//experimentationStation.lightingTestPyramidAndSphere();
-		leftArm.updateInput();
-		leftArm.draw2();
+		//leftArm.updateInput();
+		//leftArm.draw2();
 		//leftArm.draw();
+		head.updateInput();
+		head.draw2();
+		
 		//drawCube();
 		break;
 	}
