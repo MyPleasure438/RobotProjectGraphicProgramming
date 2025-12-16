@@ -15,7 +15,7 @@ class Jetpack : public RobotPart
 {
 private:
 	float transitionX;
-	float firepower;
+	float firepower = 0.1;
 
 	BITMAP BMP;
 	HBITMAP hBMP;

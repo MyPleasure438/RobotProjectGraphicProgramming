@@ -6,8 +6,8 @@ GLUquadricObj* rocket = gluNewQuadric();
 GLUquadricObj* fire = gluNewQuadric();
 
 float transitionX = 0;
-float firepower = 0;
 bool jp_anim_flag = false;
+static bool isKey9Pressed = false;
 
 BITMAP BMP;
 HBITMAP hBMP = NULL;
@@ -49,23 +49,38 @@ void Jetpack::jetpackInput() {
 	LPDIRECTINPUTDEVICE8 dInputKeyboardDevice = inputManager.getDInputKeyboardDevice();
 	HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
 	if (diKeys[DIK_9] & 0x80) {
-		if (!jp_anim_flag) {
-			jp_anim_flag = true;
-		}
-		else {
-			jp_anim_flag = false;
-			firepower = 0;
+		// Only execute if the key was NOT pressed in the previous frame
+		if (!isKey9Pressed) {
+			jp_anim_flag = !jp_anim_flag; // Simple toggle
+			isKey9Pressed = true;         // Lock it so it doesn't run again next frame
 		}
 	}
+	else {
+		// Key released, unlock it so we can press it again later
+		isKey9Pressed = false;
+	}
+
 	if (diKeys[DIK_K] & 0x80) {
-		if (firepower < 1) {
-			firepower += 0.01;
+		if (firepower < 1.0f) {
+			firepower += 0.01f;
 			std::cout << firepower;
+			std::cout << "It work" << std::endl;
 		}
 	}
 }
 
 void Jetpack::drawJetpack(float cx, float cy, float cz) {
+	if (jp_anim_flag) {
+		if (transitionX < 0.23) {
+			transitionX += 0.01;
+		}
+	}
+	else {
+		if (transitionX > 0) {
+			transitionX -= 0.01;
+		}
+	}
+
 	glPushMatrix();
 	glTranslatef(cx, cy, cz);
 	Es.drawCuboid(0.35, 0.3, 0.2, 0, 0, 0, 0, 1, 1,metal);
@@ -73,54 +88,26 @@ void Jetpack::drawJetpack(float cx, float cy, float cz) {
 	glPushMatrix();
 	glColor3f(1, 0, 0);
 	glRotatef(90, 1.0, 0, 0);
+	glPushMatrix();
 
-		if (jp_anim_flag && transitionX <= 0.23) {
-			glPushMatrix();
-			glTranslatef(transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
-			glTranslatef(0, 0, 0.1);
-			Es.drawCylinder(fire, 0.05, 0, firepower, 0, steel);
-			glPopMatrix();
-
-			glPushMatrix();
-			glTranslatef(-transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
-			glTranslatef(0, 0, 0.1);
-			Es.drawCylinder(fire, 0.05, 0, firepower, 0, steel);
-			glPopMatrix();
-			transitionX += 0.01;
-		}
-		else if (!jp_anim_flag && transitionX > 0) {
-			glPushMatrix();
-			glTranslatef(transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
-			glTranslatef(0, 0, 0.1);
-			Es.drawCylinder(fire, 0.05, 0, firepower, 0, steel);
-			glPopMatrix();
-
-			glPushMatrix();
-			glTranslatef(-transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
-			glTranslatef(0, 0, 0.1);
-			Es.drawCylinder(fire, 0.05, 0, firepower, 0, steel);
-			glPopMatrix();
-			transitionX -= 0.01;
-		}
-		else {
-			glPushMatrix();
-			glTranslatef(transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
-			glTranslatef(0, 0, 0.1);
+		glTranslatef(transitionX, 0, -0.05);
+		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
+		std::cout << "Current fp" << firepower << std::endl;
+		if (firepower >0) {
+			glTranslatef(0, 0, 0.3);
 			Es.drawCylinder(fire, 0.05, 0, firepower, 0,steel);
-			glPopMatrix();
-
-			glPushMatrix();
-			glTranslatef(-transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,metal);
-			glTranslatef(0, 0, 0.1);
-			Es.drawCylinder(fire, 0.05, 0, firepower, 0,metal);
-			glPopMatrix();
+			std::cout << "Test" << std::endl;
 		}
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(-transitionX, 0, -0.05);
+		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
+		if (firepower >0) {
+			glTranslatef(0, 0, 0.3);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0,steel);
+		}
+		glPopMatrix();
 	glPopMatrix();
 	glPopMatrix();
 } 
