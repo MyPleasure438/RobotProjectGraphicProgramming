@@ -25,6 +25,5 @@ public:
 	void clearTexture();
 	void jetpackInput();
 	void drawJetpack(float cx, float cy, float cz);
-
 };
 

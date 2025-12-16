@@ -38,6 +38,5 @@ public:
 	void drawScales(float cx,float cy, float cz,float facingR, float offset);
 	void drawEnergyStone(float cx, float cy,float cz);
 	void animation();
-
 };
 

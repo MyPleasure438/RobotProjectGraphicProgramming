@@ -3,6 +3,7 @@
 ExperimentationStation ES;
 
 GLUquadricObj* ERStone = gluNewQuadric();
+
 float time_value = 0.0f;
 float waves_time = 0.0f;
 float anim_value = 0.0f;
@@ -200,7 +201,6 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 
 		waves_time += 0.005;
 
-		
 		//----------------------------------------------------------------------
 		drawEnergyStone(0.0, 0.1, -0.25);
 
@@ -209,6 +209,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 
 void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset) {
 	float swing = (sin(waves_time+ offset) + 1.0f) * 7.5f;
+
 	glPushMatrix();
 	glTranslatef(cx, cy, cz);
 	glTranslatef(0, -0.05, 0);
