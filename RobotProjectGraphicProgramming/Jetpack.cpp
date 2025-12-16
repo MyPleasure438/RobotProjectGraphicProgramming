@@ -79,12 +79,14 @@ void Jetpack::drawJetpack(float cx, float cy, float cz) {
 			glTranslatef(transitionX, 0, -0.05);
 			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
 			glTranslatef(0, 0, 0.1);
-			Es.drawCylinder(fire, 0.05, 0, firepower, 0, metal);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0, steel);
 			glPopMatrix();
 
 			glPushMatrix();
 			glTranslatef(-transitionX, 0, -0.05);
 			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
+			glTranslatef(0, 0, 0.1);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0, steel);
 			glPopMatrix();
 			transitionX += 0.01;
 		}
@@ -92,11 +94,15 @@ void Jetpack::drawJetpack(float cx, float cy, float cz) {
 			glPushMatrix();
 			glTranslatef(transitionX, 0, -0.05);
 			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
+			glTranslatef(0, 0, 0.1);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0, steel);
 			glPopMatrix();
 
 			glPushMatrix();
 			glTranslatef(-transitionX, 0, -0.05);
 			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,steel);
+			glTranslatef(0, 0, 0.1);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0, steel);
 			glPopMatrix();
 			transitionX -= 0.01;
 		}
