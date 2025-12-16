@@ -29,7 +29,8 @@ private:
 	float BodyTranslateZ;
 
 	float time_value;
-	float waves_value;
+	float waves_time;
+	float anim_value;
 
 public:
 	

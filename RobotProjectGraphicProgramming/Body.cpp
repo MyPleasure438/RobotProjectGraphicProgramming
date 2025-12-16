@@ -4,9 +4,6 @@ ExperimentationStation ES;
 
 GLUquadricObj* ERStone = gluNewQuadric();
 
-float time_value = 0.0f;
-float waves_time = 0.0f;
-float anim_value = 0.0f;
 bool anim_flag = false;
 static bool isAnim_flag = false;
 
@@ -101,6 +98,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 	glRotatef(BodyRotateZ, 0.0f, 0.0f, 1.0f);
 		
 		glColor3f(1.0, 1.0, 1.0);
+		glNormal3f(0, 0, 1);
 		glBegin(GL_QUADS); //back
 		glVertex3f(-0.3, 0.4, 0.2);
 		glVertex3f(-0.3, -0.4, 0.2);
@@ -109,6 +107,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glEnd();
 
 		glColor3f(1.0, 0, 0);
+		glNormal3f(-0.1, 0, 0);
 		glBegin(GL_POLYGON); //left
 		glVertex3f(-0.3, 0.4, -0.2);
 		glVertex3f(-0.3, 0.1, -0.3);
@@ -118,6 +117,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glEnd();
 
 		glColor3f(0, 1, 0);
+		glNormal3f(0.0f, 0.316f, 0.948f);
 		glBegin(GL_QUADS);
 		glVertex3f(-0.3, 0.4, -0.2);
 		glVertex3f(-0.3, 0.1, -0.3);
@@ -126,6 +126,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glEnd();
 
 		glColor3f(0, 0, 0);
+		glNormal3f(0.0f, -0.196f, 0.980f);
 		glBegin(GL_QUADS);
 		glVertex3f(-0.3, 0.1, -0.3);
 		glVertex3f(-0.3, -0.4, -0.2);
@@ -134,6 +135,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glEnd();
 
 		glColor3f(0, 0, 1.0);
+		glNormal3f(1, 0, 0);
 		glBegin(GL_POLYGON);//right
 		glVertex3f(0.3, 0.4, -0.2);
 		glVertex3f(0.3, 0.1, -0.3);
@@ -143,6 +145,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glEnd();
 
 		glColor3f(1, 0, 1);
+		glNormal3f(0, 1, 0);
 		glBegin(GL_QUADS);//top
 		glVertex3f(-0.3, 0.4, -0.2);
 		glVertex3f(-0.3, 0.4, 0.2);
@@ -151,6 +154,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glEnd();
 
 		glColor3f(0, 1, 1);
+		glNormal3f(0, -1, 0);
 		glBegin(GL_QUADS);//bottom
 		glVertex3f(-0.3, -0.4, -0.2);
 		glVertex3f(-0.3, -0.4, 0.2);
@@ -209,7 +213,6 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 
 void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset) {
 	float swing = (sin(waves_time+ offset) + 1.0f) * 7.5f;
-
 	glPushMatrix();
 	glTranslatef(cx, cy, cz);
 	glTranslatef(0, -0.05, 0);
@@ -217,6 +220,7 @@ void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset
 	glRotatef(-swing, 1.0, 0, 0);
 	
 	glColor3f(0.5, 0.5, 0.5);
+	glNormal3f(0, 0, 1);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.01,0,0);
 	glVertex3f(-0.01, -0.05, 0);
