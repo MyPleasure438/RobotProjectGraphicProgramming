@@ -55,7 +55,7 @@ enum ProjectionMode
 	Orthographic = 0,
 	Perspective = 1
 };
-int projectionMode = Orthographic;
+int projectionMode = Perspective;
 void orthographicProjection();
 void perspectiveProjection();
 void drawLightBulb();
@@ -449,6 +449,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	//texture initialization
 	experimentationStation.loadTextures();
+	jpk.initTexture();
 	//texture loading
 	/*
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -501,6 +502,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	//Delete texture after closes window
 	experimentationStation.deleteTextures();
+	jpk.clearTexture();
 	UnregisterClass(WINDOW_TITLE, wc.hInstance);
 
 	return true;

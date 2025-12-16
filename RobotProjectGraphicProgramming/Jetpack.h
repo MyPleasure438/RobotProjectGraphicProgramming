@@ -17,7 +17,13 @@ private:
 	float transitionX;
 	float firepower;
 
+	BITMAP BMP;
+	HBITMAP hBMP;
+	GLuint steelTex;
+
 public:
+	void initTexture();
+	void clearTexture();
 	void jetpackInput();
 	void drawJetpack(float cx, float cy, float cz);
 
