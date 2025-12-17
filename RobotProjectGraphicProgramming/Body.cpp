@@ -19,10 +19,22 @@ void Body::initBodyTexture() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+	hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL),
+		"finsTex.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION |
+		LR_LOADFROMFILE);
+	GetObject(hBMP, sizeof(BMP), &BMP);
+	glEnable(GL_TEXTURE_2D);
+	glGenTextures(1, &finsTex);
+	glBindTexture(GL_TEXTURE_2D, finsTex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
 }
 
 void Body::clearBodyTexture() {
 	glDeleteTextures(1, &bodyTex);
+	glDeleteTextures(1, &finsTex);
 }
 
 void Body::updateInput() {
@@ -123,7 +135,6 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glVertex3f(0.3, 0.4, 0.2);
 		glEnd();
 
-		glColor3f(1.0, 0, 0);
 		glNormal3f(-1, 0, 0);
 		glBegin(GL_POLYGON); //left
 		glVertex3f(-0.3, 0.4, -0.2);
@@ -133,8 +144,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glVertex3f(-0.3, 0.4, 0.2);
 		glEnd();
 
-		glColor3f(0, 1, 0);
-		glNormal3f(0.0f, 0.316f, 0.948f);
+		glNormal3f(0.0f, 0.316f, -0.948f);
 		glBegin(GL_QUADS);
 		glVertex3f(-0.3, 0.4, -0.2);
 		glVertex3f(-0.3, 0.1, -0.3);
@@ -142,8 +152,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glVertex3f(0.3, 0.4, -0.2);
 		glEnd();
 
-		glColor3f(0, 0, 0);
-		glNormal3f(0.0f, -0.196f, 0.980f);
+		glNormal3f(0.0f, -0.196f, -0.980f);
 		glBegin(GL_QUADS);
 		glVertex3f(-0.3, 0.1, -0.3);
 		glVertex3f(-0.3, -0.4, -0.2);
@@ -151,7 +160,6 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glVertex3f(0.3, 0.1, -0.3);
 		glEnd();
 
-		glColor3f(0, 0, 1.0);
 		glNormal3f(1, 0, 0);
 		glBegin(GL_POLYGON);//right
 		glVertex3f(0.3, 0.4, -0.2);
@@ -161,7 +169,6 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glVertex3f(0.3, 0.4, 0.2);
 		glEnd();
 
-		glColor3f(1, 0, 1);
 		glNormal3f(0, 1, 0);
 		glBegin(GL_QUADS);//top
 		glVertex3f(-0.3, 0.4, -0.2);
@@ -170,7 +177,6 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glVertex3f(0.3, 0.4, -0.2);
 		glEnd();
 
-		glColor3f(0, 1, 1);
 		glNormal3f(0, -1, 0);
 		glBegin(GL_QUADS);//bottom
 		glVertex3f(-0.3, -0.4, -0.2);
@@ -206,7 +212,6 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 				}
 			}
 		}
-		
 
 		if (anim_flag && anim_value <0.31){
 			jpk->drawJetpack(0.01, 0, anim_value);
@@ -235,8 +240,8 @@ void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset
 	glTranslatef(0, -0.05, 0);
 	glRotatef(facingR, 0, 1.0, 0);
 	glRotatef(-swing, 1.0, 0, 0);
-	
-	glColor3f(0.5, 0.5, 0.5);
+
+	glBindTexture(GL_TEXTURE_2D, finsTex);
 	glNormal3f(0, 0, 1);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.01,0,0);

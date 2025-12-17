@@ -79,7 +79,7 @@ float diffuseLightPositionY = 1.0f;
 float diffuseLightPositionZ = 0.0f;
 
 GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f };
-GLfloat diffuseLight[] = { 1.0f, 1.0f, 1.0f };
+GLfloat diffuseLight[] = { 0.9f, 0.9f, 0.9f };
 GLfloat diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ, 1.0f };
 
 GLUquadricObj* quadLightBulb = NULL;
@@ -551,12 +551,12 @@ void drawLightBulb()
 	// f) delete quadric (free memory)
 	gluDeleteQuadric(quadLightBulb);
 
-	printf("diffuseLightPosition = { %.2f, %.2f, %.2f, %.2f }\n",
-		diffuseLightPosition[0],
-		diffuseLightPosition[1],
-		diffuseLightPosition[2],
-		diffuseLightPosition[3]
-	);
+	//printf("diffuseLightPosition = { %.2f, %.2f, %.2f, %.2f }\n",
+	//	diffuseLightPosition[0],
+	//	diffuseLightPosition[1],
+	//	diffuseLightPosition[2],
+	//	diffuseLightPosition[3]
+	//);
 }
 
 void drawCube()

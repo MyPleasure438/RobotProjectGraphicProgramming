@@ -35,6 +35,7 @@ private:
 	BITMAP BMP;
 	HBITMAP hBMP;
 	GLuint bodyTex = 0;
+	GLuint finsTex = 0;
 
 public:
 	
