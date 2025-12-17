@@ -5,7 +5,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <cstdio>
-
+#include <iostream>
 #include <cmath>
 #pragma comment (lib, "OpenGL32.lib")
 #pragma comment (lib, "GLU32.lib")
@@ -81,6 +81,18 @@ private:
 	//Load Texture///
 	GLuint texture = 0;
 	GLuint metal = 0;
+	GLuint camouflageWhite = 0;
+	GLuint energyPulse = 0;
+	GLuint minigunCover = 0;
+	GLuint minigunCylinder = 0;
+	GLuint blackMetalic = 0;
+	GLuint glass = 0;
+	GLuint whitePattern = 0;
+	GLuint white = 0;
+	GLuint wristPattern = 0;
+	GLuint deadlyPattern = 0;
+	GLuint blackGlossy = 0;
+	GLuint fire = 0;
 	BITMAP BMP;
 	HBITMAP hBMP = NULL;
 
