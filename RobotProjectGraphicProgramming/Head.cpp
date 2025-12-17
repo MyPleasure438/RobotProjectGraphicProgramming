@@ -19,7 +19,6 @@ void Head::updateInput() {
     HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
     if (diKeys[DIK_W] & 0x80) {
         RobotEntireArm_TranslationY = RobotEntireArm_TranslationY + 0.5f;
-        
     }
 
     if (diKeys[DIK_S] & 0x80) {
@@ -445,13 +444,13 @@ void Head::drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float topR
         break;
 
     case POINT:
-        gluQuadricDrawStyle(quad, GLU_POINT);   // wireframe sphere
+        gluQuadricDrawStyle(quad, GLU_POINT);   // wireframe sphere 
         break;
     }
-    drawCircle(baseRadius, NULL);
+    drawCircle(baseRadius, texture);
     glPushMatrix();
-        glTranslatef(0.0f, 0.0f, height);
-		drawCircle(topRadius, NULL);
+    glTranslatef(0.0f, 0.0f, height);
+    drawCircle(topRadius, texture);
     glPopMatrix();
     // c) draw sphere at origin
     gluCylinder(quad,
@@ -795,12 +794,149 @@ void Head::loadTextures()
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
 
-    
-    //glMatrixMode(GL_TEXTURE);
-    //glLoadIdentity();
-    //glScalef(30.0, 20.0, 1.0);
+    //camouflageWhite texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "camouflageWhite.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
 
-    glMatrixMode(GL_MODELVIEW);
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &camouflageWhite);
+    glBindTexture(GL_TEXTURE_2D, camouflageWhite);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //energyPulse texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "energyPulse.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &energyPulse);
+    glBindTexture(GL_TEXTURE_2D, energyPulse);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //minigunCover texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "minigunCover.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &minigunCover);
+    glBindTexture(GL_TEXTURE_2D, minigunCover);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //minigunCylinder texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "minigunCylinder.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &minigunCylinder);
+    glBindTexture(GL_TEXTURE_2D, minigunCylinder);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //blackMetalic texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "blackMetalic.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &blackMetalic);
+    glBindTexture(GL_TEXTURE_2D, blackMetalic);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //glass texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "glass.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &glass);
+    glBindTexture(GL_TEXTURE_2D, glass);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //whitePattern texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "whitePattern.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &whitePattern);
+    glBindTexture(GL_TEXTURE_2D, whitePattern);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //white texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "white.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &white);
+    glBindTexture(GL_TEXTURE_2D, white);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //wristPattern texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "wristPattern.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &wristPattern);
+    glBindTexture(GL_TEXTURE_2D, wristPattern);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //deadlyPattern texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "deadlyPattern.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &deadlyPattern);
+    glBindTexture(GL_TEXTURE_2D, deadlyPattern);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //blackGlossy texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "blackGlossy.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &blackGlossy);
+    glBindTexture(GL_TEXTURE_2D, blackGlossy);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //fire texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "fire.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &fire);
+    glBindTexture(GL_TEXTURE_2D, fire);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
 }
 
 void Head::beginScaleTexture(float scaleX, float scaleY)
@@ -1006,440 +1142,7 @@ void Head::drawRocketLauncher()
 }
 
 void Head::draw() {
-    /*drawJointMarker();
-    glRasterPos3f(0, 0, 1);
-    sprintf_s(buf, "Ori coordinate (%.1f %.1f %.1f)", 0.0, 0.0, 0.0);
-    drawText3D(buf);
-    */
-    //points for references
-    glPushMatrix();
-        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
-        drawJointMarker();
-        glRasterPos3f(0, 0, 1);
-        sprintf_s(buf, "Shoulder (%.1f %.1f %.1f)", shoulder.x, shoulder.y, shoulder.z);
-        drawText3D(buf);
-    glPopMatrix();
-    
-    glPushMatrix();
-        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
-        glTranslatef(elbowOffsetFromShoulder.x, elbowOffsetFromShoulder.y, elbowOffsetFromShoulder.z);
-        drawJointMarker();
-        glRasterPos3f(0.0f, 1.5f, 3.0f); // slightly above joint
-        sprintf_s(buf, "Elbow (%.1f, %.1f, %.1f)", shoulder.x + elbowOffsetFromShoulder.x , shoulder.y + elbowOffsetFromShoulder.y, shoulder.z + elbowOffsetFromShoulder.z);
-        drawText3D(buf);
-    glPopMatrix();
-
-    
-
-    glPushMatrix();
-        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
-        glTranslatef(elbowOffsetFromShoulder.x, elbowOffsetFromShoulder.y, elbowOffsetFromShoulder.z);
-        glTranslatef(wristOffsetFromElbow.x, wristOffsetFromElbow.y, wristOffsetFromElbow.z);
-        drawJointMarker();
-        glRasterPos3f(0.0f, 1.5f, 3.0f); // slightly above joint
-        sprintf_s(buf, "Wrist (%.1f, %.1f, %.1f)", shoulder.x + elbowOffsetFromShoulder.x + wristOffsetFromElbow.x, shoulder.y + elbowOffsetFromShoulder.y + wristOffsetFromElbow.y, shoulder.z + elbowOffsetFromShoulder.z + wristOffsetFromElbow.z);
-        drawText3D(buf);
-    glPopMatrix();
-
-    //New Arm
-    glPushMatrix();
-        glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
-        glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-        glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);       
-        glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-    
-        glPushMatrix();
-	        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
-            glColor3f(0.2, 0.2, 0.2);
-			drawSphere(varSphere, 1.0f, 100, 100, NULL);
-
-            glColor3f(0.0f, 1.0f, 0.0f);
-
-            
-            //small connecting nerve
-            glPushMatrix();
-                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                glColor3f(0.7, 0.7, 0.7);
-			    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, NULL);
-            glPopMatrix();
-            //Large connecting nerve
-            glPushMatrix();
-                glTranslatef(0.0f, -1.0f, 0.0f);
-                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, NULL);
-            glPopMatrix();
-                
-            //upper arm cover cap
-            glPushMatrix();
-                glTranslatef(0.0f, -1.5f, 0.0f);
-                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                glColor3f(0.2, 0.2, 0.2);
-                drawCircle(1.7f, NULL);
-            glPopMatrix();
-            
-            //upper arm
-            glPushMatrix();
-                glColor3f(0.7, 0.7, 0.7);
-                glTranslatef(0.0f, -1.5f, 0.0f);
-                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 1.7f, 1.3f, 6.0f, FILL, NULL);  
-            glPopMatrix();
-
-            //energy pulse / shield 1
-
-            glPushMatrix();
-                glColor3f(0.0f, 0.6f, 1.0f);
-                glTranslatef(0.0f, -3.0f, 0.0f);
-                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinderAlongCurve(0, 360, 1.5f, 1.5f, 0.5f, FILL, NULL);
-            glPopMatrix();
-
-            //5 spheres on upper arm 1
-            glPushMatrix();
-                glTranslatef(0.0f, -3.0f, 0.0f);
-                for (float angle = 20; angle <= 450; angle = angle + 72) {
-                    glPushMatrix();
-                        float convertToRadian = angle * 3.14159 / 180.0;
-                        glRotatef(angle, 0.0f, 1.0f, 0.0f);
-                        glTranslatef(2.4f, 0.0f, 0.0f);
-                        drawSphere(quad, 0.5f, 30, 30, NULL);
-                    glPopMatrix();
-                }
-                //glColor3f(0.0f, 0.30f, 0.50f);
-                //glTranslatef(0.0f, -6.5f, 0.0f);
-                //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                //drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
-            glPopMatrix();
-
-            //energy pulse / shield 2
-
-            glPushMatrix();
-                glColor3f(0.0f, 0.45f, 0.75f);
-                glTranslatef(0.0f, -4.75f, 0.0f);
-                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
-            glPopMatrix();
-
-            //4 spheres on upper arm 2
-            glPushMatrix();
-                glTranslatef(0.0f, -4.75f, 0.0f);
-                for (float angle = 90; angle <= 450; angle = angle + 90) {
-                    glPushMatrix();
-                        float convertToRadian = angle * 3.14159 / 180.0;
-                        glRotatef(angle, 0.0f, 1.0f, 0.0f);
-                        glTranslatef(2.4f, 0.0f, 0.0f);
-                        drawSphere(quad, 0.5f, 30, 30, NULL);
-                    glPopMatrix();
-                }
-                //glColor3f(0.0f, 0.30f, 0.50f);
-                //glTranslatef(0.0f, -6.5f, 0.0f);
-                //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                //drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
-            glPopMatrix();
-
-
-            //energy pulse / shield 3
-
-            glPushMatrix();
-                glColor3f(0.0f, 0.30f, 0.50f);
-                glTranslatef(0.0f, -6.5f, 0.0f);
-                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
-            glPopMatrix();
-
-            //3 spheres on upper arm 3
-            glPushMatrix();
-                glTranslatef(0.0f, -6.5f, 0.0f);
-                for (float angle = 90; angle <= 330; angle = angle + 120) {
-                    glPushMatrix();
-                        float convertToRadian = angle * 3.14159 / 180.0;
-                        glRotatef(angle, 0.0f, 1.0f, 0.0f);
-                        glTranslatef(2.4f, 0.0f, 0.0f);
-                        drawSphere(quad, 0.5f, 30, 30, NULL);
-                    glPopMatrix();
-                }
-                //glColor3f(0.0f, 0.30f, 0.50f);
-                //glTranslatef(0.0f, -6.5f, 0.0f);
-                //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                //drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
-            glPopMatrix();
-
-
-            //Small connecting nerve to elbow
-            glPushMatrix();
-                glColor3f(0.0f, 0.15f, 0.25f);
-                glTranslatef(0.0f, -7.5f, 0.0f);
-                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, NULL);
-            glPopMatrix();
-
-            //elbow joint
-            glPushMatrix();
-                glTranslatef(elbowOffsetFromShoulder.x, elbowOffsetFromShoulder.y, elbowOffsetFromShoulder.z);
-                glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-                glRotatef(RobotElbow_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-                glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-                glPushMatrix();
-                    glColor3f(0.2, 0.2, 0.2);
-                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-				    drawSphere(varSphere, 1.0f, 100, 100, NULL);
-                glPopMatrix();
-                
-                
-
-                //Minigun
-                glPushMatrix();
-                    glTranslatef(0.0f, -1.6f, -3.7f);
-                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    glScalef(0.5f, 0.5f, 1.0f);
-                    glPushMatrix();
-                        glColor3f(0.0f, 0.0f, 0.0f);
-                        glTranslatef(0.0f, 0.0f, 0.0f);
-                        drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 12.0f, FILL, NULL);
-                    glPopMatrix();
-
-                    glColor3f(0.0f, 0.0f, 0.0f);
-                    for (float angle = 0; angle <= 360; angle = angle + 60) {
-                        glPushMatrix();
-                            float convertToRadian = angle * 3.14159 / 180.0;
-                            glTranslatef(sin(convertToRadian) * 2.6f, cos(convertToRadian) * 2.6f, 0);
-                            drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 12.0f, FILL, NULL);
-                        glPopMatrix();
-                        //glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
-                    }
-                    //minigun cover
-                    glPushMatrix();
-                        glColor3f(1.0f, 1.0f, 1.0f);
-                        glTranslatef(0.0f, 0.0f, -0.1f);
-                        drawCylinderWithCap(varCylinder, 4.0f, 4.0f, 2.0f, FILL, NULL);
-                        glPushMatrix();
-                            glTranslatef(0.0f, 0.0f, 4.0f);
-                            drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
-                            glPushMatrix();
-                                glTranslatef(0.0f, 0.0f, 4.0f);
-                                drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
-                                glPushMatrix();
-                                    glTranslatef(0.0f, 0.0f, 2.0f);
-                                    drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
-                                glPopMatrix();
-                            glPopMatrix();
-                        glPopMatrix();
-                    glPopMatrix();
-                glPopMatrix();
-
-                //rocket launcher
-                glPushMatrix();
-                    glTranslatef(0.0f, 0.0f, 3.0f);
-                    drawRocketLauncher();
-                glPopMatrix();
-                //elbow joint small connecting nerve
-                glPushMatrix();
-                    glTranslatef(0.0f, 0.0f, 0.0f);
-				    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    glColor3f(0.7, 0.7, 0.7);
-                    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, NULL);
-                glPopMatrix();
-                //elbow joint large connecting nerve
-                glPushMatrix();
-                    glTranslatef(0.0f, -1.0f, 0.0f);
-                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, NULL);
-                glPopMatrix();
-
-                // lowerarm cover cap
-                glPushMatrix();
-                    glTranslatef(0.0f, -1.5f, 0.0f);
-                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    glColor3f(0.2, 0.2, 0.2);
-                    drawCircle(1.7f, NULL);
-                glPopMatrix();
-
-                //lower arm
-                glPushMatrix();
-                    glTranslatef(0.0f, -1.5f, 0.0f);
-                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    glColor3f(0.7, 0.7, 0.7);
-                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL, NULL);
-                glPopMatrix();
-
-                // lowerarm bottom cover cap
-                glPushMatrix();
-                    glTranslatef(0.0f, -7.5f, 0.0f);
-                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    glColor3f(0.2, 0.2, 0.2);
-                    drawCircle(1.5f, NULL);
-                glPopMatrix();
-                
-				//Small connecting nerve to wrist
-                glPushMatrix();
-                    glTranslatef(0.0f, -7.5f, 0.0f);
-                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, NULL);
-                glPopMatrix();
-
-
-				//wrist joint
-                glPushMatrix();
-                    glTranslatef(wristOffsetFromElbow.x, wristOffsetFromElbow.y, wristOffsetFromElbow.z);
-                    glRotatef(RobotWrist_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-                    glRotatef(RobotWrist_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-                    glRotatef(RobotWrist_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-                    
-
-                    glPushMatrix();
-                        glTranslatef(0.0f, -1.0f, 0.0f);
-                        glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                        drawCylinder(varCylinder, 0.5f, 0.7f, 0.3f, FILL, NULL);
-                    glPopMatrix();
-                    glPushMatrix();
-                        glTranslatef(0.0f, -1.3f, 0.0f);
-                        drawCuboid(3.4f, 3.8f, 1.4f, 0.0f, -1.9f, 0.0f, 1.0f, 1.0f, 1.0f, NULL);
-                        //drawSphere(varSphere, 1.0f, 100, 100
-                    
-                    glPopMatrix();
-                    //thumb finger
-                    glPushMatrix();
-                        glTranslatef(-1.0f, -3.6f, 0.0f);
-                        glRotatef(300.0f, 0.0f, 0.0f, 1.0f);
-                        glPushMatrix();
-                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.6f, 0.3f, 1.6f, FILL, NULL);
-                        glPopMatrix();
-
-                        glPushMatrix();
-                            glTranslatef(0.0f, -1.2f, 0.0f);
-                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.3f, 0.2f, 1.4f, FILL, NULL);
-
-							//for cylinder cap, supposingly is y axis negative offset, but because of rotation it becomes z axis positive
-                            glTranslatef(0.0f, 0.0f, 1.4f);
-                            glColor3f(0.0f, 0.0f, 0.0f);
-                            drawCircle(0.2f, NULL);
-                        glPopMatrix();
-                    glPopMatrix();
-                  
-
-                    //four fingers
-                    glPushMatrix();
-                        //fingers rotate transformation if needed
-                        /*
-                        glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-                        glRotatef(RobotElbow_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-                        glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-                        */
-					    glTranslatef(finger1OffsetFromWrist.x, finger1OffsetFromWrist.y, finger1OffsetFromWrist.z);
-                        glPushMatrix();
-                            glRotatef(90.0f, 1.0f, 0.0f , 0.0f);
-                            glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
-                        glPopMatrix();
-                        glPushMatrix();
-                            glTranslatef(fingerMiddleJoint1OffsetFromFinger.x, fingerMiddleJoint1OffsetFromFinger.y, fingerMiddleJoint1OffsetFromFinger.z);
-                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-							drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
-                            glPushMatrix();
-							//supposingly is y axis negative offset, but because of rotation it becomes z axis
-                                glTranslatef(0.0f, 0.0f, 1.6f);
-                                glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
-                            glPopMatrix();
-                        glPopMatrix();
-                    glPopMatrix();
-                    glPushMatrix();
-                        glTranslatef(finger2OffsetFromWrist.x, finger2OffsetFromWrist.y, finger2OffsetFromWrist.z);
-                        glPushMatrix();
-                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
-                        glPopMatrix();
-                        glPushMatrix();
-                            glTranslatef(fingerMiddleJoint2OffsetFromFinger.x, fingerMiddleJoint2OffsetFromFinger.y, fingerMiddleJoint2OffsetFromFinger.z);
-                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
-                            glPushMatrix();
-							//supposingly is y axis negative offset, but because of rotation it becomes z axis
-                                glTranslatef(0.0f, 0.0f, 1.6f);
-                                glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
-                            glPopMatrix();
-                        glPopMatrix();
-                    glPopMatrix();
-                    glPushMatrix();
-                        glTranslatef(finger3OffsetFromWrist.x, finger3OffsetFromWrist.y, finger3OffsetFromWrist.z);
-                        glPushMatrix();
-                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
-                        glPopMatrix();
-                        glPushMatrix();
-                            glTranslatef(fingerMiddleJoint3OffsetFromFinger.x, fingerMiddleJoint3OffsetFromFinger.y, fingerMiddleJoint3OffsetFromFinger.z);
-                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
-                            glPushMatrix();
-							//supposingly is y axis negative offset, but because of rotation it becomes z axis
-                                glTranslatef(0.0f, 0.0f, 1.6f);
-                                glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
-                            glPopMatrix();
-                        glPopMatrix();
-                    glPopMatrix();
-                    glPushMatrix();
-                        glTranslatef(finger4OffsetFromWrist.x, finger4OffsetFromWrist.y, finger4OffsetFromWrist.z);
-                        glPushMatrix();
-                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
-                        glPopMatrix();
-                        glPushMatrix();
-                            glTranslatef(fingerMiddleJoint4OffsetFromFinger.x, fingerMiddleJoint4OffsetFromFinger.y, fingerMiddleJoint4OffsetFromFinger.z);
-                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
-                            glPushMatrix();
-							//supposingly is y axis negative offset, but because of rotation it becomes z axis
-                                glTranslatef(0.0f, 0.0f, 1.6f);
-                                glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
-                            glPopMatrix();
-                        glPopMatrix();
-                    glPopMatrix();
-                glPopMatrix();
-            glPopMatrix();
-        glPopMatrix();
-    glPopMatrix();
-    //glPushMatrix();
-
-    // 1. Move to arm position relative to body
-    //glTranslatef(x, y, z);
-
-    // 2. Apply rotation for shoulder joint
-    //glRotatef(jointAngle, 1.0f, 0.0f, 0.0f);
-
-    // 3. Apply base rotation if robot wants to rotate arm in more axes
-    //glRotatef(rx, 1, 0, 0);
-    //glRotatef(ry, 0, 1, 0);
-    //glRotatef(rz, 0, 0, 1);
-
-    // ------------ DRAW ARM GEOMETRY ----------------
-    // Upper arm
-    
-
-
-
-    //glPushMatrix();
-    //glScalef(thickness, length, thickness);
-    //glutSolidCube(1.0); // A cube stretched to make an arm
-    //glPopMatrix();
-
-    // Forearm (optional)
-    //glPushMatrix();
-    //glTranslatef(0.0f, -length * 0.9f, 0.0f);
-    //glScalef(thickness, length * 0.8f, thickness);
-    //glutSolidCube(1.0);
-    //glPopMatrix();
-
-    //glPopMatrix();
+   
 }
 
 void Head::draw2()
@@ -1450,42 +1153,42 @@ void Head::draw2()
         glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
         glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);       
         glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-    
+
         //first Head Joint
         glPushMatrix();
             glColor3f(0.0f, 0.0f, 0.0f);
-            drawSphere(varSphere, 1.0f, 30, 30, NULL);
+            drawSphere(varSphere, 1.0f, 30, 30, blackMetalic);
             glTranslatef(0.0f, -0.5f, 0.0f);
             //Cuboid Gun
             glPushMatrix();
                 glTranslatef(0.0f, 1.2f, 6.5f);
-                drawCuboid(4.0f, 5.0f, 10.0f, 0.0f, 2.5f, 0.0f, 0.8f, 0.8f, 0.8f, NULL);
+                drawCuboid(4.0f, 5.0f, 10.0f, 0.0f, 2.5f, 0.0f, 0.8f, 0.8f, 0.8f, camouflageWhite);
             glPopMatrix();
 
             //Cuboid Gun on Top
             glPushMatrix();
                 glTranslatef(0.0f, 5.0f, 10.0f);
-                drawCuboid(1.5f, 1.5f, 3.0f, 0.0f, 2.5f, 0.0f, 0.5f, 0.5f, 0.5f, NULL);
+                drawCuboid(1.5f, 1.5f, 3.0f, 0.0f, 2.5f, 0.0f, 0.5f, 0.5f, 0.5f, blackGlossy);
             glPopMatrix();
             
             //Cuboid Gun on Top down part
             glPushMatrix();
                 glTranslatef(0.0f, 4.0f, 6.5f);
-                drawCuboid(3.8f, 0.5f, 10.0f, 0.0f, 2.5f, 0.0f, 0.1f, 0.1f, 0.1f, NULL);
+                drawCuboid(3.8f, 0.5f, 10.0f, 0.0f, 2.5f, 0.0f, 0.1f, 0.1f, 0.1f, blackGlossy);
             glPopMatrix();
 
             //Cylindrical Top head gun part
             glPushMatrix();
                 glTranslatef(0.0f, 7.0f, 1.5f);
                 glColor3f(0.30f, 0.05f, 0.05f);
-                drawCylinderWithCap(varCylinder, 0.7f, 0.7f, 7.0f, FILL, NULL);
+                drawCylinderWithCap(varCylinder, 0.7f, 0.7f, 7.0f, FILL, blackGlossy);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders right long horizontal 1
             glPushMatrix();
                 glTranslatef(2.1f, 2.0f, 1.5f);
                 glColor3f(0.90f, 0.1f, 0.1f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 7.0f, FILL, NULL);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 7.0f, FILL, glass);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders right vertical 1
@@ -1493,7 +1196,7 @@ void Head::draw2()
                 glTranslatef(2.1f, 5.2f, 8.5f);
                 glRotatef(90, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.90f, 0.1f, 0.1f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.5f, FILL, NULL);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.5f, FILL, glass);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders short right horizontal 2
@@ -1501,14 +1204,14 @@ void Head::draw2()
                 glTranslatef(2.1f, 5.2f, 8.2f);
                 
                 glColor3f(0.90f, 0.1f, 0.1f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.25f, FILL, NULL);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.25f, FILL, glass);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders Left long horizontal 1
             glPushMatrix();
                 glTranslatef(-2.1f, 2.0f, 1.5f);
                 glColor3f(0.05f, 0.05f, 0.3f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 7.0f, FILL, NULL);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 7.0f, FILL, glass);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders Left vertical 1
@@ -1516,7 +1219,7 @@ void Head::draw2()
                 glTranslatef(-2.1f, 5.2f, 8.5f);
                 glRotatef(90, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.05f, 0.05f, 0.3f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.5f, FILL, NULL);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.5f, FILL, glass);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders short Left horizontal 2
@@ -1524,7 +1227,7 @@ void Head::draw2()
                 glTranslatef(-2.1f, 5.2f, 8.2f);
                 
                 glColor3f(0.05f, 0.05f, 0.3f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.25f, FILL, NULL);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.25f, FILL, glass);
             glPopMatrix();
 
             //Front Gunhead Mark
@@ -1537,7 +1240,7 @@ void Head::draw2()
                         float convertToRadian = angle * 3.14159 / 180.0;
                         glTranslatef(sin(convertToRadian) * 1.5f, cos(convertToRadian) * 1.5f, 0);
                         glRotatef(angle, 0.0f, 0.0f, 1.0f);
-                        drawSlantedCuboid(4.0f, 1.0f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, NULL);
+                        drawSlantedCuboid(4.0f, 1.0f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, energyPulse);
                     glPopMatrix();
                 }
             glPopMatrix();
@@ -1547,42 +1250,43 @@ void Head::draw2()
                 glTranslatef(1.3f, 5.2f, 11.45f);
                 
                 glColor3f(0.90f, 0.1f, 0.1f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 0.3f, FILL, NULL);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 0.3f, FILL, glass);
             glPopMatrix();
 
             //Cylindrical Head 1
             glPushMatrix();
                 glTranslatef(0.0f, 4.0f, 1.5f);
-                glColor3f(0.7f, 0.7f, 0.7f);
-                drawCylinderWithCap(varCylinder, 3.5f, 2.0f, 4.5f, FILL, NULL);
+                glColor3f(0.8f, 0.5f, 0.9f);
+                drawCylinderWithCap(varCylinder, 3.5f, 2.0f, 4.5f, FILL, fire);
             glPopMatrix();
 
             //Cylindrical Head 2
             glPushMatrix();
                 glTranslatef(0.0f, 4.0f, -3.5f);
-                glColor3f(0.7f, 0.7f, 0.7f);
-                drawCylinderWithCap(varCylinder, 3.5f, 3.5f, 5.0f, FILL, NULL);
+                glColor3f(0.1f, 0.1f, 0.1f);
+                //glColor3f(0.7f, 0.7f, 0.7f);
+                drawCylinderWithCap(varCylinder, 3.5f, 3.5f, 5.0f, FILL, fire);
 
                 //Cylindrical Head 3
                 
                 glPushMatrix();
                     glTranslatef(0.0f, 0.0f, -3.5f);
-                    glColor3f(0.6f, 0.6f, 0.6f);
-                    drawCylinderWithCap(varCylinder, 2.5f, 3.5f, 3.5f, FILL, NULL);
+                    glColor3f(0.7f, 0.6f, 0.9f);
+                    drawCylinderWithCap(varCylinder, 2.5f, 3.5f, 3.5f, FILL, fire);
                     
                     //Cylinder Head BackPlug
                     
                     glPushMatrix();
                         glTranslatef(0.0f, 0.0f, -5.0f);
                         glColor3f(0.3f, 0.3f, 0.3f);
-                        drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 5.0f, FILL, NULL);
+                        drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 5.0f, FILL, energyPulse);
 
                         //Cylinder Head BackPlug Cover cap
                         glPushMatrix();
                             glTranslatef(0.0f, 0.0f, 5.0f);
                             glTranslatef(0.0f, 0.0f, -0.4f);
                             glColor3f(0.1f, 0.1f, 0.1f);
-                            drawCylinderWithCap(varCylinder, 1.7f, 1.7f, 0.4f, FILL, NULL);
+                            drawCylinderWithCap(varCylinder, 1.7f, 1.7f, 0.4f, FILL, blackGlossy);
                         glPopMatrix();
 
                         
@@ -1619,7 +1323,7 @@ void Head::draw2()
                                 glPushMatrix();
                                     float convertToRadian = angle * 3.14159 / 180.0;
                                     glTranslatef(sin(convertToRadian) * 1.5f, cos(convertToRadian) * 1.5f, 0);
-                                    drawCylinderWithCap(quad, 0.2f, 0.2f, 2.0f, FILL, NULL);
+                                    drawCylinderWithCap(quad, 0.2f, 0.2f, 2.0f, FILL, glass);
                                 glPopMatrix();
                             }
                         glPopMatrix();
@@ -1628,31 +1332,31 @@ void Head::draw2()
                         glPushMatrix();
                             glTranslatef(0.0f, 0.0f, -0.3);
                             glColor3f(0.0f, 0.0f, 0.0f);
-                            drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, NULL);
+                            drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, white);
 
                             //Cylinder Head BackPlug little gray stripes
                             glPushMatrix();
                                 glTranslatef(0.0f, 0.0f, -0.3);
                                 glColor3f(0.6f, 0.6f, 0.6f);
-                                drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, NULL);
+                                drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, energyPulse);
 
                                 //Cylinder Head BackPlug little black stripes
                                 glPushMatrix();
                                     glTranslatef(0.0f, 0.0f, -0.3);
                                     glColor3f(0.0f, 0.0f, 0.0f);
-                                    drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, NULL);
+                                    drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, energyPulse);
 
                                     //Cylinder Head BackPlug little olive brown stripes
                                     glPushMatrix();
                                         glTranslatef(0.0f, 0.0f, -0.4);
                                         glColor3f(0.35f, 0.35f, 0.2f);
-                                        drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.4f, FILL, NULL);
+                                        drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.4f, FILL, white);
                                         
                                         //Cylinder Head BackPlug last little gray stripes
                                         glPushMatrix();
                                             glTranslatef(0.0f, 0.0f, -0.3);
                                             glColor3f(0.7f, 0.7f, 0.7f);
-                                            drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, NULL);
+                                            drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, energyPulse);
                                         glPopMatrix();
                                     glPopMatrix();
                                 glPopMatrix();
@@ -1668,44 +1372,5 @@ void Head::draw2()
         glPopMatrix();
 
     glPopMatrix();
-    //Minigun
-    /*
-    glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
-    glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-    glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-    glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-    glPushMatrix();
-        glColor3f(0.0f, 0.0f, 0.0f);
-        glTranslatef(0.0f, 0.0f, 0.0f);
-        drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 12.0f, FILL, NULL);
-    glPopMatrix();
-
-    glColor3f(0.0f, 0.0f, 0.0f);
-    for (float angle = 0; angle <= 360; angle = angle + 60) {
-        glPushMatrix();
-        float convertToRadian = angle * 3.14159 / 180.0;
-        glTranslatef(sin(convertToRadian) * 2.6f, cos(convertToRadian) * 2.6f, 0);
-        drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 12.0f, FILL, NULL);
-        glPopMatrix();
-        //glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
-    }
-    //minigun cover
-    glPushMatrix();
-        glColor3f(1.0f, 1.0f, 1.0f);
-        glTranslatef(0.0f, 0.0f, -0.1f);
-        drawCylinderWithCap(varCylinder, 4.0f, 4.0f, 2.0f, FILL, NULL);
-        glPushMatrix();
-            glTranslatef(0.0f, 0.0f, 4.0f);
-            drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
-            glPushMatrix();
-                glTranslatef(0.0f, 0.0f, 4.0f);
-                drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
-                glPushMatrix();
-                    glTranslatef(0.0f, 0.0f, 2.0f);
-                    drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
-                glPopMatrix();
-            glPopMatrix();
-        glPopMatrix();
-    glPopMatrix();
-    */
+   
 }

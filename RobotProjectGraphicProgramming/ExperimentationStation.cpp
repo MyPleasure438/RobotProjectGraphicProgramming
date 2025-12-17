@@ -1708,7 +1708,7 @@ void ExperimentationStation::lightingTestPyramidAndSphere()
 {
     glPushMatrix();
 
-
+    drawCylinder(quad, 2.0f, 2.0f, 2.0f, FILL, NULL);
     glTranslatef(RobotEntireArm_3DRotationAngleX * 0.1, RobotEntireArm_3DRotationAngleY * 0.1, RobotEntireArm_3DRotationAngleZ * 0.1);
     glTranslatef(1.5f, 0.0f, 0.0f);
     glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);

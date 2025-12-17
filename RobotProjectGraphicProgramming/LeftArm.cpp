@@ -19,7 +19,6 @@ void LeftArm::updateInput() {
     HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
     if (diKeys[DIK_W] & 0x80) {
         RobotEntireArm_TranslationY = RobotEntireArm_TranslationY + 0.5f;
-        
     }
 
     if (diKeys[DIK_S] & 0x80) {
@@ -445,13 +444,13 @@ void LeftArm::drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float t
         break;
 
     case POINT:
-        gluQuadricDrawStyle(quad, GLU_POINT);   // wireframe sphere
+        gluQuadricDrawStyle(quad, GLU_POINT);   // wireframe sphere 
         break;
     }
-    drawCircle(baseRadius, NULL);
+    drawCircle(baseRadius, texture);
     glPushMatrix();
         glTranslatef(0.0f, 0.0f, height);
-		drawCircle(topRadius, NULL);
+		drawCircle(topRadius, texture);
     glPopMatrix();
     // c) draw sphere at origin
     gluCylinder(quad,
@@ -890,6 +889,30 @@ void LeftArm::loadTextures()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //wristPattern texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "wristPattern.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &wristPattern);
+    glBindTexture(GL_TEXTURE_2D, wristPattern);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //deadlyPattern texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "deadlyPattern.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &deadlyPattern);
+    glBindTexture(GL_TEXTURE_2D, deadlyPattern);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
     
     //glMatrixMode(GL_TEXTURE);
     //glLoadIdentity();
@@ -931,37 +954,39 @@ void LeftArm::drawMissle()
     glPushMatrix();
         glColor3f(0.5f, 0.5f, 0.5f);
         glRotatef(270, 1.0f, 0.0f, 0.0f);
-        drawCylinderWithCap(varCylinder, 1.3f, 0.1f, 1.0f, FILL, NULL);
+        //    beginScaleTexture(2, 1 );
+
+        drawCylinderWithCap(varCylinder, 1.3f, 0.1f, 1.0f, FILL, wristPattern);
         //red line
         glPushMatrix();
             glTranslatef(0.0f, 0.0f, -0.2f);
             glColor3f(0.5f, 0.0f, 0.0f);
-            drawCylinder(varCylinder, 1.5f, 1.3f, 0.2f, FILL, NULL);
+            drawCylinder(varCylinder, 1.5f, 1.3f, 0.2f, FILL, white);
             //light gray area
             glPushMatrix();
                 glTranslatef(0.0f, 0.0f, -2.0f);
                 glColor3f(0.8f, 0.8f, 0.8f);
-                drawCylinder(varCylinder, 1.8f, 1.5f, 2.0f, FILL, NULL);
+                drawCylinder(varCylinder, 1.8f, 1.5f, 2.0f, FILL, deadlyPattern);
                 //red line
                 glPushMatrix();
                     glTranslatef(0.0f, 0.0f, -0.2f);
                     glColor3f(1.0f, 0.0f, 0.0f);
-                    drawCylinder(varCylinder, 1.9f, 1.8f, 0.2f, FILL, NULL);
+                    drawCylinder(varCylinder, 1.9f, 1.8f, 0.2f, FILL, white);
                     //little dark gray area
                     glPushMatrix();
                         glTranslatef(0.0f, 0.0f, -0.5f);
-                        glColor3f(0.5f, 0.5f, 0.5f);
-                        drawCylinder(varCylinder, 2.0f, 1.9f, 0.5f, FILL, NULL);
+                        glColor3f(1.0f, 1.0f, 1.0f);
+                        drawCylinder(varCylinder, 2.0f, 1.9f, 0.5f, FILL, white);
                         //red line
                         glPushMatrix();
                             glTranslatef(0.0f, 0.0f, -0.2f);
-                            glColor3f(0.5f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 2.1f, 2.0f, 0.2f, FILL, NULL);
+                            glColor3f(1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 2.1f, 2.0f, 0.2f, FILL, white);
                             // light gray area
                             glPushMatrix();
                                 glTranslatef(0.0f, 0.0f, -6.0f);
-                                glColor3f(0.8f, 0.8f, 0.8f);
-                                drawCylinderWithCap(varCylinder, 1.3f, 2.1f, 6.0f, FILL, NULL);
+                                glColor3f(0.2f, 0.2f, 0.2f);
+                                drawCylinderWithCap(varCylinder, 1.3f, 2.1f, 6.0f, FILL, wristPattern );
 
                                 //rocket fins
                                 glPushMatrix();
@@ -974,7 +999,7 @@ void LeftArm::drawMissle()
                                             float convertToRadian = angle * 3.14159 / 180.0;
                                             glTranslatef(0.0f, 0.0f, 0.0f);
                                             glRotatef(angle, 0.0f, 1.0f, 0.0f);
-                                            drawSlantedCuboid(4.0f, 1.0f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, NULL);
+                                            drawSlantedCuboid(4.0f, 1.0f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, camouflageWhite);
                                         glPopMatrix();
                                     }
                                     
@@ -991,7 +1016,7 @@ void LeftArm::drawMissle()
                                             float convertToRadian = angle * 3.14159 / 180.0;
                                             glTranslatef(0.0f, 0.0f, 0.0f);
                                             glRotatef(angle, 0.0f, 1.0f, 0.0f);
-                                            drawSlantedCuboid(1.5f, 0.7f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, NULL);
+                                            drawSlantedCuboid(1.5f, 0.7f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, camouflageWhite);
                                         glPopMatrix();
                                     }
 
@@ -1000,7 +1025,7 @@ void LeftArm::drawMissle()
                                 glPushMatrix();
                                     glColor3f(0.3f, 0.3f, 0.3f);
                                     glTranslatef(0.0f, 0.0f, -0.5f);
-                                    drawCylinderWithCap(varCylinder, 1.3f, 1.3f, 0.5f, FILL, NULL);
+                                    drawCylinderWithCap(varCylinder, 1.3f, 1.3f, 0.5f, FILL, blackMetalic);
                                 glPopMatrix();
                             glPopMatrix();
                         glPopMatrix();
@@ -1016,21 +1041,21 @@ void LeftArm::drawRocketLauncher()
 {
     //Missle Equpment
     glColor3f(0.92f, 0.92f, 0.92f);
-    drawPyramid(2.7f, 2.0f, 2.7f, 0.0f, 0.0f, 0.0f, NULL);
+    drawPyramid(2.7f, 2.0f, 2.7f, 0.0f, 0.0f, 0.0f, camouflageWhite);
     
     glPushMatrix();
         glTranslatef(0.0f, -1.0f, 0.0f);
-        drawCuboid(2.7f, 5.5f, 2.7f, 0.0f, -2.75f, 0.0f, 0.0f, 0.0f, 0.0f, NULL);
+        drawCuboid(2.7f, 5.5f, 2.7f, 0.0f, -2.75f, 0.0f, 0.0f, 0.0f, 0.0f, whitePattern);
         //gray block
         glPushMatrix();
             glTranslatef(0.0f, -5.5f, 0.0f);
-            drawCuboid(2.7f, 0.5f, 2.7f, 0.0f, -0.25f, 0.0f, 0.3f, 0.3f, 0.3f, NULL);
+            drawCuboid(2.7f, 0.5f, 2.7f, 0.0f, -0.25f, 0.0f, 0.3f, 0.3f, 0.3f, whitePattern);
             //circle hole 1
             glPushMatrix();
                 glColor3f(0.0f, 0.0f, 0.0f);
                 glTranslatef(-0.5f, -0.5f, 0.5f);
                 glRotatef(90, 1.0f, 0.0f, 0.0f);
-                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, NULL);
+                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, minigunCover);
             glPopMatrix();
 
             //circle hole 2
@@ -1038,7 +1063,7 @@ void LeftArm::drawRocketLauncher()
                 glColor3f(0.0f, 0.0f, 0.0f);
                 glTranslatef(0.5f, -0.5f, 0.5f);
                 glRotatef(90, 1.0f, 0.0f, 0.0f);
-                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, NULL);
+                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, minigunCover);
             glPopMatrix();
 
             //circle hole 3
@@ -1046,7 +1071,7 @@ void LeftArm::drawRocketLauncher()
                 glColor3f(0.0f, 0.0f, 0.0f);
                 glTranslatef(-0.5f, -0.5f, -0.5f);
                 glRotatef(90, 1.0f, 0.0f, 0.0f);
-                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, NULL);
+                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, minigunCover);
             glPopMatrix();
 
             //circle hole 4
@@ -1054,7 +1079,7 @@ void LeftArm::drawRocketLauncher()
                 glColor3f(0.0f, 0.0f, 0.0f);
                 glTranslatef(0.5f, -0.5f, -0.5f);
                 glRotatef(90, 1.0f, 0.0f, 0.0f);
-                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, NULL);
+                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, minigunCover);
             glPopMatrix();
 
             //scanner circle
@@ -1062,7 +1087,7 @@ void LeftArm::drawRocketLauncher()
                 glColor3f(0.85f, 0.15f, 0.15f);
                 glTranslatef(-1.0f, -0.5f, 1.1f);
                 glRotatef(90, 1.0f, 0.0f, 0.0f);
-                drawCylinderWithCap(quad, 0.2f, 0.2f, 0.1f, FILL, NULL);
+                drawCylinderWithCap(quad, 0.2f, 0.2f, 0.1f, FILL, glass);
             glPopMatrix();
             
             // missle projectiles 1
@@ -1219,6 +1244,7 @@ void LeftArm::draw() {
         glPushMatrix();
 	        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
             glColor3f(0.2, 0.2, 0.2);
+            //beginScaleTexture(0.1, 0.1);
 			drawSphere(varSphere, 1.0f, 100, 100, blackMetalic);
 
             glColor3f(0.0f, 1.0f, 0.0f);
@@ -1401,12 +1427,12 @@ void LeftArm::draw() {
                     glRotatef(anim_value_minigun, 0.0f, 0.0f, 1.0f);
 
                         glPushMatrix();
-                            glColor3f(0.1f, 0.1f, 0.1f);
+                            glColor3f(0.0f, 0.0f, 0.0f);
                             glTranslatef(0.0f, 0.0f, 0.0f);
                             drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 12.0f, FILL, minigunCylinder);
                         glPopMatrix();
 
-                        glColor3f(0.1f, 0.1f, 0.1f);
+                        glColor3f(0.0f, 0.0f, 0.0f);
                         for (float angle = 0; angle <= 360; angle = angle + 60) {
                             glPushMatrix();
                                 float convertToRadian = angle * 3.14159 / 180.0;
@@ -1468,14 +1494,14 @@ void LeftArm::draw() {
                     glTranslatef(0.0f, -1.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.7, 0.7, 0.7);
-                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL, white);
+                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL, camouflageWhite);
                 glPopMatrix();
 
                 // lowerarm bottom cover cap
                 glPushMatrix();
                     glTranslatef(0.0f, -7.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    glColor3f(0.2, 0.2, 0.2);
+                    glColor3f(0.7f, 0.7f, 0.7f); 
                     drawCircle(1.5f, blackMetalic);
                 glPopMatrix();
                 
@@ -1483,6 +1509,7 @@ void LeftArm::draw() {
                 glPushMatrix();
                     glTranslatef(0.0f, -7.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glColor3f(0.7f, 0.7f, 0.7f);
                     drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, blackMetalic);
                 glPopMatrix();
 
@@ -1536,11 +1563,12 @@ void LeftArm::draw() {
                     glPushMatrix();
                         glTranslatef(0.0f, -1.0f, 0.0f);
                         glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                        drawCylinder(varCylinder, 0.5f, 0.7f, 0.3f, FILL, NULL);
+                        glColor3f(0.0f, 0.0f, 0.0f); 
+                        drawCylinder(varCylinder, 0.5f, 0.7f, 0.3f, FILL, blackMetalic);
                     glPopMatrix();
                     glPushMatrix();
                         glTranslatef(0.0f, -1.3f, 0.0f);
-                        drawCuboid(3.4f, 3.8f, 1.4f, 0.0f, -1.9f, 0.0f, 1.0f, 1.0f, 1.0f, NULL);
+                        drawCuboid(3.4f, 3.8f, 1.4f, 0.0f, -1.9f, 0.0f, 0.0f, 0.0f, 0.0f, wristPattern);
                         //drawSphere(varSphere, 1.0f, 100, 100
                     
                     glPopMatrix();
@@ -1551,14 +1579,14 @@ void LeftArm::draw() {
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.6f, 0.3f, 1.6f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.6f, 0.3f, 1.6f, FILL, whitePattern);
                         glPopMatrix();
 
                         glPushMatrix();
                             glTranslatef(0.0f, -1.2f, 0.0f);
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.3f, 0.2f, 1.4f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.3f, 0.2f, 1.4f, FILL, whitePattern);
 
 							//for cylinder cap, supposingly is y axis negative offset, but because of rotation it becomes z axis positive
                             glTranslatef(0.0f, 0.0f, 1.4f);
@@ -1581,17 +1609,17 @@ void LeftArm::draw() {
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f , 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
                         glPopMatrix();
                         glPushMatrix();
                             glTranslatef(fingerMiddleJoint1OffsetFromFinger.x, fingerMiddleJoint1OffsetFromFinger.y, fingerMiddleJoint1OffsetFromFinger.z);
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-							drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
+							drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
                             glPushMatrix();
 							//supposingly is y axis negative offset, but because of rotation it becomes z axis
                                 glTranslatef(0.0f, 0.0f, 1.6f);
                                 glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
+                                drawCircle(0.15f, whitePattern);
                             glPopMatrix();
                         glPopMatrix();
                     glPopMatrix();
@@ -1600,17 +1628,17 @@ void LeftArm::draw() {
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
                         glPopMatrix();
                         glPushMatrix();
                             glTranslatef(fingerMiddleJoint2OffsetFromFinger.x, fingerMiddleJoint2OffsetFromFinger.y, fingerMiddleJoint2OffsetFromFinger.z);
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
                             glPushMatrix();
 							//supposingly is y axis negative offset, but because of rotation it becomes z axis
                                 glTranslatef(0.0f, 0.0f, 1.6f);
                                 glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
+                                drawCircle(0.15f, whitePattern);
                             glPopMatrix();
                         glPopMatrix();
                     glPopMatrix();
@@ -1619,17 +1647,17 @@ void LeftArm::draw() {
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
                         glPopMatrix();
                         glPushMatrix();
                             glTranslatef(fingerMiddleJoint3OffsetFromFinger.x, fingerMiddleJoint3OffsetFromFinger.y, fingerMiddleJoint3OffsetFromFinger.z);
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
                             glPushMatrix();
 							//supposingly is y axis negative offset, but because of rotation it becomes z axis
                                 glTranslatef(0.0f, 0.0f, 1.6f);
                                 glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
+                                drawCircle(0.15f, whitePattern);
                             glPopMatrix();
                         glPopMatrix();
                     glPopMatrix();
@@ -1638,17 +1666,17 @@ void LeftArm::draw() {
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
                         glPopMatrix();
                         glPushMatrix();
                             glTranslatef(fingerMiddleJoint4OffsetFromFinger.x, fingerMiddleJoint4OffsetFromFinger.y, fingerMiddleJoint4OffsetFromFinger.z);
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
                             glPushMatrix();
 							//supposingly is y axis negative offset, but because of rotation it becomes z axis
                                 glTranslatef(0.0f, 0.0f, 1.6f);
                                 glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
+                                drawCircle(0.15f, whitePattern);
                             glPopMatrix();
                         glPopMatrix();
                     glPopMatrix();

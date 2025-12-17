@@ -91,6 +91,8 @@ private:
 	GLuint glass = 0;
 	GLuint whitePattern = 0;
 	GLuint white = 0;
+	GLuint wristPattern = 0;
+	GLuint deadlyPattern = 0;
 
 	BITMAP BMP;
 	HBITMAP hBMP = NULL;

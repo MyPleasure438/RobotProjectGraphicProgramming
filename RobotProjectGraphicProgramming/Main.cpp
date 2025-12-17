@@ -6,12 +6,15 @@
 #include <ctime>
 #include <vector>
 #include <iostream>
+#include <cstdio>
+#include <vector>
 #include "InputManager.h"
 #include "LeftLeg.h"
 #include "LeftArm.h"
 #include "Head.h"
 #include "Body.h"
 #include "Jetpack.h"
+
 
 #include "ExperimentationStation.h"
 #pragma comment (lib, "OpenGL32.lib")
@@ -22,7 +25,8 @@
 #include <GL/glu.h>
 #pragma comment(lib, "glu32.lib")
 
-int QuestionToRender = 2;
+using namespace std;
+int QuestionToRender = 0;
 
 enum RobotDisplayParts
 {
@@ -79,7 +83,7 @@ float aspectRatio = cameraScreenWidth / cameraScreenHeight;
 
 //lighting
 float diffuseLightPositionX = 0.0f;
-float diffuseLightPositionY = 0.8f;
+float diffuseLightPositionY = 3.0f;
 float diffuseLightPositionZ = 0.7f;
 
 GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f };
@@ -265,6 +269,14 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 }
 //--------------------------------------------------------------------
 
+void AttachConsoleOutput() {
+	AllocConsole(); // Create a console window
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout); // Redirect stdout
+	freopen_s(&fp, "CONIN$", "r", stdin);  // Optional: enable cin
+	ios::sync_with_stdio();    // Sync C++ streams
+}
+
 bool initPixelFormat(HDC hdc)
 {
 	PIXELFORMATDESCRIPTOR pfd;
@@ -330,10 +342,10 @@ void Display(int QuestionsToRender)
 
 	//lighting///
 	//diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ };
-	
 	// 4. DEFINE WORLD-FIXED LIGHT POSITION
 	// The matrix now contains only the View transformation (from step 3).
 	// This ensures the light position is defined in world space, relative to the camera's fixed position.
+
 	/*
 	diffuseLightPosition[0] = diffuseLightPositionX;
 	diffuseLightPosition[1] = diffuseLightPositionY;
@@ -341,14 +353,14 @@ void Display(int QuestionsToRender)
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
-
-	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHTING);
+	*/
+	//glEnable(GL_LIGHT0);
+	//glEnable(GL_LIGHTING);
 	glPushMatrix();
 	glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
-	drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
+	//drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
 	glPopMatrix();
-	*/
+	
 	//End Lighting///
 
 	glEnable(GL_DEPTH_TEST);   // enable depth test (stay ON forever)
@@ -371,11 +383,11 @@ void Display(int QuestionsToRender)
 		//experimentationStation.shadeModel();
 		//experimentationStation.lightingTestCube();
 		//experimentationStation.lightingTestPyramidAndSphere();
-		leftArm.updateInput();
-		//leftArm.draw2();
-		leftArm.draw();
-		//head.updateInput();
-		//head.draw2();
+		//leftArm.updateInput();
+		//leftArm.drawMissle();
+		//leftArm.draw();
+		head.updateInput();
+		head.draw2();
 		
 		//drawCube();
     break;
@@ -433,6 +445,7 @@ void Display(int QuestionsToRender)
 //int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 {
+	AttachConsoleOutput();
 	WNDCLASSEX wc;
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
 
@@ -484,6 +497,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	experimentationStation.loadTextures();
 	leftArm.loadTextures();
 	leftLeg.loadTextures();
+	head.loadTextures();
 	//texture loading
 	/*
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -538,6 +552,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	leftArm.deleteTextures();
 	leftLeg.deleteTextures();
 	experimentationStation.deleteTextures();
+	head.deleteTextures();
 	UnregisterClass(WINDOW_TITLE, wc.hInstance);
 
 	return true;
@@ -549,6 +564,7 @@ void orthographicProjection()
 {
 	glLoadIdentity();
 	//glOrtho(-4, 4, -4, 4, -4, 4);
+	//glOrtho(-8, 8, -8, 8, -8, 8);
 	glOrtho(-25, 25, -25, 25, -25, 25);
 }
 
