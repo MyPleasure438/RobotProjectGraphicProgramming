@@ -1,5 +1,5 @@
 #include "Body.h"
-
+/*
 ExperimentationStation ES;
 Jetpack Jpk;
 
@@ -243,3 +243,4 @@ void Body::drawEnergyStone(float cx, float cy,float cz) {
 	glPopMatrix();
 	time_value += 0.01;
 }
+*/
