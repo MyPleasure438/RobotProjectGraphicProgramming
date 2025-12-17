@@ -51,8 +51,36 @@ private:
 	float THIGH_TranslationX = 0.0f;
 	float THIGH_TranslationY = 0.0f;
 	float THIGH_TranslationZ = 0.0f;
+	//___________________________________________________________________
+	float RFOOT_3DRotationAngleX = 0.0f;
+	float RFOOT_3DRotationAngleY = 0.0f;
+	float RFOOT_3DRotationAngleZ = 0.0f;
 
+	float RFOOT_TranslationX = 0.0f;
+	float RFOOT_TranslationY = 0.0f;
+	float RFOOT_TranslationZ = 0.0f;
 
+	float RCALF_3DRotationAngleX = 0.0f;
+	float RCALF_3DRotationAngleY = 0.0f;
+	float RCALF_3DRotationAngleZ = 0.0f;
+
+	float RCALF_TranslationX = 0.0f;
+	float RCALF_TranslationY = 0.0f;
+	float RCALF_TranslationZ = 0.0f;
+
+	float RTHIGH_3DRotationAngleX = 0.0f;
+	float RTHIGH_3DRotationAngleY = 0.0f;
+	float RTHIGH_3DRotationAngleZ = 0.0f;
+
+	float RTHIGH_TranslationX = 0.0f;
+	float RTHIGH_TranslationY = 0.0f;
+	float RTHIGH_TranslationZ = 0.0f;
+	//___________________________________________________________________
+
+	int animationStep = 0; 
+
+	const float Anim_Rot_Speed = 0.5f; 
+	int legSide = 0;
 
 	Joint shoulder = { 0.0f, 0.0f, 0.0f };
 	Joint elbowOffsetFromShoulder = { 0.0f, -8.5f, 0.0f };
@@ -144,6 +172,6 @@ public:
 	void footRotate();
 	void calfRotate();
 	void ObjectTransform();
-	
+	void AnimWalk();
 };
 
