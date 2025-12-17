@@ -94,7 +94,7 @@ void Jetpack::drawJetpack(float cx, float cy, float cz, bool isShadow) {
 	
 	GLuint useMetal = isShadow ? 0 : metal;
 	GLuint useLogo = isShadow ? 0 : logo;
-	GLuint useFlame = isShadow ? 0 : flame;
+	GLuint useFlame = isShadow ? 0 : flame; //Texture usage shadow
 
 	glPushMatrix();
 	glTranslatef(cx, cy, cz);

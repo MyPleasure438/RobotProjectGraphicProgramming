@@ -117,11 +117,11 @@ void Body::updateInput() {
 }
 
 void Body::drawBodyFrame(Jetpack *jpk, bool isShadow) {
-	glShadeModel(GL_SHADE_MODEL);
+	
 	glLineWidth(5.0);
 	glPushMatrix();
 
-	if (!isShadow) {
+	if (!isShadow) { //Draw Color
 		glColor3f(1.0, 1.0, 1.0);
 	}
 
@@ -131,6 +131,7 @@ void Body::drawBodyFrame(Jetpack *jpk, bool isShadow) {
 	glRotatef(BodyRotateZ, 0.0f, 0.0f, 1.0f);
 	
 	glPushMatrix();
+
 		if (!isShadow) {
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, bodyTex);
@@ -139,6 +140,7 @@ void Body::drawBodyFrame(Jetpack *jpk, bool isShadow) {
 			// If it IS a shadow, ensure texture is OFF so it draws solid black
 			glDisable(GL_TEXTURE_2D);
 		}
+
 		glNormal3f(0, 0, 1);
 		glBegin(GL_QUADS); //back
 		glTexCoord2f(0, 0);
@@ -236,7 +238,7 @@ void Body::drawBodyFrame(Jetpack *jpk, bool isShadow) {
 		//----------------------------------------------------------------------
 		drawEnergyStone(0.0, 0.1, -0.25,isShadow);
 
-		if (isShadow) { glDisable(GL_TEXTURE_2D); glColor3f(0, 0, 0); }
+		if (isShadow) { glDisable(GL_TEXTURE_2D); glColor3f(0, 0, 0); } //Draw shadow for rest of the parts
 		//----------------------------------------------------------------------
 
 		for (int i = 0; i < 20; i++) {
