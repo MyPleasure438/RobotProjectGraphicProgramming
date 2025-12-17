@@ -1,1 +1,245 @@
 #include "Body.h"
+
+ExperimentationStation ES;
+Jetpack Jpk;
+
+GLUquadricObj* ERStone = gluNewQuadric();
+float time_value = 0.0f;
+float waves_time = 0.0f;
+float anim_value = 0.0f;
+bool anim_flag = false;
+
+
+void Body::updateInput() {
+	InputManager& inputManager = InputManager::getInstance();
+	LPDIRECTINPUTDEVICE8 dInputKeyboardDevice = inputManager.getDInputKeyboardDevice();
+	HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
+	if (diKeys[DIK_W] & 0x80) {
+		BodyTranslateY+= 0.001f;
+
+	}
+
+	if (diKeys[DIK_S] & 0x80) {
+		BodyTranslateY -= 0.001f;
+
+	}
+
+	if (diKeys[DIK_A] & 0x80) {
+		//xpositionupdate = xpositionupdate - 0.0001f;
+		BodyTranslateX -= 0.001f;
+	}
+
+	if (diKeys[DIK_D] & 0x80) {
+		//xpositionupdate = xpositionupdate - 0.0001f;
+		BodyTranslateX+= 0.001f;
+	}
+
+	if (diKeys[DIK_Q] & 0x80) {
+		BodyTranslateZ -= 0.001f;
+
+	}
+
+	if (diKeys[DIK_E] & 0x80) {
+		BodyTranslateZ += 0.001f;
+
+	}
+
+	if (diKeys[DIK_T] & 0x80) {
+		BodyRotateY -= 0.1f;
+
+	}
+
+	if (diKeys[DIK_G] & 0x80) {
+		BodyRotateY += 0.1f;
+
+	}
+
+	if (diKeys[DIK_F] & 0x80) {
+		BodyRotateX -= 0.1f;
+	}
+
+	if (diKeys[DIK_H] & 0x80) {
+		BodyRotateX += 0.1f;
+
+	}
+
+	if (diKeys[DIK_R] & 0x80) {
+		BodyRotateZ -= 0.1f;
+
+	}
+
+	if (diKeys[DIK_Y] & 0x80) {
+		BodyRotateZ += 0.1f;
+	}
+
+	if (diKeys[DIK_SPACE] & 0x80) {
+		BodyTranslateX = BodyTranslateY = BodyTranslateZ = 0;
+		BodyRotateX = BodyRotateY = BodyRotateZ = 0;
+	}
+
+	if (diKeys[DIK_0] & 0x80) {
+		if (!anim_flag) {
+			anim_flag = true;
+		}
+		else {
+			anim_flag = false;
+		}
+	}
+
+}
+
+void Body::drawBodyFrame() {
+	glShadeModel(GL_SHADE_MODEL);
+	glLineWidth(5.0);
+	glPushMatrix();
+	glScalef(20, 20, 20);
+	glTranslatef(BodyTranslateX, BodyTranslateY, BodyTranslateZ);
+	glRotatef(BodyRotateX, 1.0f, 0.0f, 0.0f);
+	glRotatef(BodyRotateY+180, 0.0f, 1.0f, 0.0f);
+	glRotatef(BodyRotateZ, 0.0f, 0.0f, 1.0f);
+		
+		glColor3f(1.0, 1.0, 1.0);
+		glBegin(GL_QUADS); //back
+		glVertex3f(-0.3, 0.4, 0.2);
+		glVertex3f(-0.3, -0.4, 0.2);
+		glVertex3f(0.3, -0.4, 0.2);
+		glVertex3f(0.3, 0.4, 0.2);
+		glEnd();
+
+		glColor3f(1.0, 0, 0);
+		glBegin(GL_POLYGON); //left
+		glVertex3f(-0.3, 0.4, -0.2);
+		glVertex3f(-0.3, 0.1, -0.3);
+		glVertex3f(-0.3, -0.4, -0.2);
+		glVertex3f(-0.3, -0.4, 0.2);
+		glVertex3f(-0.3, 0.4, 0.2);
+		glEnd();
+
+		glColor3f(0, 1, 0);
+		glBegin(GL_QUADS);
+		glVertex3f(-0.3, 0.4, -0.2);
+		glVertex3f(-0.3, 0.1, -0.3);
+		glVertex3f(0.3, 0.1, -0.3);
+		glVertex3f(0.3, 0.4, -0.2);
+		glEnd();
+
+		glColor3f(0, 0, 0);
+		glBegin(GL_QUADS);
+		glVertex3f(-0.3, 0.1, -0.3);
+		glVertex3f(-0.3, -0.4, -0.2);
+		glVertex3f(0.3, -0.4, -0.2);
+		glVertex3f(0.3, 0.1, -0.3);
+		glEnd();
+
+		glColor3f(0, 0, 1.0);
+		glBegin(GL_POLYGON);//right
+		glVertex3f(0.3, 0.4, -0.2);
+		glVertex3f(0.3, 0.1, -0.3);
+		glVertex3f(0.3, -0.4, -0.2);
+		glVertex3f(0.3, -0.4, 0.2);
+		glVertex3f(0.3, 0.4, 0.2);
+		glEnd();
+
+		glColor3f(1, 0, 1);
+		glBegin(GL_QUADS);//top
+		glVertex3f(-0.3, 0.4, -0.2);
+		glVertex3f(-0.3, 0.4, 0.2);
+		glVertex3f(0.3, 0.4, 0.2);
+		glVertex3f(0.3, 0.4, -0.2);
+		glEnd();
+
+		glColor3f(0, 1, 1);
+		glBegin(GL_QUADS);//bottom
+		glVertex3f(-0.3, -0.4, -0.2);
+		glVertex3f(-0.3, -0.4, 0.2);
+		glVertex3f(0.3, -0.4, 0.2);
+		glVertex3f(0.3, -0.4, -0.2);
+		glEnd();
+
+		glBegin(GL_LINE_STRIP);
+		glVertex3f(-0.3, 0.1, -0.3);
+		glVertex3f(0.3, 0.1, -0.3);
+		glEnd();
+
+		//----------------------------------------------------------------------
+
+		for (int i = 0; i < 20; i++) {
+			float zPos = 0.19 - (i * 0.02);
+			float offset = 0 + (i * 0.5);
+			drawScales(0.3001, 0.45, zPos, 90, offset);
+		}
+
+		for (int j = 0; j < 16; j++) {
+			float yPos = 0.45 - (j * 0.05);
+			float offset = 0 + (j * 0.5);
+			for (int i = 0; i < 30; i++) {
+				float xPos = -0.29 + (i * 0.02);
+				float offset2 = 0 + (i * 0.1);
+				if ((i <= 5 || i >= 25)) {
+					drawScales(xPos, yPos, 0.2001, 0, offset + offset2);
+				}
+				else if(j<5 || j>10){
+					drawScales(xPos, yPos, 0.2001, 0, offset + offset2);
+				}
+			}
+		}
+		
+
+		if (anim_flag && anim_value <0.31){
+			Jpk.drawJetpack(0.01, 0, anim_value);
+			anim_value += 0.001;
+		}
+		else if (!anim_flag && anim_value > 0) {
+			Jpk.drawJetpack(0.01, 0, anim_value);
+			anim_value -= 0.001;
+		}
+		else {
+			Jpk.drawJetpack(0.01, 0, anim_value);
+		}
+
+		waves_time += 0.005;
+
+		
+		//----------------------------------------------------------------------
+		drawEnergyStone(0.0, 0.1, -0.25);
+
+	glPopMatrix();
+}
+
+void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset) {
+	float swing = (sin(waves_time+ offset) + 1.0f) * 7.5f;
+	glPushMatrix();
+	glTranslatef(cx, cy, cz);
+	glTranslatef(0, -0.05, 0);
+	glRotatef(facingR, 0, 1.0, 0);
+	glRotatef(-swing, 1.0, 0, 0);
+	
+	glColor3f(0.5, 0.5, 0.5);
+	glBegin(GL_QUADS);
+	glVertex3f(-0.01,0,0);
+	glVertex3f(-0.01, -0.05, 0);
+	glVertex3f(0.01, -0.05, 0);
+	glVertex3f(0.01, 0, 0);
+	glEnd();
+	glPopMatrix();
+}
+
+void Body::drawEnergyStone(float cx, float cy,float cz) {
+	float red = sin(time_value*5);
+	float b1 = cos(time_value*5);
+	float b2 = sin(time_value * 2.5);
+	glPushMatrix();
+	
+		glTranslatef(cx, cy, cz);
+		glPushMatrix();
+		glColor3f(0, 0, b1);
+		glTranslatef(0, 0, -0.05);
+		//ES.drawCylinderAlongCurve(0, 180, 0.1, 0.1, 0.01, 1);
+		glColor3f(0, 0, b2);
+		//ES.drawCylinderAlongCurve(180, 360, 0.1, 0.1, 0.01, 1);
+		glPopMatrix();
+		glColor3f(red, 0.2, 0.2);
+		gluSphere(ERStone, 0.1, 100, 100);
+	glPopMatrix();
+	time_value += 0.01;
+}
