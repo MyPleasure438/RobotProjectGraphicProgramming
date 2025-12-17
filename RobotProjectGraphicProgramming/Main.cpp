@@ -466,7 +466,14 @@ void Display(int QuestionsToRender)
     case 2:
 		leftLeg.updateInput();
 		//Resh@Legs
+		glPushMatrix();
 		leftLeg.draw();
+		glPopMatrix();
+		glPushMatrix();
+		glTranslatef(5.5, 0.0, 0.0);
+		leftLeg.draw2();
+		glPopMatrix();
+		
 		//leftLeg.drawBolt();
     break;
     case 3:

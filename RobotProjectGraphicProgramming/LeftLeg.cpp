@@ -25,56 +25,367 @@ void LeftLeg::updateInput() {
 
     if (diKeys[DIK_W] & 0x80)
     {
-        if (legControl == 0)
+        if (legSide == 0)
         {
+            if (legControl == 0)
+            {
 
-            if (THIGH_3DRotationAngleX > -80.0f)
+                if (THIGH_3DRotationAngleX > -80.0f)
+                {
+                    THIGH_3DRotationAngleX -= ROT_SPEED;
+                }
+
+            }
+            else if (legControl == 1)
             {
-                THIGH_3DRotationAngleX -= ROT_SPEED;
+                if (CALF_3DRotationAngleX > 0.0f)
+                {
+                    CALF_3DRotationAngleX -= ROT_SPEED;
+                }
+            }
+            else if (legControl == 2)
+            {
+                if (FOOT_3DRotationAngleX > -20.0f)
+                {
+                    FOOT_3DRotationAngleX -= ROT_SPEED;
+                }
             }
 
-        }
-        else if (legControl == 1)
-        {
-            if (CALF_3DRotationAngleX > 0.0f)
+            else if (legControl == 3)
             {
-                CALF_3DRotationAngleX -= ROT_SPEED;
+
+                switch (animationStep) {
+                case 0: // Thigh rotates down
+                    if (THIGH_3DRotationAngleX > -25.0f) {
+                        THIGH_3DRotationAngleX -= ROT_SPEED;
+
+                    }
+                    if (CALF_3DRotationAngleX < 60.0f) {
+                        CALF_3DRotationAngleX += ROT_SPEED;
+                    }
+
+                    else {
+                        animationStep++; // move to next step
+                    }
+                    break;
+
+                case 1: // Foot rotates down
+                    if (FOOT_3DRotationAngleX > -20.0f) {
+                        FOOT_3DRotationAngleX -= ROT_SPEED;
+                    }
+                    if (THIGH_3DRotationAngleX > -45.0f) {
+                        THIGH_3DRotationAngleX -= ROT_SPEED;
+
+                    }
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 2: // Calf rotates up
+                    if (THIGH_3DRotationAngleX < -12.0f) {
+                        THIGH_3DRotationAngleX += ROT_SPEED;
+
+                    }
+                    if (CALF_3DRotationAngleX > 45.0f) {
+                        CALF_3DRotationAngleX -= ROT_SPEED;
+                    }
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+
+                case 3: // Foot rotates up
+                    if (FOOT_3DRotationAngleX < 0.0f) {
+                        FOOT_3DRotationAngleX += ROT_SPEED;
+                    }
+                    if (THIGH_3DRotationAngleX < -0.0f) {
+                        THIGH_3DRotationAngleX += ROT_SPEED;
+
+                    }
+                    if (CALF_3DRotationAngleX > 0.0f) {
+                        CALF_3DRotationAngleX -= ROT_SPEED;
+                    }
+                    else {
+                        animationStep = 0;
+                    }
+                    break;
+
+                case 4: // Calf rotates back down
+                    if (CALF_3DRotationAngleX > -10.0f) {
+
+                    }
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 5:
+                    if (THIGH_3DRotationAngleX < 40.0f) {
+
+                    }
+
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 6:
+                    if (FOOT_3DRotationAngleX < 60.0f) {
+
+                    }
+                    else {
+                        //animationStep = 0; // loop animation
+                        animationStep++;
+                    }
+                    break;
+
+                case 7: // Thigh rotates down
+                    if (RTHIGH_3DRotationAngleX > -25.0f) {
+                        RTHIGH_3DRotationAngleX -= ROT_SPEED;
+
+                    }
+                    if (RCALF_3DRotationAngleX < 60.0f) {
+                        RCALF_3DRotationAngleX += ROT_SPEED;
+                    }
+
+                    else {
+                        animationStep++; // move to next step
+                    }
+                    break;
+
+                case 8: // Foot rotates down
+                    if (RFOOT_3DRotationAngleX > -20.0f) {
+                        RFOOT_3DRotationAngleX -= ROT_SPEED;
+                    }
+                    if (RTHIGH_3DRotationAngleX > -45.0f) {
+                        RTHIGH_3DRotationAngleX -= ROT_SPEED;
+
+                    }
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 9: // Calf rotates up
+                    if (RTHIGH_3DRotationAngleX < -12.0f) {
+                        RTHIGH_3DRotationAngleX += ROT_SPEED;
+
+                    }
+                    if (RCALF_3DRotationAngleX > 45.0f) {
+                        RCALF_3DRotationAngleX -= ROT_SPEED;
+                    }
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+
+                case 10: // Foot rotates up
+                    if (RFOOT_3DRotationAngleX < 0.0f) {
+                        RFOOT_3DRotationAngleX += ROT_SPEED;
+                    }
+                    if (RTHIGH_3DRotationAngleX < -0.0f) {
+                        RTHIGH_3DRotationAngleX += ROT_SPEED;
+
+                    }
+                    if (RCALF_3DRotationAngleX > 0.0f) {
+                        RCALF_3DRotationAngleX -= ROT_SPEED;
+                    }
+                    else {
+                        animationStep = 0;
+                    }
+                    break;
+
+                case 11: // Calf rotates back down
+                    if (RCALF_3DRotationAngleX > -10.0f) {
+
+                    }
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 12:
+                    if (RTHIGH_3DRotationAngleX < 40.0f) {
+
+                    }
+
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 13:
+                    if (RFOOT_3DRotationAngleX < 60.0f) {
+
+                    }
+                    else {
+                        animationStep = 0; // loop animation
+                    }
+                    break;
+                }
+                }
+
             }
-        }
-        else if (legControl == 2)
-        {
-            if (FOOT_3DRotationAngleX > -20.0f)
+            else if (legControl == 4)
             {
-                FOOT_3DRotationAngleX -= ROT_SPEED;
+
+                switch (animationStep) {
+                case 0: // Thigh rotates down
+                    if (THIGH_3DRotationAngleX > -55.0f) {
+                        THIGH_3DRotationAngleX -= ROT_SPEED;
+                    }
+                    else {
+                        animationStep++; // move to next step
+                    }
+                    break;
+
+                case 1: // Calf rotates up
+                    if (CALF_3DRotationAngleX < 80.0f) {
+                        CALF_3DRotationAngleX += ROT_SPEED;
+                    }
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 2: // Foot rotates down
+                    if (FOOT_3DRotationAngleX > -20.0f) {
+                        FOOT_3DRotationAngleX -= ROT_SPEED;
+                    }
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 3: // Foot rotates up
+                    if (THIGH_3DRotationAngleX < 0.0f) {
+                        THIGH_3DRotationAngleX += ROT_SPEED;
+                    }
+
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 4: // Calf rotates back down
+                    if (CALF_3DRotationAngleX > -10.0f) {
+                        CALF_3DRotationAngleX -= ROT_SPEED;
+                    }
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 5:
+                    if (THIGH_3DRotationAngleX < 40.0f) {
+                        THIGH_3DRotationAngleX += ROT_SPEED;
+                    }
+
+                    else {
+                        animationStep++;
+                    }
+                    break;
+
+                case 6:
+                    if (FOOT_3DRotationAngleX < 60.0f) {
+                        FOOT_3DRotationAngleX += ROT_SPEED;
+                    }
+                    else {
+                        animationStep = 0; // loop animation
+                    }
+                    break;
+                }
+
             }
+            
         }
+
+        else if (legSide == 1)
+        {
+            if (legControl == 0)
+            {
+
+                if (RTHIGH_3DRotationAngleX > -80.0f)
+                {
+                    RTHIGH_3DRotationAngleX -= ROT_SPEED;
+                }
+
+            }
+            else if (legControl == 1)
+            {
+                if (RCALF_3DRotationAngleX > 0.0f)
+                {
+                    RCALF_3DRotationAngleX -= ROT_SPEED;
+                }
+            }
+            else if (legControl == 2)
+            {
+                if (RFOOT_3DRotationAngleX > -20.0f)
+                {
+                    RFOOT_3DRotationAngleX -= ROT_SPEED;
+                }
+            }
     }
 
     if (diKeys[DIK_S] & 0x80)
     {
-        if (legControl == 0)
+        if (legSide == 0)
         {
-
-            if (THIGH_3DRotationAngleX < 45.0f)
+            if (legControl == 0)
             {
-                THIGH_3DRotationAngleX += ROT_SPEED;
+
+                if (THIGH_3DRotationAngleX < 45.0f)
+                {
+                    THIGH_3DRotationAngleX += ROT_SPEED;
+                }
+
             }
 
-        }
-
-        else if (legControl == 1)
-        {
-            if (CALF_3DRotationAngleX < 120.0f)
+            else if (legControl == 1)
             {
-                CALF_3DRotationAngleX += ROT_SPEED;
+                if (CALF_3DRotationAngleX < 120.0f)
+                {
+                    CALF_3DRotationAngleX += ROT_SPEED;
+                }
+            }
+
+            else if (legControl == 2)
+            {
+                if (FOOT_3DRotationAngleX < 40.0f)
+                {
+                    FOOT_3DRotationAngleX += ROT_SPEED;
+                }
             }
         }
-
-        else if (legControl == 2)
+        else if (legSide == 1)
         {
-            if (FOOT_3DRotationAngleX < 40.0f)
+            if (legControl == 0)
             {
-                FOOT_3DRotationAngleX += ROT_SPEED;
+
+                if (RTHIGH_3DRotationAngleX < 45.0f)
+                {
+                    RTHIGH_3DRotationAngleX += ROT_SPEED;
+                }
+
+            }
+
+            else if (legControl == 1)
+            {
+                if (RCALF_3DRotationAngleX < 120.0f)
+                {
+                    RCALF_3DRotationAngleX += ROT_SPEED;
+                }
+            }
+
+            else if (legControl == 2)
+            {
+                if (RFOOT_3DRotationAngleX < 40.0f)
+                {
+                    RFOOT_3DRotationAngleX += ROT_SPEED;
+                }
             }
         }
     }
@@ -145,17 +456,43 @@ void LeftLeg::updateInput() {
 
     }
 
-    if (diKeys[DIK_U] & 0x80) {
-       
+    if (diKeys[DIK_X] & 0x80) {
+        CALF_3DRotationAngleX = 0.0f;
+        CALF_3DRotationAngleY = 0.0f;
+        CALF_3DRotationAngleZ = 0.0f;
+
+        THIGH_3DRotationAngleX = 0.0f;
+        THIGH_3DRotationAngleY = 0.0f;
+        THIGH_3DRotationAngleZ = 0.0f;
+
+        FOOT_3DRotationAngleX = 0.0f;
+        FOOT_3DRotationAngleY = 0.0f;
+        FOOT_3DRotationAngleZ = 0.0f;
+
+        animationStep = 0;
+
+        RCALF_3DRotationAngleX = 0.0f;
+        RCALF_3DRotationAngleY = 0.0f;
+        RCALF_3DRotationAngleZ = 0.0f;
+
+        RTHIGH_3DRotationAngleX = 0.0f;
+        RTHIGH_3DRotationAngleY = 0.0f;
+        RTHIGH_3DRotationAngleZ = 0.0f;
+
+        RFOOT_3DRotationAngleX = 0.0f;
+        RFOOT_3DRotationAngleY = 0.0f;
+        RFOOT_3DRotationAngleZ = 0.0f;
+
+
 
     }
 
-    if (diKeys[DIK_O] & 0x80) {
-        
+    if (diKeys[DIK_C] & 0x80) {
+        legSide = 0;
     }
 
     if (diKeys[DIK_V] & 0x80) {
-        legControl = 0;
+        legSide = 1;
     }
 
     if (diKeys[DIK_B] & 0x80) {
@@ -862,7 +1199,7 @@ void LeftLeg::drawBolt() {
     //glColor3f(0.9, 0.5, 0.5);
     //glTranslatef(0.0f, -5.3f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 0.3f, 0.3f, 0.3f, FILL, Skin);
+    drawCylinder(varCylinder, 0.3f, 0.3f, 0.3f, FILL, BlackShiny);
     glPopMatrix();;
 
     //Bolt Cover   
@@ -880,7 +1217,7 @@ void LeftLeg::drawThigh() {
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, 0.25f, 0.0f);
-    drawSphere(thigh, 2.0f, 20, 20, Blue);
+    drawSphere(thigh, 2.0f, 20, 20, Krypto);
     glPopMatrix();
 
     //ThighTop
@@ -888,7 +1225,15 @@ void LeftLeg::drawThigh() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, 0.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.9f, 2.5f, 2.0f, FILL, Skin);
+    drawCylinder(varCylinder, 1.95f, 2.55f, 2.0f, FILL, Skin);
+    glPopMatrix();
+
+    //ThighTop
+    glPushMatrix();
+    glColor3f(0.5, 0.5, 0.5);
+    glTranslatef(0.0f, 0.5f, 0.0f);
+    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+    drawCylinder(varCylinder, 1.9f, 2.5f, 2.0f, LINE, Skin);
     glPopMatrix();
 
     //ThighMeat
@@ -920,7 +1265,7 @@ void LeftLeg::drawThigh() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, -3.45f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 2.55f, 1.95f, 2.0f, LINE, Blue);
+    drawCylinder(varCylinder, 2.55f, 1.95f, 2.0f, LINE, Skin);
     glPopMatrix();
 
     //ThighLow
@@ -938,7 +1283,7 @@ void LeftLeg::drawShin() {
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, 0.25f, 0.0f);
-    drawSphere(thigh, 1.6f, 10, 10, BlackShiny);
+    drawSphere(thigh, 1.6f, 10, 10, Krypto);
     glPopMatrix();
 
     //ThighTop
@@ -954,7 +1299,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, 0.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.6f, 1.8f, 2.0f, LINE, BlackShiny);
+    drawCylinder(varCylinder, 1.6f, 1.8f, 2.0f, LINE, Skin);
     glPopMatrix();
 
     //ThighMeat
@@ -962,7 +1307,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.7, 0.7, 0.7);
     glTranslatef(0.0f, -1.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.8f, 1.8f, 2.0f, FILL, BlackShiny);
+    drawCylinder(varCylinder, 1.8f, 1.8f, 2.0f, FILL, Blue);
     glPopMatrix();
 
     //ThighMeat -LINE
@@ -970,7 +1315,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, -1.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.8f, 1.8f, 2.1f, LINE, BlackShiny);
+    drawCylinder(varCylinder, 1.8f, 1.8f, 2.1f, LINE, Blue);
     glPopMatrix();
 
     //ThighMid
@@ -986,7 +1331,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, -3.45f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.85f, 1.4f, 2.0F, LINE, BlackShiny);
+    drawCylinder(varCylinder, 1.85f, 1.4f, 2.0F, LINE, Skin);
     glPopMatrix();
 
     //ThighLow
@@ -994,7 +1339,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, -5.3f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.4f, 1.0f, 2.0f, FILL, BlackShiny);
+    drawCylinder(varCylinder, 1.4f, 1.0f, 2.0f, FILL, Krypto);
     glPopMatrix();
 
 
@@ -1125,20 +1470,20 @@ void LeftLeg::drawFootPiece() {
     glTranslatef(-0.3f, 0.4, 0.0f);
     //glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
     glColor3f(0.7f, 0.7f, 0.7f); // orange pyramid
-    drawTriangularPrism(1.0f,.59f,  0.8f, 0.0f, 0.0f,  0.0f,  NULL);
+    drawTriangularPrism(1.0f,.59f,  0.8f, 0.0f, 0.0f,  0.0f,  Blue);
     glPopMatrix();
 
     //Heel
     glPushMatrix();
     glTranslatef(-1.2f, 0.3, 0.0f);
     glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
-    drawCuboid(0.8f, 0.8f, 0.8f, 0.0f, 0.0f, 0.0f, 0.7f, 0.7f, 0.7f, NULL);
+    drawCuboid(0.8f, 0.8f, 0.8f, 0.0f, 0.0f, 0.0f, 0.7f, 0.7f, 0.7f, Blue);
     glPopMatrix();
 
     //footSole
     glPushMatrix();
     glTranslatef(-0.3f, 0.0f, 0.0f);
-    drawCuboid(1.0f, 0.2f, 0.8f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, NULL);
+    drawCuboid(1.0f, 0.2f, 0.8f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, Blue);
     glPopMatrix();
     glPopMatrix();
 }
@@ -1151,7 +1496,7 @@ void LeftLeg::drawFootToe() {
     glPushMatrix();
     glTranslatef(-0.3f, 0.4f, 0.0f);
     glColor3f(0.7f, 0.7f, 0.7f); // brown
-    drawTriangularPrism(1.0f, 0.59f, 0.8f, 0.0f, 0.0f, 0.0f, NULL);
+    drawTriangularPrism(1.0f, 0.59f, 0.8f, 0.0f, 0.0f, 0.0f, Krypto);
     glPopMatrix();
 
     // ===== Heel =====
@@ -1159,14 +1504,14 @@ void LeftLeg::drawFootToe() {
     glTranslatef(-1.1f, 0.3f, 0.0f);
     glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
     glColor3f(0.2f, 0.2f, 0.2f); // dark grey
-    drawCuboid(0.8f, 0.6f, 0.8f, 0.0f, 0.0f, 0.0f, 0.7f, 0.7f, 0.7f, NULL);
+    drawCuboid(0.8f, 0.6f, 0.8f, 0.0f, 0.0f, 0.0f, 0.7f, 0.7f, 0.7f, Krypto);
     glPopMatrix();
 
     // ===== Foot sole =====
     glPushMatrix();
     glTranslatef(-0.3f, 0.0f, 0.0f);
     glColor3f(0.1f, 0.4f, 0.8f); // blue
-    drawCuboid(1.0f, 0.2f, 0.8f, 0.0f, 0.0f, 0.0f,0.0f, 0.0f, 0.0f, NULL);
+    drawCuboid(1.0f, 0.2f, 0.8f, 0.0f, 0.0f, 0.0f,0.0f, 0.0f, 0.0f, Krypto);
     glPopMatrix();
 
     glPopMatrix();
@@ -1236,7 +1581,7 @@ void LeftLeg::draw() {
             glPushMatrix();
                 glColor3f(0.0, 0.0, 0.0);
                 glTranslatef(0.0f, -7.8f, 0.0f);
-                drawSphere(joint, 1.6f, 10, 10, NULL);
+                drawSphere(joint, 1.6f, 10, 10, BlackShiny);
             glPopMatrix();
 
             //Whole Calf
@@ -1267,6 +1612,80 @@ void LeftLeg::draw() {
                 glRotatef(FOOT_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
                 glRotatef(FOOT_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
                 glRotatef(FOOT_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+                glTranslatef(0.0f, 16.8f, 0.0f);
+        
+                    //Foot
+                    glPushMatrix();
+                        glTranslatef(-0.0f, -19.0f, 2.5f);
+                        glRotatef(-90.0f, 0.0, 1.0, 0.0);
+                        glScalef(2.0f, 3.0f, 3.0f);
+                        drawFoot();
+                    glPopMatrix();
+
+                    //glTranslatef(-0.0f, -19.0f, 2.5f);
+                    //glRotatef(-40.0f, 1.0, 0.0, 0.0);
+
+                glPopMatrix();
+            glPopMatrix();
+        glPopMatrix();
+    glPopMatrix();
+
+}
+
+void LeftLeg::draw2() {
+
+
+    //Whole Leg
+
+    glPushMatrix();
+        //glTranslatef(0.0f, 0.5, 0.0f);
+        //glRotatef(0.45, 1.0f, 0.0f, 0.0f);
+        glRotatef(RTHIGH_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+        glRotatef(RTHIGH_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+        glRotatef(RTHIGH_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+        //glTranslatef(0.0f, -0.5, 0.0f);
+        glPushMatrix();
+            //Tigh
+            glPushMatrix();
+                glTranslatef(0.0f, 0.0f, 0.0f);
+                drawThigh();
+            glPopMatrix();
+
+            //Joint
+            glPushMatrix();
+                glColor3f(0.0, 0.0, 0.0);
+                glTranslatef(0.0f, -7.8f, 0.0f);
+                drawSphere(joint, 1.6f, 10, 10, BlackShiny);
+            glPopMatrix();
+
+            //Whole Calf
+            glPushMatrix();
+
+            glTranslatef(0.0f, -7.8f, 0.0f);
+            glRotatef(RCALF_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+            glRotatef(RCALF_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+            glRotatef(RCALF_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+            glTranslatef(0.0f, 7.8f, 0.0f);
+
+                //Calf
+                glPushMatrix();
+                    glTranslatef(0.0f, -9.5f, 0.3f);
+                    drawShin();
+                glPopMatrix();
+
+                //Joint
+                glPushMatrix();
+                    glColor3f(0.0, 0.0, 0.0);
+                    glTranslatef(0.0f, -16.8f, 0.2f);
+                    drawSphere(joint, 0.9f, 10, 10, BlackShiny);
+                glPopMatrix();
+
+                glPushMatrix();
+
+                glTranslatef(0.0f, -16.8f, 0.0f);
+                glRotatef(RFOOT_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+                glRotatef(RFOOT_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+                glRotatef(RFOOT_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
                 glTranslatef(0.0f, 16.8f, 0.0f);
         
                     //Foot
