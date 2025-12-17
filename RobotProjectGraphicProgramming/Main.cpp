@@ -75,11 +75,11 @@ float aspectRatio = cameraScreenWidth / cameraScreenHeight;
 
 //lighting
 float diffuseLightPositionX = 0.0f;
-float diffuseLightPositionY = 2.0f;
-float diffuseLightPositionZ = 0.7f;
+float diffuseLightPositionY = 1.0f;
+float diffuseLightPositionZ = 0.0f;
 
 GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f };
-GLfloat diffuseLight[] = { 0.7f, 0.7f, 0.7f };
+GLfloat diffuseLight[] = { 1.0f, 1.0f, 1.0f };
 GLfloat diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ, 1.0f };
 
 GLUquadricObj* quadLightBulb = NULL;
@@ -380,6 +380,8 @@ void Display(int QuestionsToRender)
   case 1:
 		body.updateInput();
 		jpk->jetpackInput();
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientLight);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseLight);
 		body.drawBodyFrame(jpk);
 		break;
 	}
@@ -450,6 +452,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	//texture initialization
 	experimentationStation.loadTextures();
 	jpk->initTexture();
+	body.initBodyTexture();
 	//texture loading
 	/*
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -503,6 +506,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	//Delete texture after closes window
 	experimentationStation.deleteTextures();
 	jpk->clearTexture();
+	body.clearBodyTexture();
 	UnregisterClass(WINDOW_TITLE, wc.hInstance);
 
 	return true;
@@ -536,7 +540,7 @@ void drawLightBulb()
 
 	// e) set quadric draw style
 	// Options: GLU_FILL, GLU_LINE, GLU_SILHOUETTE, GLU_POINT
-	gluQuadricDrawStyle(quadLightBulb, GLU_FILL);   // wireframe sphere
+	gluQuadricDrawStyle(quadLightBulb, GLU_LINE);   // wireframe sphere
 
 	glPushMatrix();
 	glTranslatef(diffuseLightPosition[0], diffuseLightPosition[1], diffuseLightPosition[2]);

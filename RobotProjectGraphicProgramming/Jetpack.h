@@ -16,9 +16,12 @@ class Jetpack : public RobotPart
 private:
 	float transitionX;
 	float firepower;
+
 	BITMAP BMP;
 	HBITMAP hBMP;
-	GLuint steelTex;
+	GLuint metal = 0;
+	GLuint logo = 0;
+	GLuint flame = 0;
 
 public:
 	void initTexture();

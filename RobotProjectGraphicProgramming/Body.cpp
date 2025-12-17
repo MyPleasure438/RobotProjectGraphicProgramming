@@ -7,6 +7,23 @@ GLUquadricObj* ERStone = gluNewQuadric();
 bool anim_flag = false;
 static bool isAnim_flag = false;
 
+void Body::initBodyTexture() {
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	HBITMAP hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL),
+		"bodyTex.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION |
+		LR_LOADFROMFILE);
+	GetObject(hBMP, sizeof(BMP), &BMP);
+	glEnable(GL_TEXTURE_2D);
+	glGenTextures(1, &bodyTex);
+	glBindTexture(GL_TEXTURE_2D, bodyTex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+}
+
+void Body::clearBodyTexture() {
+	glDeleteTextures(1, &bodyTex);
+}
 
 void Body::updateInput() {
 	InputManager& inputManager = InputManager::getInstance();
@@ -96,8 +113,8 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 	glRotatef(BodyRotateX, 1.0f, 0.0f, 0.0f);
 	glRotatef(BodyRotateY+180, 0.0f, 1.0f, 0.0f);
 	glRotatef(BodyRotateZ, 0.0f, 0.0f, 1.0f);
-		
-		glColor3f(1.0, 1.0, 1.0);
+	
+		glBindTexture(GL_TEXTURE_2D, bodyTex);
 		glNormal3f(0, 0, 1);
 		glBegin(GL_QUADS); //back
 		glVertex3f(-0.3, 0.4, 0.2);
@@ -107,7 +124,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glEnd();
 
 		glColor3f(1.0, 0, 0);
-		glNormal3f(-0.1, 0, 0);
+		glNormal3f(-1, 0, 0);
 		glBegin(GL_POLYGON); //left
 		glVertex3f(-0.3, 0.4, -0.2);
 		glVertex3f(-0.3, 0.1, -0.3);

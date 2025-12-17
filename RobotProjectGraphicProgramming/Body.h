@@ -32,12 +32,17 @@ private:
 	float waves_time;
 	float anim_value;
 
+	BITMAP BMP;
+	HBITMAP hBMP;
+	GLuint bodyTex = 0;
+
 public:
 	
 	void updateInput() override;	
 	void drawBodyFrame(Jetpack *jpk);
 	void drawScales(float cx,float cy, float cz,float facingR, float offset);
 	void drawEnergyStone(float cx, float cy,float cz);
-	void animation();
+	void initBodyTexture();
+	void clearBodyTexture();
 };
 
