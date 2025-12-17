@@ -147,6 +147,7 @@ void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ
     //scale first
     glScalef(scaleX, scaleY, scaleZ);
     glColor3f(red, green, blue);
+
     glBindTexture(GL_TEXTURE_2D, texture);
    
     Vector3D normal = findNormalVector(Point3D{ -0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
@@ -227,7 +228,7 @@ void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ
     glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glEnd();
-
+    
     glPopMatrix();
 }
 

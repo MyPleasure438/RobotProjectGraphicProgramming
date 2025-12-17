@@ -20,7 +20,7 @@
 #include "LeftArm.h"
 #include "Body.h"
 #include "Head.h"
-#include "Leg.h"
+#include "LeftLeg.h"
 #include "Shield.h"
 #include "Sword.h"
 class Robot
@@ -29,7 +29,7 @@ private:
 	LeftArm leftArm;
 	Body body;
 	Head head;
-	Leg leg;
+	LeftLeg leftLeg;
 	Shield shield;
 	Sword sword;
 
