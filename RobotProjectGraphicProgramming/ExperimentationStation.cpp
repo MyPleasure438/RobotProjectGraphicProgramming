@@ -1412,10 +1412,10 @@ void ExperimentationStation::drawPlane() {
     glDisable(GL_LIGHTING);
     glColor3f(1.0, 1.0, 1.0);
     glBegin(GL_QUADS);
-    glVertex3f(-1, -1, 1);
-    glVertex3f(1, -1, 1);
-    glVertex3f(1, -1, -1);
-    glVertex3f(-1, -1 , -1);
+    glVertex3f(-5, -6.5, 5);
+    glVertex3f(5, -6.5, 5);
+    glVertex3f(5, -6.5, -5);
+    glVertex3f(-5, -6.5 , -5);
     glEnd();
     glEnable(GL_LIGHTING);
     glPopMatrix();
