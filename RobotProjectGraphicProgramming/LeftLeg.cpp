@@ -5,6 +5,8 @@ LeftLeg::LeftLeg() {
     thickness = 0.3f;
     jointAngle = 0.0f;
     legControl = 0;
+
+
     // default position relative to body
     //x = 0.0f;
     //y = 0.0f;
@@ -19,36 +21,62 @@ void LeftLeg::updateInput() {
     InputManager& inputManager = InputManager::getInstance();
     LPDIRECTINPUTDEVICE8 dInputKeyboardDevice = inputManager.getDInputKeyboardDevice();
     HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
-    if (diKeys[DIK_W] & 0x80) {
 
-        THIGH_3DRotationAngleX = THIGH_3DRotationAngleX + 5;
-      /*  if (legControl == 0) 
+
+    if (diKeys[DIK_W] & 0x80)
+    {
+        if (legControl == 0)
         {
-            if (THIGH_3DRotationAngleX < 0.90)
+
+            if (THIGH_3DRotationAngleX > -80.0f)
             {
-                
-            } 
-       }
+                THIGH_3DRotationAngleX -= ROT_SPEED;
+            }
+
+        }
         else if (legControl == 1)
         {
-            if (CALF_3DRotationAngleX < 0.90)
+            if (CALF_3DRotationAngleX > 0.0f)
             {
-                CALF_3DRotationAngleX++;
-            }
-        }*/
-        
-
-    }
-
-    if (diKeys[DIK_S] & 0x80) {
-        if (legControl = 0) {
-            if (THIGH_3DRotationAngleX > -0.90)
-            {
-                THIGH_3DRotationAngleX--;
+                CALF_3DRotationAngleX -= ROT_SPEED;
             }
         }
-      
+        else if (legControl == 2)
+        {
+            if (FOOT_3DRotationAngleX > -20.0f)
+            {
+                FOOT_3DRotationAngleX -= ROT_SPEED;
+            }
+        }
+    }
 
+    if (diKeys[DIK_S] & 0x80)
+    {
+        if (legControl == 0)
+        {
+
+            if (THIGH_3DRotationAngleX < 45.0f)
+            {
+                THIGH_3DRotationAngleX += ROT_SPEED;
+            }
+
+        }
+
+        else if (legControl == 1)
+        {
+            if (CALF_3DRotationAngleX < 120.0f)
+            {
+                CALF_3DRotationAngleX += ROT_SPEED;
+            }
+        }
+
+        else if (legControl == 2)
+        {
+            if (FOOT_3DRotationAngleX < 40.0f)
+            {
+                FOOT_3DRotationAngleX += ROT_SPEED;
+            }
+        }
     }
 
     if (diKeys[DIK_A] & 0x80) {
@@ -127,29 +155,26 @@ void LeftLeg::updateInput() {
     }
 
     if (diKeys[DIK_V] & 0x80) {
-        slices--;
+        legControl = 0;
     }
 
     if (diKeys[DIK_B] & 0x80) {
-        slices++;
+        legControl = 1;
     }
 
     if (diKeys[DIK_N] & 0x80) {
-        stacks--;
+        legControl = 2;
     }
 
     if (diKeys[DIK_M] & 0x80) {
-        stacks++;
+        legControl = 3;
     }
 
 
     if (diKeys[DIK_P] & 0x80) {
-        legControl++;
-        if (legControl > 3)
-        {
-            legControl = 0;
-        }
+        
     }
+
 
     // Example: simple arm swing animation
     // jointAngle changes over time (controlled externally)
@@ -738,6 +763,54 @@ void LeftLeg::loadTextures()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
 
 
+    //Haresh third texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "BlackShiny.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &BlackShiny);
+    glBindTexture(GL_TEXTURE_2D, BlackShiny);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //Haresh fourth texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "Skin.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &Skin);
+    glBindTexture(GL_TEXTURE_2D, Skin);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //Haresh fifth texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "Krypto.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &Krypto);
+    glBindTexture(GL_TEXTURE_2D, Krypto);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //Haresh fifth texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "Blue.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &Blue);
+    glBindTexture(GL_TEXTURE_2D, Blue);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
     //glMatrixMode(GL_TEXTURE);
     //glLoadIdentity();
     //glScalef(30.0, 20.0, 1.0);
@@ -780,24 +853,24 @@ void LeftLeg::drawBolt() {
     glPushMatrix();
     glTranslatef(0.0f, 0.0f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    glColor3f(0.2, 0.2, 0.2);
-    drawCircle(0.3f, NULL);
+    //glColor3f(0.2, 0.2, 0.2);
+    drawCircle(0.3f, Krypto);
     glPopMatrix();
 
     //Bolt
     glPushMatrix();
-    glColor3f(0.9, 0.5, 0.5);
+    //glColor3f(0.9, 0.5, 0.5);
     //glTranslatef(0.0f, -5.3f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 0.3f, 0.3f, 0.3f, FILL, NULL);
+    drawCylinder(varCylinder, 0.3f, 0.3f, 0.3f, FILL, Skin);
     glPopMatrix();;
 
     //Bolt Cover   
     glPushMatrix();
     glTranslatef(0.0f, -0.3f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    glColor3f(0.2, 0.2, 0.2);
-    drawCircle(0.3f, NULL);
+    //glColor3f(0.2, 0.2, 0.2);
+    drawCircle(0.3f, Krypto);
     glPopMatrix();
 }
 
@@ -807,7 +880,7 @@ void LeftLeg::drawThigh() {
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, 0.25f, 0.0f);
-    drawSphere(thigh, 2.0f, 20, 20, NULL);
+    drawSphere(thigh, 2.0f, 20, 20, Blue);
     glPopMatrix();
 
     //ThighTop
@@ -815,7 +888,7 @@ void LeftLeg::drawThigh() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, 0.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.9f, 2.5f, 2.0f, FILL, NULL);
+    drawCylinder(varCylinder, 1.9f, 2.5f, 2.0f, FILL, Skin);
     glPopMatrix();
 
     //ThighMeat
@@ -823,7 +896,7 @@ void LeftLeg::drawThigh() {
     glColor3f(0.7, 0.7, 0.7);
     glTranslatef(0.0f, -1.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 2.5f, 2.5f, 2.0f, FILL, NULL);
+    drawCylinder(varCylinder, 2.5f, 2.5f, 2.0f, FILL, Blue);
     glPopMatrix();
 
     //ThighMeat - LINE
@@ -831,7 +904,7 @@ void LeftLeg::drawThigh() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, -1.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 2.55f, 2.55f, 2.0f, LINE, NULL);
+    drawCylinder(varCylinder, 2.55f, 2.55f, 2.0f, LINE, Blue);
     glPopMatrix();
 
     //ThighMid
@@ -839,7 +912,7 @@ void LeftLeg::drawThigh() {
     glColor3f(0.7, 0.7, 0.7);
     glTranslatef(0.0f, -3.45f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 2.5f, 1.9f, 2.0f, FILL, NULL);
+    drawCylinder(varCylinder, 2.5f, 1.9f, 2.0f, FILL, Skin);
     glPopMatrix();
 
     //ThighMid - LINE
@@ -847,7 +920,7 @@ void LeftLeg::drawThigh() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, -3.45f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 2.55f, 1.95f, 2.0f, LINE, NULL);
+    drawCylinder(varCylinder, 2.55f, 1.95f, 2.0f, LINE, Blue);
     glPopMatrix();
 
     //ThighLow
@@ -855,7 +928,7 @@ void LeftLeg::drawThigh() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, -5.3f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.9f, 1.4f, 2.0f, FILL, NULL);
+    drawCylinder(varCylinder, 1.9f, 1.4f, 2.0f, FILL, Krypto);
     glPopMatrix();
 }
 
@@ -865,7 +938,7 @@ void LeftLeg::drawShin() {
     glPushMatrix();
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, 0.25f, 0.0f);
-    drawSphere(thigh, 1.6f, 10, 10, NULL);
+    drawSphere(thigh, 1.6f, 10, 10, BlackShiny);
     glPopMatrix();
 
     //ThighTop
@@ -873,7 +946,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.7, 0.7, 0.7);
     glTranslatef(0.0f, 0.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.6f ,1.8f, 2.0f, FILL, NULL);
+    drawCylinder(varCylinder, 1.6f ,1.8f, 2.0f, FILL, Skin);
     glPopMatrix();
 
     //ThighTop - LINE
@@ -881,7 +954,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, 0.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.6f, 1.8f, 2.0f, LINE, NULL);
+    drawCylinder(varCylinder, 1.6f, 1.8f, 2.0f, LINE, BlackShiny);
     glPopMatrix();
 
     //ThighMeat
@@ -889,7 +962,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.7, 0.7, 0.7);
     glTranslatef(0.0f, -1.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.8f, 1.8f, 2.0f, FILL, NULL);
+    drawCylinder(varCylinder, 1.8f, 1.8f, 2.0f, FILL, BlackShiny);
     glPopMatrix();
 
     //ThighMeat -LINE
@@ -897,7 +970,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, -1.5f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.8f, 1.8f, 2.1f, LINE, NULL);
+    drawCylinder(varCylinder, 1.8f, 1.8f, 2.1f, LINE, BlackShiny);
     glPopMatrix();
 
     //ThighMid
@@ -905,7 +978,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.7, 0.7, 0.7);
     glTranslatef(0.0f, -3.45f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.8f, 1.4f, 2.0f, FILL, NULL);
+    drawCylinder(varCylinder, 1.8f, 1.4f, 2.0f, FILL, Skin);
     glPopMatrix();
 
     //ThighMid - line
@@ -913,7 +986,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, -3.45f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.85f, 1.4f, 2.0F, LINE, NULL);
+    drawCylinder(varCylinder, 1.85f, 1.4f, 2.0F, LINE, BlackShiny);
     glPopMatrix();
 
     //ThighLow
@@ -921,7 +994,7 @@ void LeftLeg::drawShin() {
     glColor3f(0.5, 0.5, 0.5);
     glTranslatef(0.0f, -5.3f, 0.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-    drawCylinder(varCylinder, 1.4f, 1.0f, 2.0f, FILL, NULL);
+    drawCylinder(varCylinder, 1.4f, 1.0f, 2.0f, FILL, BlackShiny);
     glPopMatrix();
 
 
@@ -1146,12 +1219,12 @@ void LeftLeg::draw() {
     //Whole Leg
 
     glPushMatrix();
-        glTranslatef(0.0f, 0.5, 0.0f);
-        glRotatef(0.45, 1.0f, 0.0f, 0.0f);
-        glRotatef(THIGH_3DRotationAngleX, 0.0f, 1.0f, 0.0f);
+        //glTranslatef(0.0f, 0.5, 0.0f);
+        //glRotatef(0.45, 1.0f, 0.0f, 0.0f);
+        glRotatef(THIGH_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
         glRotatef(THIGH_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
         glRotatef(THIGH_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-        glTranslatef(0.0f, -0.5, 0.0f);
+        //glTranslatef(0.0f, -0.5, 0.0f);
         glPushMatrix();
             //Tigh
             glPushMatrix();
@@ -1169,6 +1242,12 @@ void LeftLeg::draw() {
             //Whole Calf
             glPushMatrix();
 
+            glTranslatef(0.0f, -7.8f, 0.0f);
+            glRotatef(CALF_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+            glRotatef(CALF_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+            glRotatef(CALF_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+            glTranslatef(0.0f, 7.8f, 0.0f);
+
                 //Calf
                 glPushMatrix();
                     glTranslatef(0.0f, -9.5f, 0.3f);
@@ -1179,10 +1258,16 @@ void LeftLeg::draw() {
                 glPushMatrix();
                     glColor3f(0.0, 0.0, 0.0);
                     glTranslatef(0.0f, -16.8f, 0.2f);
-                    drawSphere(joint, 0.9f, 10, 10, NULL);
+                    drawSphere(joint, 0.9f, 10, 10, BlackShiny);
                 glPopMatrix();
 
                 glPushMatrix();
+
+                glTranslatef(0.0f, -16.8f, 0.0f);
+                glRotatef(FOOT_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+                glRotatef(FOOT_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+                glRotatef(FOOT_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+                glTranslatef(0.0f, 16.8f, 0.0f);
         
                     //Foot
                     glPushMatrix();

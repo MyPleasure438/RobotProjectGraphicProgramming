@@ -483,6 +483,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	//texture initialization
 	experimentationStation.loadTextures();
 	leftArm.loadTextures();
+	leftLeg.loadTextures();
 	//texture loading
 	/*
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -535,6 +536,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	//Delete texture after closes window
 	leftArm.deleteTextures();
+	leftLeg.deleteTextures();
 	experimentationStation.deleteTextures();
 	UnregisterClass(WINDOW_TITLE, wc.hInstance);
 

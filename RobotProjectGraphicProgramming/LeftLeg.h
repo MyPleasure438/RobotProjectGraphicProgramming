@@ -14,7 +14,13 @@
 class LeftLeg : public RobotPart
 {
 private:
+
+
+
+	const float ROT_SPEED = 0.1f;
+
 	int legControl = 0;
+	int legcounter = 1;
 
 	float length;
 	float thickness;
@@ -98,8 +104,13 @@ private:
 	//Load Texture///
 	GLuint texture = 0;
 	GLuint metal = 0;
+	GLuint BlackShiny = 0;
+	GLuint Skin = 0;
+	GLuint Krypto = 0;
+	GLuint Blue = 0;
 	BITMAP BMP;
 	HBITMAP hBMP = NULL;
+
 
 public:
 	LeftLeg();
