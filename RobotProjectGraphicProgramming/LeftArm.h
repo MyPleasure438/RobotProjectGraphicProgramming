@@ -5,8 +5,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <cstdio>
-
 #include <cmath>
+#include <iostream>
 #pragma comment (lib, "OpenGL32.lib")
 #pragma comment (lib, "GLU32.lib")
 
@@ -83,6 +83,83 @@ private:
 	GLuint metal = 0;
 	BITMAP BMP;
 	HBITMAP hBMP = NULL;
+
+	float time_value = 0.0f;
+	float waves_time = 0.0f;
+	float anim_value = 0.0f;
+	float anim_value_missle = 0.0f;
+	float anim_value_minigun = 0.0f;
+	float anim_value_entireArm = 0.0f;
+
+	//Missle
+	struct Missle
+	{
+		bool isActive;
+		float currentY;
+	};
+
+	Missle missiles[4] =
+	{
+		{false, 0.0f}, // Missle 1
+		{false, 0.0f}, // Missle 2
+		{false, 0.0f}, // Missle 3
+		{false, 0.0f} // Missle 4
+	};
+
+	int nextMissileToFire = 0;
+
+	//Hand from wrist
+	struct Hand
+	{
+		bool isActive;
+		float currentRotationX;
+		float currentRotationY;
+		float currentRotationZ;
+	};
+
+	Hand handMovement[3] =
+	{
+		{false, 0.0f, 0.0f, 0.0f}, //Hand movement 1 
+		{false, 0.0f, 0.0f, 0.0f}, //Hand movement 2
+		{false, 0.0f, 0.0f, 0.0f}  //Hand movement 3
+	};
+
+	int nextHandMovement = 0;
+
+	//Minigun
+	struct Minigun
+	{
+		bool isActive;
+		float currentRotationZ;
+	};
+
+	Minigun minigunSpeed[3] =
+	{
+		{false, 0.0f}, //Minigun speed 1 
+		{false, 0.0f}, //Minigun speed 2
+		{false, 0.0f}  //Minigun speed 3
+	};
+
+	int nextMinigunSpeed = 0;
+	
+	//EntireArm
+	struct EntireArm
+	{
+		bool isActive;
+		float currentRotationZ;
+	};
+
+	EntireArm entireArmSpeed[3] =
+	{
+		{false, 0.0f}, //EntireArm speed 1 
+		{false, 0.0f}, //EntireArm speed 2
+		{false, 0.0f}  //EntireArm speed 3
+	};
+
+	int nextEntireArmSpeed = 0;
+
+	//store previous tate
+	char prevDiKeys[256];
 	
 public:
 	LeftArm();

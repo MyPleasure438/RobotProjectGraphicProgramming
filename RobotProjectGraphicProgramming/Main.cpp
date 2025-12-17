@@ -359,11 +359,11 @@ void Display(int QuestionsToRender)
 		//experimentationStation.shadeModel();
 		//experimentationStation.lightingTestCube();
 		//experimentationStation.lightingTestPyramidAndSphere();
-		//leftArm.updateInput();
+		leftArm.updateInput();
 		//leftArm.draw2();
-		//leftArm.draw();
-		head.updateInput();
-		head.draw2();
+		leftArm.draw();
+		//head.updateInput();
+		//head.draw2();
 		
 		//drawCube();
 		break;

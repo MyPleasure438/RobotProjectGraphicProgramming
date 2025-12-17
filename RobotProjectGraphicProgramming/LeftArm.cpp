@@ -972,6 +972,30 @@ void LeftArm::drawRocketLauncher()
             
             // missle projectiles 1
             glPushMatrix();
+            bool keyBPressedThisFrame = (diKeys[DIK_B] & 0x80) && !(prevDiKeys[DIK_B] & 0x80);
+
+            if (keyBPressedThisFrame) {
+                if (nextMissileToFire == 0) {
+                    missiles[0].isActive = true;
+                    nextMissileToFire = 1; // Set up to fire the next missile next time
+                }
+                else if (nextMissileToFire == 1) {
+                    missiles[1].isActive = true;
+                    nextMissileToFire = 2; // Loop back to the first missile
+                }
+                else if (nextMissileToFire == 2) {
+                    missiles[2].isActive = true;
+                    nextMissileToFire = 3; // Loop back to the first missile
+                }
+                else if (nextMissileToFire == 3) {
+                    missiles[3].isActive = true;
+                    nextMissileToFire = 4; // Loop back to the first missile
+                }
+            }
+                if (missiles[0].isActive) {
+                    missiles[0].currentY -= 5.0f;
+                }
+                glTranslatef(0.0f, missiles[0].currentY, 0.0f);
                 glTranslatef(-0.5f, -0.8f, 0.5f);
                 glScalef(0.2f, 0.2f, 0.2f);
                 glRotatef(180, 1.0f, 0.0f, 0.0f);
@@ -980,6 +1004,10 @@ void LeftArm::drawRocketLauncher()
 
             // missle projectiles 2
             glPushMatrix();
+                if (missiles[1].isActive) {
+                    missiles[1].currentY -= 5.0f;
+                }
+                glTranslatef(0.0f, missiles[1].currentY, 0.0f);
                 glTranslatef(-0.5f, -0.8f, -0.5f);
                 glScalef(0.2f, 0.2f, 0.2f);
                 glRotatef(180, 1.0f, 0.0f, 0.0f);
@@ -988,6 +1016,10 @@ void LeftArm::drawRocketLauncher()
 
             // missle projectiles 3
             glPushMatrix();
+                if (missiles[2].isActive) {
+                    missiles[2].currentY -= 5.0f;
+                }
+                glTranslatef(0.0f, missiles[2].currentY, 0.0f);
                 glTranslatef(0.5f, -0.8f, 0.5f);
                 glScalef(0.2f, 0.2f, 0.2f);
                 glRotatef(180, 1.0f, 0.0f, 0.0f);
@@ -996,10 +1028,16 @@ void LeftArm::drawRocketLauncher()
 
             // missle projectiles 4
             glPushMatrix();
+                if (missiles[3].isActive) {
+                    missiles[3].currentY -= 5.0f;
+                }
+                glTranslatef(0.0f, missiles[3].currentY, 0.0f);
                 glTranslatef(0.5f, -0.8f, -0.5f);
                 glScalef(0.2f, 0.2f, 0.2f);
                 glRotatef(180, 1.0f, 0.0f, 0.0f);
                 drawMissle();
+
+                
             glPopMatrix();
         glPopMatrix();
     glPopMatrix();
@@ -1047,7 +1085,42 @@ void LeftArm::draw() {
         glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
         glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);       
         glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-    
+        
+        bool keyMPressedThisFrame = (diKeys[DIK_M] & 0x80) && !(prevDiKeys[DIK_M] & 0x80);
+        if (keyMPressedThisFrame) {
+            if (nextEntireArmSpeed == 0) {
+                entireArmSpeed[0].isActive = true;
+                entireArmSpeed[2].isActive = false;
+                nextEntireArmSpeed = 1; // Set up to next hand movement next time
+            }
+            else if (nextEntireArmSpeed == 1) {
+                entireArmSpeed[1].isActive = true;
+                entireArmSpeed[0].isActive = false;
+                nextEntireArmSpeed = 2; // Set up to next hand movement next time
+            }
+            else if (nextEntireArmSpeed == 2) {
+                entireArmSpeed[2].isActive = true;
+                entireArmSpeed[1].isActive = false;
+                nextEntireArmSpeed = 0; // Loop back to the first hand movement
+            }
+        }
+
+        if (entireArmSpeed[0].isActive == true)
+        {
+            anim_value_entireArm += 10;
+        }
+
+        if (entireArmSpeed[1].isActive == true)
+        {
+            anim_value_entireArm += 40;
+        }
+
+        if (entireArmSpeed[2].isActive == true)
+        {
+            anim_value_entireArm += 0;
+        }
+        glRotatef(anim_value_entireArm, 0.0f, 1.0f, 0.0f);
+
         glPushMatrix();
 	        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
             glColor3f(0.2, 0.2, 0.2);
@@ -1192,21 +1265,62 @@ void LeftArm::draw() {
                     glTranslatef(0.0f, -1.6f, -3.7f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glScalef(0.5f, 0.5f, 1.0f);
-                    glPushMatrix();
-                        glColor3f(0.0f, 0.0f, 0.0f);
-                        glTranslatef(0.0f, 0.0f, 0.0f);
-                        drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 12.0f, FILL, NULL);
-                    glPopMatrix();
 
-                    glColor3f(0.0f, 0.0f, 0.0f);
-                    for (float angle = 0; angle <= 360; angle = angle + 60) {
-                        glPushMatrix();
-                            float convertToRadian = angle * 3.14159 / 180.0;
-                            glTranslatef(sin(convertToRadian) * 2.6f, cos(convertToRadian) * 2.6f, 0);
-                            drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 12.0f, FILL, NULL);
-                        glPopMatrix();
-                        //glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
+                    glPushMatrix();
+                    
+                    bool keyNPressedThisFrame = (diKeys[DIK_N] & 0x80) && !(prevDiKeys[DIK_N] & 0x80);
+
+                    if (keyNPressedThisFrame) {
+                        if (nextMinigunSpeed == 0) {
+                            minigunSpeed[0].isActive = true;
+                            minigunSpeed[2].isActive = false;
+                            nextMinigunSpeed = 1; // Set up to next hand movement next time
+                        }
+                        else if (nextMinigunSpeed == 1) {
+                            minigunSpeed[1].isActive = true;
+                            minigunSpeed[0].isActive = false;
+                            nextMinigunSpeed = 2; // Set up to next hand movement next time
+                        }
+                        else if (nextMinigunSpeed == 2) {
+                            minigunSpeed[2].isActive = true;
+                            minigunSpeed[1].isActive = false;
+                            nextMinigunSpeed = 0; // Loop back to the first hand movement
+                        }
                     }
+
+                    if (minigunSpeed[0].isActive == true)
+                    {
+                        anim_value_minigun += 10;
+                    }
+
+                    if (minigunSpeed[1].isActive == true)
+                    {
+                        anim_value_minigun += 40;
+                    }
+
+                    if (minigunSpeed[2].isActive == true)
+                    {
+                        anim_value_minigun += 0;
+                    }
+                    //std::cout << "anim_value_minigun:" << anim_value_minigun;
+                    glRotatef(anim_value_minigun, 0.0f, 0.0f, 1.0f);
+
+                        glPushMatrix();
+                            glColor3f(0.0f, 0.0f, 0.0f);
+                            glTranslatef(0.0f, 0.0f, 0.0f);
+                            drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 12.0f, FILL, NULL);
+                        glPopMatrix();
+
+                        glColor3f(0.0f, 0.0f, 0.0f);
+                        for (float angle = 0; angle <= 360; angle = angle + 60) {
+                            glPushMatrix();
+                                float convertToRadian = angle * 3.14159 / 180.0;
+                                glTranslatef(sin(convertToRadian) * 2.6f, cos(convertToRadian) * 2.6f, 0);
+                                drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 12.0f, FILL, NULL);
+                            glPopMatrix();
+                            //glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
+                        }
+                        glPopMatrix();
                     //minigun cover
                     glPushMatrix();
                         glColor3f(1.0f, 1.0f, 1.0f);
@@ -1285,6 +1399,44 @@ void LeftArm::draw() {
                     glRotatef(RobotWrist_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
                     glRotatef(RobotWrist_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
                     
+                    
+                    bool keyVPressedThisFrame = (diKeys[DIK_V] & 0x80) && !(prevDiKeys[DIK_V] & 0x80);
+
+                    if (keyVPressedThisFrame) {
+                        if (nextHandMovement == 0) {
+                            handMovement[0].isActive = true;
+                            nextHandMovement = 1; // Set up to next hand movement next time
+                        }
+                        else if (nextHandMovement == 1) {
+                            handMovement[1].isActive = true;
+                            handMovement[0].isActive = false;
+                            nextHandMovement = 2; // Set up to next hand movement next time
+                        }
+                        else if (nextHandMovement == 2) {
+                            handMovement[2].isActive = true;
+                            handMovement[1].isActive = false;
+                            nextHandMovement = 0; // Loop back to the first hand movement
+                        }
+                    }
+                    //hand movement 1
+                    if (handMovement[0].isActive) {
+                        //rotate wrist upwards
+                        if (handMovement[0].currentRotationX >= -90)
+                        {
+                            handMovement[0].currentRotationX = handMovement[0].currentRotationX - 5.0f;
+                        }
+                    }
+
+                    //hand movement2
+                    if (handMovement[1].isActive) {
+                        //rotate wrist upwards
+                        if (handMovement[0].currentRotationX <= 0)
+                        {
+                            handMovement[0].currentRotationX = handMovement[0].currentRotationX + 5.0f;
+                        }
+                    }
+
+                    glRotatef(handMovement[0].currentRotationX, 1.0f, 0.0f, 0.0f);
 
                     glPushMatrix();
                         glTranslatef(0.0f, -1.0f, 0.0f);
@@ -1330,6 +1482,7 @@ void LeftArm::draw() {
                         glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
                         */
 					    glTranslatef(finger1OffsetFromWrist.x, finger1OffsetFromWrist.y, finger1OffsetFromWrist.z);
+                        //glRotatef(150, 1.0f, 0.0f, 0.0f);
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f , 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
@@ -1408,6 +1561,10 @@ void LeftArm::draw() {
             glPopMatrix();
         glPopMatrix();
     glPopMatrix();
+
+    //*** CRITICAL STEP ***: Save the current input state for the next frame's check (Put at after everything done)
+    memcpy(prevDiKeys, diKeys, sizeof(diKeys));
+
     //glPushMatrix();
 
     // 1. Move to arm position relative to body
