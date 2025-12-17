@@ -41,6 +41,7 @@ Body body;
 Jetpack* jpk = new Jetpack();
 ExperimentationStation experimentationStation;
 
+bool isShadow = false;
 LeftLeg leftLeg;
 
 
@@ -89,6 +90,9 @@ float diffuseLightPositionZ = 0.7f;
 GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f };
 GLfloat diffuseLight[] = { 0.9f, 0.9f, 0.9f };
 GLfloat diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ, 1.0f };
+
+GLfloat plane[] = { 0.0f, 1.0f, 0.0f, 1.0f };
+GLfloat shadowMatrix[16];
 
 GLUquadricObj* quadLightBulb = NULL;
 
@@ -353,6 +357,7 @@ void Display(int QuestionsToRender)
   
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+
 	glPushMatrix();
 		glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
 		drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
@@ -463,7 +468,31 @@ void Display(int QuestionsToRender)
 		//Resh@Legs
 		leftLeg.draw();
 		//leftLeg.drawBolt();
-  
+    break;
+    case 3:
+     experimentationStation.drawPlane();
+		
+		//Put FALSE to draw a robot or TRUE for shadow
+		//Real Robot
+		glPushMatrix();
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientLight);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseLight);
+			body.drawBodyFrame(jpk,false);
+		glPopMatrix();
+
+		//Shadow
+		glPushMatrix();
+			glTranslatef(0, 0.01, 0);
+			glMultMatrixf(shadowMatrix);
+			glDisable(GL_LIGHTING);
+			glDisable(GL_TEXTURE_2D);
+			glColor3f(0.0f, 0.0f, 0.0f);
+			body.drawBodyFrame(jpk,true);
+
+			glEnable(GL_TEXTURE_2D);
+			glEnable(GL_LIGHTING);
+			glColor3f(1.0f, 1.0f, 1.0f);
+		glPopMatrix();
     break;
 	}
 
@@ -633,8 +662,11 @@ void drawLightBulb()
 
 	glPushMatrix();
 	// c) draw sphere at origin
+	glDisable(GL_LIGHTING);
+	glColor3f(1.0f, 1.0f, 0.0f);
 	gluSphere(quadLightBulb, 0.1, 20, 20);   // radius = ?, slices & stacks = ?
 
+	glEnable(GL_LIGHTING);
 	glPopMatrix();
 	// f) delete quadric (free memory)
 	gluDeleteQuadric(quadLightBulb);

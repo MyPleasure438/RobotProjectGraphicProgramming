@@ -116,19 +116,31 @@ void Body::updateInput() {
 
 }
 
-void Body::drawBodyFrame(Jetpack *jpk) {
-	glShadeModel(GL_SHADE_MODEL);
+void Body::drawBodyFrame(Jetpack *jpk, bool isShadow) {
+	
 	glLineWidth(5.0);
 	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	//glScalef(20, 20, 20);
+
+	if (!isShadow) { //Draw Color
+		glColor3f(1.0, 1.0, 1.0);
+	}
+
 	glTranslatef(BodyTranslateX, BodyTranslateY, BodyTranslateZ);
 	glRotatef(BodyRotateX, 1.0f, 0.0f, 0.0f);
 	glRotatef(BodyRotateY+180, 0.0f, 1.0f, 0.0f);
 	glRotatef(BodyRotateZ, 0.0f, 0.0f, 1.0f);
 	
 	glPushMatrix();
-		glBindTexture(GL_TEXTURE_2D, bodyTex);
+
+		if (!isShadow) {
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, bodyTex);
+		}
+		else {
+			// If it IS a shadow, ensure texture is OFF so it draws solid black
+			glDisable(GL_TEXTURE_2D);
+		}
+
 		glNormal3f(0, 0, 1);
 		glBegin(GL_QUADS); //back
 		glTexCoord2f(0, 0);
@@ -221,12 +233,12 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glVertex3f(-0.3, 0.1, -0.3);
 		glVertex3f(0.3, 0.1, -0.3);
 		glEnd();
-
 		glPopMatrix();
 
 		//----------------------------------------------------------------------
-		drawEnergyStone(0.0, 0.1, -0.25);
+		drawEnergyStone(0.0, 0.1, -0.25,isShadow);
 
+		if (isShadow) { glDisable(GL_TEXTURE_2D); glColor3f(0, 0, 0); } //Draw shadow for rest of the parts
 		//----------------------------------------------------------------------
 
 		for (int i = 0; i < 20; i++) {
@@ -250,24 +262,26 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 			}
 		}
 
-		if (anim_flag && anim_value <0.31){
-			jpk->drawJetpack(0.01, 0, anim_value);
-			anim_value += 0.001;
-		}
-		else if (!anim_flag && anim_value > 0) {
-			jpk->drawJetpack(0.01, 0, anim_value);
-			anim_value -= 0.001;
-		}
-		else {
-			jpk->drawJetpack(0.01, 0, anim_value);
-		}
+		if (isShadow) { glDisable(GL_TEXTURE_2D); glColor3f(0, 0, 0); }
 
+		jpk->drawJetpack(0.01, 0, anim_value, isShadow);
+
+		// 2. Handle the math separately
+		// Wrap this in (!isShadow) to prevent the animation running 2x faster!
+		if (!isShadow) {
+			if (anim_flag && anim_value < 0.31) {
+				anim_value += 0.001;
+			}
+			else if (!anim_flag && anim_value > 0) {
+				anim_value -= 0.001;
+			}
+		}
 		waves_time += 0.01;
 
 	glPopMatrix();
 }
 
-void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset) {
+void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset){
 	float swing = (sin(waves_time+ offset) + 1.0f) * 7.5f;
 	glPushMatrix();
 	glTranslatef(cx, cy, cz);
@@ -290,19 +304,27 @@ void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset
 	glPopMatrix();
 }
 
-void Body::drawEnergyStone(float cx, float cy,float cz) {
+void Body::drawEnergyStone(float cx, float cy,float cz, bool isShadow) {
 	float red = abs(sin(time_value * 0.5));
 
 	glPushMatrix();
 		glTranslatef(cx, cy, cz);
-		glColor3f(red, 0.2f, 0.2f);
-		GLfloat glow[] = { red * 0.5f, 0.0f, 0.0f, 1.0f };
-		glMaterialfv(GL_FRONT, GL_EMISSION, glow);
+
+		if (!isShadow) {
+			glColor3f(red, 0.2f, 0.2f);
+			GLfloat glow[] = { red * 0.5f, 0.0f, 0.0f, 1.0f };
+			glMaterialfv(GL_FRONT, GL_EMISSION, glow);
+		}
+
 		gluQuadricNormals(ERStone, GLU_SMOOTH);
 		gluSphere(ERStone, 0.1, 100, 100);
-		glColor3f(1.0f, 1.0f, 1.0f);
-		GLfloat noGlow[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		glMaterialfv(GL_FRONT, GL_EMISSION, noGlow);
+
+		if (!isShadow) {
+			glColor3f(1.0f, 1.0f, 1.0f);
+			GLfloat noGlow[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+			glMaterialfv(GL_FRONT, GL_EMISSION, noGlow);
+		}
+
 	glPopMatrix();
 	time_value += 0.01;
 }

@@ -40,9 +40,9 @@ private:
 public:
 	
 	void updateInput() override;	
-	void drawBodyFrame(Jetpack *jpk);
+	void drawBodyFrame(Jetpack *jpk, bool isShadow);
 	void drawScales(float cx,float cy, float cz,float facingR, float offset);
-	void drawEnergyStone(float cx, float cy,float cz);
+	void drawEnergyStone(float cx, float cy,float cz, bool isShadow);
 	void initBodyTexture();
 	void clearBodyTexture();
 };
