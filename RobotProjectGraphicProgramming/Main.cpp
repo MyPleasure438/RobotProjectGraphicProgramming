@@ -7,7 +7,7 @@
 #include <vector>
 #include <iostream>
 #include "InputManager.h"
-
+#include "LeftLeg.h"
 #include "LeftArm.h"
 #include "Head.h"
 #include "Body.h"
@@ -22,12 +22,12 @@
 #include <GL/glu.h>
 #pragma comment(lib, "glu32.lib")
 
-int QuestionToRender = 0;
+int QuestionToRender = 2;
 
 enum RobotDisplayParts
 {
 	LEFTARM = 0
-	
+
 };
 
 //Global object initialization
@@ -36,6 +36,8 @@ Head head;
 Body body;
 Jetpack jpk;
 ExperimentationStation experimentationStation;
+
+LeftLeg leftLeg;
 
 
 float objectRed = 0.0f;
@@ -110,16 +112,16 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			PostQuitMessage(0);
 			break;
 
-		//case '0':
-		//	//draw RobotArm 3D
-		//	QuestionToRender = LEFTARM;
-		//	break;
+			//case '0':
+			//	//draw RobotArm 3D
+			//	QuestionToRender = LEFTARM;
+			//	break;
 
 		case '1':
 			//draw RobotArm 3D
 			QuestionToRender = 1;
 			break;
-		
+
 		case '8':
 		case VK_NUMPAD8:
 			translateCameraY = translateCameraY + 0.1f;
@@ -154,9 +156,9 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			translateCameraZ = translateCameraZ + 0.1f;
 
 			break;
-			
+
 		case 'K':
-			
+
 			break;
 
 		case VK_UP:
@@ -189,12 +191,12 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			//reset position
 			glLoadIdentity();
 
-			
+
 			objectRed = 0.0f;
 			objectGreen = 0.0f;
 			objectBlue = 0.0f;
 
-			
+
 			break;
 
 
@@ -312,19 +314,19 @@ void Display(int QuestionsToRender)
 	glRotatef(rotateCameraX, 1.0f, 0.0f, 0.0f);
 	glRotatef(rotateCameraY, 0.0f, 1.0f, 0.0f);
 	glRotatef(rotateCameraZ, 0.0f, 0.0f, 1.0f);
-	
+
 
 	//End Camera///
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	//glTranslatef(translateCameraX, translateCameraY, translateCameraZ);
-	
+
 
 
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);   // set background color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear BOTH buffers
 
-	
+
 
 	//lighting///
 	//diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ };
@@ -405,8 +407,14 @@ void Display(int QuestionsToRender)
 		glPopMatrix();
 		
 		break;
+    case 2:
+		//Resh@Legs
+		leftLeg.draw();
+		//leftLeg.drawBolt();
+  
+    break;
 	}
-		
+
 
 
 	//-------------------------------
@@ -421,7 +429,7 @@ void Display(int QuestionsToRender)
 
 
 //int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
-int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 {
 	WNDCLASSEX wc;
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
@@ -499,13 +507,13 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
-	
+
 
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
 	glScalef(2.0, 1.0, 1.0);
 	*/
-	
+
 	///end texture loading///
 
 	while (true)
@@ -541,7 +549,7 @@ void orthographicProjection()
 }
 
 void perspectiveProjection()
-{	
+{
 	glLoadIdentity();
 	gluPerspective(100.0f, aspectRatio, 0.1f, 100.0f);
 }
@@ -580,7 +588,7 @@ void drawLightBulb()
 void drawCube()
 {
 	/*
-	glBegin(GL_QUADS);	
+	glBegin(GL_QUADS);
 	glVertex3f(0.5f, 0.5f, -0.5f);
 	glVertex3f(0.5f, 0.5f, 0.5f);
 	glVertex3f(-0.5f, 0.5f, 0.5f);
@@ -617,7 +625,7 @@ void drawCube()
 	glVertex3f(-0.5f, -0.5f, -0.5f);
 	*/
 	//ENABLE THIS TEXTURE CODE IF YOU WANT TO TEST TEXTURES
-	
+
 	/*
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);

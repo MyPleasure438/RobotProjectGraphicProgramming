@@ -14,6 +14,8 @@
 class LeftArm : public RobotPart
 {
 private:
+
+
 	float length;
 	float thickness;
 	float jointAngle;
@@ -195,7 +197,8 @@ public:
 	void drawMissle();
 	void drawRocketLauncher();
 	void draw();
-	void draw2();
+	void draw2();    
+
 
 };
 
