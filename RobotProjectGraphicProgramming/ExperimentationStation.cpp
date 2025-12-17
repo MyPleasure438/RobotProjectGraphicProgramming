@@ -139,7 +139,7 @@ void ExperimentationStation::drawJointMarker()
     gluDeleteQuadric(quad);
 }
 
-void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture)
+void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture, bool isShadow)
 {
     glPushMatrix();
     //translate the center point for transformation of the cuboid (This acts as a pivot point to rotate the cuboid)
@@ -1214,47 +1214,47 @@ void ExperimentationStation::lightingTestCube()
     glPopMatrix();
 }
 
-void ExperimentationStation::lightingTestPyramidAndSphere()
-{
-    glPushMatrix();
-
-
-    glTranslatef(RobotEntireArm_3DRotationAngleX * 0.1, RobotEntireArm_3DRotationAngleY * 0.1, RobotEntireArm_3DRotationAngleZ * 0.1);
-    glTranslatef(1.5f, 0.0f, 0.0f);
-    glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-    glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-    glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-    glColor3f(1.0f, 0.0f, 0.0f);
-    drawSphere(varSphere, 0.5f, 50, 50, NULL);
-    glPopMatrix();
-    glPushMatrix();
-    glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-    glRotatef(RobotElbow_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-    glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-    glColor3f(1.0f, 1.0f, 1.0f);
-    if (choice == 0)
-    {
-        drawPyramid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, texture);
-    }
-    else
-    {
-        drawPyramid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, metal);
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(2.8f, 0.0f, 0.0f);
-    if (choice == 0)
-    {
-        drawCuboid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, texture);
-    }
-    else
-    {
-        drawCuboid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, metal);
-    }
-    
-    glPopMatrix();
-}
+//void ExperimentationStation::lightingTestPyramidAndSphere()
+//{
+//    glPushMatrix();
+//
+//
+//    glTranslatef(RobotEntireArm_3DRotationAngleX * 0.1, RobotEntireArm_3DRotationAngleY * 0.1, RobotEntireArm_3DRotationAngleZ * 0.1);
+//    glTranslatef(1.5f, 0.0f, 0.0f);
+//    glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+//    glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+//    glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+//    glColor3f(1.0f, 0.0f, 0.0f);
+//    drawSphere(varSphere, 0.5f, 50, 50, NULL);
+//    glPopMatrix();
+//    glPushMatrix();
+//    glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+//    glRotatef(RobotElbow_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+//    glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+//    glColor3f(1.0f, 1.0f, 1.0f);
+//    if (choice == 0)
+//    {
+//        drawPyramid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, texture);
+//    }
+//    else
+//    {
+//        drawPyramid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, metal);
+//    }
+//    glPopMatrix();
+//
+//    glPushMatrix();
+//    glTranslatef(2.8f, 0.0f, 0.0f);
+//    if (choice == 0)
+//    {
+//        drawCuboid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, texture);
+//    }
+//    else
+//    {
+//        drawCuboid(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, metal);
+//    }
+//    
+//    glPopMatrix();
+//}
 
 void ExperimentationStation::shadeModel()
 {

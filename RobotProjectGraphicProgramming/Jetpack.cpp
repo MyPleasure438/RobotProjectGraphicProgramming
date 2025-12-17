@@ -77,6 +77,7 @@ void Jetpack::drawJetpack(float cx, float cy, float cz, bool isShadow) {
 		if (jp_anim_flag) {
 			if (transitionX < 0.23) {
 				transitionX += 0.01;
+				firepower = 0;
 			}
 		}
 		else {
@@ -85,6 +86,10 @@ void Jetpack::drawJetpack(float cx, float cy, float cz, bool isShadow) {
 				firepower -= 0.1f;
 			}
 		}
+	}
+
+	if (cz == 0) {
+		firepower = 0;
 	}
 	
 	GLuint useMetal = isShadow ? 0 : metal;
@@ -101,7 +106,7 @@ void Jetpack::drawJetpack(float cx, float cy, float cz, bool isShadow) {
 		glTranslatef(transitionX, 0, -0.05);
 		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0, useMetal, isShadow);
 		Es.drawCircle(0.05, useMetal,isShadow);
-		if (jp_anim_flag && firepower >=0 && !isShadow) {
+		if (jp_anim_flag && firepower >=0 && !isShadow && cz>0) {
 			glTranslatef(0, 0, 0.15);
 			Es.drawCylinder(fire, 0.05, 0, firepower, 0,useFlame, false);
 		}
@@ -111,7 +116,7 @@ void Jetpack::drawJetpack(float cx, float cy, float cz, bool isShadow) {
 		glTranslatef(-transitionX, 0, -0.05);
 		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,useMetal, isShadow);
 		Es.drawCircle(0.05, useMetal,isShadow);
-		if (jp_anim_flag && firepower >=0 && !isShadow) {
+		if (jp_anim_flag && firepower >=0 && !isShadow && cz>0) {
 			glTranslatef(0, 0, 0.15);
 			Es.drawCylinder(fire, 0.05, 0, firepower, 0,useFlame, false);
 		}
