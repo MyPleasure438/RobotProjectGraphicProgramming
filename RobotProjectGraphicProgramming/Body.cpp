@@ -1,5 +1,5 @@
 #include "Body.h"
-
+/*
 ExperimentationStation ES;
 
 GLUquadricObj* ERStone = gluNewQuadric();
@@ -306,3 +306,4 @@ void Body::drawEnergyStone(float cx, float cy,float cz) {
 	glPopMatrix();
 	time_value += 0.01;
 }
+*/

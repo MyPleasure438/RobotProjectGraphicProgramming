@@ -18,92 +18,91 @@ void LeftArm::updateInput() {
     LPDIRECTINPUTDEVICE8 dInputKeyboardDevice = inputManager.getDInputKeyboardDevice();
     HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
     if (diKeys[DIK_W] & 0x80) {
-        RobotEntireArm_TranslationY = RobotEntireArm_TranslationY + 0.001f;
-        
+        RobotEntireArm_TranslationY = RobotEntireArm_TranslationY + 0.5f;
     }
 
     if (diKeys[DIK_S] & 0x80) {
-        RobotEntireArm_TranslationY = RobotEntireArm_TranslationY - 0.001f;
+        RobotEntireArm_TranslationY = RobotEntireArm_TranslationY - 0.5f;
 
     }
 
     if (diKeys[DIK_A] & 0x80) {
         xpositionupdate = xpositionupdate - 0.0001f;
-        RobotEntireArm_TranslationX = RobotEntireArm_TranslationX - 0.001f;
+        RobotEntireArm_TranslationX = RobotEntireArm_TranslationX - 0.5f;
     }
 
     if (diKeys[DIK_D] & 0x80) {
         xpositionupdate = xpositionupdate - 0.0001f;
-        RobotEntireArm_TranslationX = RobotEntireArm_TranslationX + 0.001f;
+        RobotEntireArm_TranslationX = RobotEntireArm_TranslationX + 0.5f;
     }
 
     if (diKeys[DIK_Q] & 0x80) {
-        RobotEntireArm_TranslationZ = RobotEntireArm_TranslationZ - 0.001f;
+        RobotEntireArm_TranslationZ = RobotEntireArm_TranslationZ - 0.5f;
 
     }
 
     if (diKeys[DIK_E] & 0x80) {
-        RobotEntireArm_TranslationZ = RobotEntireArm_TranslationZ + 0.001f;
+        RobotEntireArm_TranslationZ = RobotEntireArm_TranslationZ + 0.5f;
 
     }
 
     if (diKeys[DIK_T] & 0x80) {
-        RobotEntireArm_3DRotationAngleY = RobotEntireArm_3DRotationAngleY + 0.1f;
+        RobotEntireArm_3DRotationAngleY = RobotEntireArm_3DRotationAngleY + 0.5f;
 
     }
 
     if (diKeys[DIK_G] & 0x80) {
-        RobotEntireArm_3DRotationAngleY = RobotEntireArm_3DRotationAngleY - 0.1f;
+        RobotEntireArm_3DRotationAngleY = RobotEntireArm_3DRotationAngleY - 0.5f;
 
     }
 
     if (diKeys[DIK_F] & 0x80) {
-        RobotEntireArm_3DRotationAngleX = RobotEntireArm_3DRotationAngleX - 0.1f;
+        RobotEntireArm_3DRotationAngleX = RobotEntireArm_3DRotationAngleX - 0.5f;
 
     }
 
     if (diKeys[DIK_H] & 0x80) {
-        RobotEntireArm_3DRotationAngleX = RobotEntireArm_3DRotationAngleX + 0.1f;
+        RobotEntireArm_3DRotationAngleX = RobotEntireArm_3DRotationAngleX + 0.5f;
 
     }
 
     if (diKeys[DIK_R] & 0x80) {
-        RobotEntireArm_3DRotationAngleZ = RobotEntireArm_3DRotationAngleZ - 0.1f;
+        RobotEntireArm_3DRotationAngleZ = RobotEntireArm_3DRotationAngleZ - 0.5f;
 
     }
 
     if (diKeys[DIK_Y] & 0x80) {
-        RobotEntireArm_3DRotationAngleZ = RobotEntireArm_3DRotationAngleZ + 0.1f;
+        RobotEntireArm_3DRotationAngleZ = RobotEntireArm_3DRotationAngleZ + 0.5f;
 
     }
 
     if (diKeys[DIK_I] & 0x80) {
-        RobotElbow_3DRotationAngleY = RobotElbow_3DRotationAngleY + 0.1f;
+        RobotElbow_3DRotationAngleY = RobotElbow_3DRotationAngleY + 0.5f;
 
     }
 
     if (diKeys[DIK_K] & 0x80) {
-        RobotElbow_3DRotationAngleY = RobotElbow_3DRotationAngleY - 0.1f;
+        RobotElbow_3DRotationAngleY = RobotElbow_3DRotationAngleY - 0.5f;
 
     }
 
     if (diKeys[DIK_J] & 0x80) {
-        RobotElbow_3DRotationAngleX = RobotElbow_3DRotationAngleX - 0.1f;
+        RobotElbow_3DRotationAngleX = RobotElbow_3DRotationAngleX - 0.5f;
 
     }
 
     if (diKeys[DIK_L] & 0x80) {
-        RobotElbow_3DRotationAngleX = RobotElbow_3DRotationAngleX + 0.1f;
+        RobotElbow_3DRotationAngleX = RobotElbow_3DRotationAngleX + 0.5f;
 
     }
 
     if (diKeys[DIK_U] & 0x80) {
-        RobotElbow_3DRotationAngleZ = RobotElbow_3DRotationAngleZ - 0.1f;
+        RobotElbow_3DRotationAngleZ = RobotElbow_3DRotationAngleZ - 0.5f;
 
     }
 
     if (diKeys[DIK_O] & 0x80) {
-        RobotElbow_3DRotationAngleZ = RobotElbow_3DRotationAngleZ + 0.1f;
+        RobotElbow_3DRotationAngleZ = RobotElbow_3DRotationAngleZ + 0.5f;
 
     }
 
@@ -225,6 +224,113 @@ void LeftArm::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerP
     glPopMatrix();
 }
 
+void LeftArm::drawSlantedCuboid(float scaleX, float scaleY, float scaleZ, float additionalSlantedHeight, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture)
+{
+    glPushMatrix();
+    //translate the center point for transformation of the cuboid (This acts as a pivot point to rotate the cuboid)
+    glTranslatef(centerPointTransformationTranslationX, centerPointTransformationTranslationY, centerPointTransformationTranslationZ);
+    //scale first
+    glScalef(scaleX, scaleY, scaleZ);
+    
+    glBindTexture(GL_TEXTURE_2D, texture);
+    Vector3D normal = findNormalVector(Point3D{ -0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    //done
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, -0.5f);
+    //additional slanted height
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f + additionalSlantedHeight, -0.5f);
+    //additional slanted height ends///
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-0.5f, 0.5f, -0.5f);
+    glEnd();
+
+    glColor3f(0.0f, 1.0f, 0.0f);
+    normal = findNormalVector(Point3D{ 0.5f, 0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_QUADS);
+    //additional slanted height
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f + additionalSlantedHeight, -0.5f);
+    //additional slanted height ends///
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, 0.5f);
+    //additional slanted height
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f + additionalSlantedHeight, 0.5f);
+    //additional slanted height ends///
+    glEnd();
+
+    glColor3f(0.0f, 0.0f, 1.0f);
+    normal = findNormalVector(Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ -0.5f, 0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-0.5f, 0.5f, -0.5f);
+    //additional slanted height
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, 0.5f + additionalSlantedHeight, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f + additionalSlantedHeight, 0.5f);
+    //additional slanted height ends///
+    glEnd();
+
+    glColor3f(0.0f, 0.0f, 0.0f);
+    normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ 0.5f, 0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_QUADS);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(-0.5f, 0.5f, 0.5f);
+    //additional slanted height
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f + additionalSlantedHeight, 0.5f);
+    //additional slanted height ends///
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, 0.5f);
+    glEnd();
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+    normal = findNormalVector(Point3D{ -0.5f, 0.5f, -0.5f }, Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ -0.5f, -0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-0.5f, 0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glEnd();
+
+    glColor3f(0.5f, 0.5f, 0.5f);
+    normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glEnd();
+
+    glPopMatrix();
+
+}
 void LeftArm::drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks, GLuint texture)
 {
     // a) declare quadric pointer
@@ -338,13 +444,13 @@ void LeftArm::drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float t
         break;
 
     case POINT:
-        gluQuadricDrawStyle(quad, GLU_POINT);   // wireframe sphere
+        gluQuadricDrawStyle(quad, GLU_POINT);   // wireframe sphere 
         break;
     }
-    drawCircle(baseRadius, NULL);
+    drawCircle(baseRadius, texture);
     glPushMatrix();
         glTranslatef(0.0f, 0.0f, height);
-		drawCircle(topRadius, NULL);
+		drawCircle(topRadius, texture);
     glPopMatrix();
     // c) draw sphere at origin
     gluCylinder(quad,
@@ -688,6 +794,125 @@ void LeftArm::loadTextures()
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
 
+    //camouflageWhite texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "camouflageWhite.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &camouflageWhite);
+    glBindTexture(GL_TEXTURE_2D, camouflageWhite);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //energyPulse texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "energyPulse.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &energyPulse);
+    glBindTexture(GL_TEXTURE_2D, energyPulse);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //minigunCover texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "minigunCover.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &minigunCover);
+    glBindTexture(GL_TEXTURE_2D, minigunCover);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //minigunCylinder texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "minigunCylinder.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &minigunCylinder);
+    glBindTexture(GL_TEXTURE_2D, minigunCylinder);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //blackMetalic texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "blackMetalic.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &blackMetalic);
+    glBindTexture(GL_TEXTURE_2D, blackMetalic);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //glass texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "glass.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &glass);
+    glBindTexture(GL_TEXTURE_2D, glass);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //whitePattern texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "whitePattern.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &whitePattern);
+    glBindTexture(GL_TEXTURE_2D, whitePattern);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //white texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "white.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &white);
+    glBindTexture(GL_TEXTURE_2D, white);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //wristPattern texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "wristPattern.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &wristPattern);
+    glBindTexture(GL_TEXTURE_2D, wristPattern);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //deadlyPattern texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "deadlyPattern.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &deadlyPattern);
+    glBindTexture(GL_TEXTURE_2D, deadlyPattern);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
     
     //glMatrixMode(GL_TEXTURE);
     //glLoadIdentity();
@@ -722,15 +947,221 @@ void LeftArm::deleteTextures()
     glDeleteTextures(1, &texture);
     glDeleteTextures(1, &metal);
 }
-/*
-void LeftArm::drawBridge()
-{  
-    drawC
+
+void LeftArm::drawMissle()
+{
+    //missle
+    glPushMatrix();
+        glColor3f(0.5f, 0.5f, 0.5f);
+        glRotatef(270, 1.0f, 0.0f, 0.0f);
+        //    beginScaleTexture(2, 1 );
+
+        drawCylinderWithCap(varCylinder, 1.3f, 0.1f, 1.0f, FILL, wristPattern);
+        //red line
+        glPushMatrix();
+            glTranslatef(0.0f, 0.0f, -0.2f);
+            glColor3f(0.5f, 0.0f, 0.0f);
+            drawCylinder(varCylinder, 1.5f, 1.3f, 0.2f, FILL, white);
+            //light gray area
+            glPushMatrix();
+                glTranslatef(0.0f, 0.0f, -2.0f);
+                glColor3f(0.8f, 0.8f, 0.8f);
+                drawCylinder(varCylinder, 1.8f, 1.5f, 2.0f, FILL, deadlyPattern);
+                //red line
+                glPushMatrix();
+                    glTranslatef(0.0f, 0.0f, -0.2f);
+                    glColor3f(1.0f, 0.0f, 0.0f);
+                    drawCylinder(varCylinder, 1.9f, 1.8f, 0.2f, FILL, white);
+                    //little dark gray area
+                    glPushMatrix();
+                        glTranslatef(0.0f, 0.0f, -0.5f);
+                        glColor3f(1.0f, 1.0f, 1.0f);
+                        drawCylinder(varCylinder, 2.0f, 1.9f, 0.5f, FILL, white);
+                        //red line
+                        glPushMatrix();
+                            glTranslatef(0.0f, 0.0f, -0.2f);
+                            glColor3f(1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 2.1f, 2.0f, 0.2f, FILL, white);
+                            // light gray area
+                            glPushMatrix();
+                                glTranslatef(0.0f, 0.0f, -6.0f);
+                                glColor3f(0.2f, 0.2f, 0.2f);
+                                drawCylinderWithCap(varCylinder, 1.3f, 2.1f, 6.0f, FILL, wristPattern );
+
+                                //rocket fins
+                                glPushMatrix();
+                                    glTranslatef(0.0f, 0.0f, 5.0f);
+                                    glRotatef(180, 0.0f, 0.0f, 1.0f);
+                                    glRotatef(90, 1.0f, 0.0f, 0.0f);
+                                    
+                                    for (float angle = 90; angle <= 450; angle = angle+120) {
+                                        glPushMatrix();
+                                            float convertToRadian = angle * 3.14159 / 180.0;
+                                            glTranslatef(0.0f, 0.0f, 0.0f);
+                                            glRotatef(angle, 0.0f, 1.0f, 0.0f);
+                                            drawSlantedCuboid(4.0f, 1.0f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, camouflageWhite);
+                                        glPopMatrix();
+                                    }
+                                    
+                                glPopMatrix();
+
+                                //second rocket fins
+                                glPushMatrix();
+                                    glTranslatef(0.0f, 0.0f, 1.0f);
+                                    glRotatef(180, 0.0f, 0.0f, 1.0f);
+                                    glRotatef(90, 1.0f, 0.0f, 0.0f);
+
+                                    for (float angle = 0; angle <= 360; angle = angle + 90) {
+                                        glPushMatrix();
+                                            float convertToRadian = angle * 3.14159 / 180.0;
+                                            glTranslatef(0.0f, 0.0f, 0.0f);
+                                            glRotatef(angle, 0.0f, 1.0f, 0.0f);
+                                            drawSlantedCuboid(1.5f, 0.7f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, camouflageWhite);
+                                        glPopMatrix();
+                                    }
+
+                                glPopMatrix();
+                                //dark gray area
+                                glPushMatrix();
+                                    glColor3f(0.3f, 0.3f, 0.3f);
+                                    glTranslatef(0.0f, 0.0f, -0.5f);
+                                    drawCylinderWithCap(varCylinder, 1.3f, 1.3f, 0.5f, FILL, blackMetalic);
+                                glPopMatrix();
+                            glPopMatrix();
+                        glPopMatrix();
+                    glPopMatrix();
+                glPopMatrix();
+            glPopMatrix();
+            
+        glPopMatrix();
+    glPopMatrix();
 }
-*/
 
+void LeftArm::drawRocketLauncher()
+{
+    //Missle Equpment
+    glColor3f(0.92f, 0.92f, 0.92f);
+    drawPyramid(2.7f, 2.0f, 2.7f, 0.0f, 0.0f, 0.0f, camouflageWhite);
+    
+    glPushMatrix();
+        glTranslatef(0.0f, -1.0f, 0.0f);
+        drawCuboid(2.7f, 5.5f, 2.7f, 0.0f, -2.75f, 0.0f, 0.0f, 0.0f, 0.0f, whitePattern);
+        //gray block
+        glPushMatrix();
+            glTranslatef(0.0f, -5.5f, 0.0f);
+            drawCuboid(2.7f, 0.5f, 2.7f, 0.0f, -0.25f, 0.0f, 0.3f, 0.3f, 0.3f, whitePattern);
+            //circle hole 1
+            glPushMatrix();
+                glColor3f(0.0f, 0.0f, 0.0f);
+                glTranslatef(-0.5f, -0.5f, 0.5f);
+                glRotatef(90, 1.0f, 0.0f, 0.0f);
+                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, minigunCover);
+            glPopMatrix();
 
+            //circle hole 2
+            glPushMatrix();
+                glColor3f(0.0f, 0.0f, 0.0f);
+                glTranslatef(0.5f, -0.5f, 0.5f);
+                glRotatef(90, 1.0f, 0.0f, 0.0f);
+                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, minigunCover);
+            glPopMatrix();
 
+            //circle hole 3
+            glPushMatrix();
+                glColor3f(0.0f, 0.0f, 0.0f);
+                glTranslatef(-0.5f, -0.5f, -0.5f);
+                glRotatef(90, 1.0f, 0.0f, 0.0f);
+                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, minigunCover);
+            glPopMatrix();
+
+            //circle hole 4
+            glPushMatrix();
+                glColor3f(0.0f, 0.0f, 0.0f);
+                glTranslatef(0.5f, -0.5f, -0.5f);
+                glRotatef(90, 1.0f, 0.0f, 0.0f);
+                drawCylinderAlongCurve(0, 360, 0.4f, 0.4f, 0.05f, FILL, minigunCover);
+            glPopMatrix();
+
+            //scanner circle
+            glPushMatrix();
+                glColor3f(0.85f, 0.15f, 0.15f);
+                glTranslatef(-1.0f, -0.5f, 1.1f);
+                glRotatef(90, 1.0f, 0.0f, 0.0f);
+                drawCylinderWithCap(quad, 0.2f, 0.2f, 0.1f, FILL, glass);
+            glPopMatrix();
+            
+            // missle projectiles 1
+            glPushMatrix();
+            bool keyBPressedThisFrame = (diKeys[DIK_B] & 0x80) && !(prevDiKeys[DIK_B] & 0x80);
+
+            if (keyBPressedThisFrame) {
+                if (nextMissileToFire == 0) {
+                    missiles[0].isActive = true;
+                    nextMissileToFire = 1; // Set up to fire the next missile next time
+                }
+                else if (nextMissileToFire == 1) {
+                    missiles[1].isActive = true;
+                    nextMissileToFire = 2; // Loop back to the first missile
+                }
+                else if (nextMissileToFire == 2) {
+                    missiles[2].isActive = true;
+                    nextMissileToFire = 3; // Loop back to the first missile
+                }
+                else if (nextMissileToFire == 3) {
+                    missiles[3].isActive = true;
+                    nextMissileToFire = 4; // Loop back to the first missile
+                }
+            }
+                if (missiles[0].isActive) {
+                    missiles[0].currentY -= 5.0f;
+                }
+                glTranslatef(0.0f, missiles[0].currentY, 0.0f);
+                glTranslatef(-0.5f, -0.8f, 0.5f);
+                glScalef(0.2f, 0.2f, 0.2f);
+                glRotatef(180, 1.0f, 0.0f, 0.0f);
+                drawMissle();
+            glPopMatrix();
+
+            // missle projectiles 2
+            glPushMatrix();
+                if (missiles[1].isActive) {
+                    missiles[1].currentY -= 5.0f;
+                }
+                glTranslatef(0.0f, missiles[1].currentY, 0.0f);
+                glTranslatef(-0.5f, -0.8f, -0.5f);
+                glScalef(0.2f, 0.2f, 0.2f);
+                glRotatef(180, 1.0f, 0.0f, 0.0f);
+                drawMissle();
+            glPopMatrix();
+
+            // missle projectiles 3
+            glPushMatrix();
+                if (missiles[2].isActive) {
+                    missiles[2].currentY -= 5.0f;
+                }
+                glTranslatef(0.0f, missiles[2].currentY, 0.0f);
+                glTranslatef(0.5f, -0.8f, 0.5f);
+                glScalef(0.2f, 0.2f, 0.2f);
+                glRotatef(180, 1.0f, 0.0f, 0.0f);
+                drawMissle();
+            glPopMatrix();
+
+            // missle projectiles 4
+            glPushMatrix();
+                if (missiles[3].isActive) {
+                    missiles[3].currentY -= 5.0f;
+                }
+                glTranslatef(0.0f, missiles[3].currentY, 0.0f);
+                glTranslatef(0.5f, -0.8f, -0.5f);
+                glScalef(0.2f, 0.2f, 0.2f);
+                glRotatef(180, 1.0f, 0.0f, 0.0f);
+                drawMissle();
+
+                
+            glPopMatrix();
+        glPopMatrix();
+    glPopMatrix();
+}
 
 void LeftArm::draw() {
     /*drawJointMarker();
@@ -774,25 +1205,62 @@ void LeftArm::draw() {
         glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
         glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);       
         glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-    
+        
+        bool keyMPressedThisFrame = (diKeys[DIK_M] & 0x80) && !(prevDiKeys[DIK_M] & 0x80);
+        if (keyMPressedThisFrame) {
+            if (nextEntireArmSpeed == 0) {
+                entireArmSpeed[0].isActive = true;
+                entireArmSpeed[2].isActive = false;
+                nextEntireArmSpeed = 1; // Set up to next hand movement next time
+            }
+            else if (nextEntireArmSpeed == 1) {
+                entireArmSpeed[1].isActive = true;
+                entireArmSpeed[0].isActive = false;
+                nextEntireArmSpeed = 2; // Set up to next hand movement next time
+            }
+            else if (nextEntireArmSpeed == 2) {
+                entireArmSpeed[2].isActive = true;
+                entireArmSpeed[1].isActive = false;
+                nextEntireArmSpeed = 0; // Loop back to the first hand movement
+            }
+        }
+
+        if (entireArmSpeed[0].isActive == true)
+        {
+            anim_value_entireArm += 10;
+        }
+
+        if (entireArmSpeed[1].isActive == true)
+        {
+            anim_value_entireArm += 40;
+        }
+
+        if (entireArmSpeed[2].isActive == true)
+        {
+            anim_value_entireArm += 0;
+        }
+        glRotatef(anim_value_entireArm, 0.0f, 1.0f, 0.0f);
+
         glPushMatrix();
 	        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
             glColor3f(0.2, 0.2, 0.2);
-			drawSphere(varSphere, 1.0f, 100, 100, NULL);
+            //beginScaleTexture(0.1, 0.1);
+			drawSphere(varSphere, 1.0f, 100, 100, blackMetalic);
 
             glColor3f(0.0f, 1.0f, 0.0f);
 
+            
             //small connecting nerve
             glPushMatrix();
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.7, 0.7, 0.7);
-			    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, NULL);
+			    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, blackMetalic);
             glPopMatrix();
             //Large connecting nerve
             glPushMatrix();
                 glTranslatef(0.0f, -1.0f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, NULL);
+                drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, blackMetalic);
             glPopMatrix();
                 
             //upper arm cover cap
@@ -800,22 +1268,103 @@ void LeftArm::draw() {
                 glTranslatef(0.0f, -1.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.2, 0.2, 0.2);
-                drawCircle(1.7f, NULL);
+                drawCircle(1.7f, blackMetalic);
             glPopMatrix();
             
             //upper arm
             glPushMatrix();
-                    glColor3f(0.7, 0.7, 0.7);
+                glColor3f(1.0, 1.0, 1.0);
                 glTranslatef(0.0f, -1.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 1.7f, 1.3f, 6.0f, FILL, NULL);  
+                drawCylinder(varCylinder, 1.7f, 1.3f, 6.0f, FILL, white);  
             glPopMatrix();
+
+            //energy pulse / shield 1
+
+            glPushMatrix();
+                glColor3f(0.0f, 0.6f, 1.0f);
+                glTranslatef(0.0f, -3.0f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinderAlongCurve(0, 360, 1.5f, 1.5f, 0.5f, FILL, glass);
+            glPopMatrix();
+
+            //5 spheres on upper arm 1
+            glPushMatrix();
+                glTranslatef(0.0f, -3.0f, 0.0f);
+                for (float angle = 20; angle <= 450; angle = angle + 72) {
+                    glPushMatrix();
+                        float convertToRadian = angle * 3.14159 / 180.0;
+                        glRotatef(angle, 0.0f, 1.0f, 0.0f);
+                        glTranslatef(2.4f, 0.0f, 0.0f);
+                        drawSphere(quad, 0.5f, 30, 30, energyPulse);
+                    glPopMatrix();
+                }
+                //glColor3f(0.0f, 0.30f, 0.50f);
+                //glTranslatef(0.0f, -6.5f, 0.0f);
+                //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                //drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
+            glPopMatrix();
+
+            //energy pulse / shield 2
+
+            glPushMatrix();
+                glColor3f(0.0f, 0.45f, 0.75f);
+                glTranslatef(0.0f, -4.75f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, glass);
+            glPopMatrix();
+
+            //4 spheres on upper arm 2
+            glPushMatrix();
+                glTranslatef(0.0f, -4.75f, 0.0f);
+                for (float angle = 90; angle <= 450; angle = angle + 90) {
+                    glPushMatrix();
+                        float convertToRadian = angle * 3.14159 / 180.0;
+                        glRotatef(angle, 0.0f, 1.0f, 0.0f);
+                        glTranslatef(2.4f, 0.0f, 0.0f);
+                        drawSphere(quad, 0.5f, 30, 30, energyPulse);
+                    glPopMatrix();
+                }
+                //glColor3f(0.0f, 0.30f, 0.50f);
+                //glTranslatef(0.0f, -6.5f, 0.0f);
+                //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                //drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
+            glPopMatrix();
+
+
+            //energy pulse / shield 3
+
+            glPushMatrix();
+                glColor3f(0.0f, 0.30f, 0.50f);
+                glTranslatef(0.0f, -6.5f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, glass);
+            glPopMatrix();
+
+            //3 spheres on upper arm 3
+            glPushMatrix();
+                glTranslatef(0.0f, -6.5f, 0.0f);
+                for (float angle = 90; angle <= 330; angle = angle + 120) {
+                    glPushMatrix();
+                        float convertToRadian = angle * 3.14159 / 180.0;
+                        glRotatef(angle, 0.0f, 1.0f, 0.0f);
+                        glTranslatef(2.4f, 0.0f, 0.0f);
+                        drawSphere(quad, 0.5f, 30, 30, energyPulse);
+                    glPopMatrix();
+                }
+                //glColor3f(0.0f, 0.30f, 0.50f);
+                //glTranslatef(0.0f, -6.5f, 0.0f);
+                //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                //drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
+            glPopMatrix();
+
 
             //Small connecting nerve to elbow
             glPushMatrix();
+                glColor3f(0.0f, 0.15f, 0.25f);
                 glTranslatef(0.0f, -7.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, NULL);
+                drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, blackMetalic);
             glPopMatrix();
 
             //elbow joint
@@ -827,20 +1376,109 @@ void LeftArm::draw() {
                 glPushMatrix();
                     glColor3f(0.2, 0.2, 0.2);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-				    drawSphere(varSphere, 1.0f, 100, 100, NULL);
+				    drawSphere(varSphere, 1.0f, 100, 100, blackMetalic);
+                glPopMatrix();
+                
+                
+
+                //Minigun
+                glPushMatrix();
+                    glTranslatef(0.0f, -1.6f, -3.7f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glScalef(0.5f, 0.5f, 1.0f);
+
+                    glPushMatrix();
+                    
+                    bool keyNPressedThisFrame = (diKeys[DIK_N] & 0x80) && !(prevDiKeys[DIK_N] & 0x80);
+
+                    if (keyNPressedThisFrame) {
+                        if (nextMinigunSpeed == 0) {
+                            minigunSpeed[0].isActive = true;
+                            minigunSpeed[2].isActive = false;
+                            nextMinigunSpeed = 1; // Set up to next hand movement next time
+                        }
+                        else if (nextMinigunSpeed == 1) {
+                            minigunSpeed[1].isActive = true;
+                            minigunSpeed[0].isActive = false;
+                            nextMinigunSpeed = 2; // Set up to next hand movement next time
+                        }
+                        else if (nextMinigunSpeed == 2) {
+                            minigunSpeed[2].isActive = true;
+                            minigunSpeed[1].isActive = false;
+                            nextMinigunSpeed = 0; // Loop back to the first hand movement
+                        }
+                    }
+
+                    if (minigunSpeed[0].isActive == true)
+                    {
+                        anim_value_minigun += 10;
+                    }
+
+                    if (minigunSpeed[1].isActive == true)
+                    {
+                        anim_value_minigun += 40;
+                    }
+
+                    if (minigunSpeed[2].isActive == true)
+                    {
+                        anim_value_minigun += 0;
+                    }
+                    //std::cout << "anim_value_minigun:" << anim_value_minigun;
+                    glRotatef(anim_value_minigun, 0.0f, 0.0f, 1.0f);
+
+                        glPushMatrix();
+                            glColor3f(0.0f, 0.0f, 0.0f);
+                            glTranslatef(0.0f, 0.0f, 0.0f);
+                            drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 12.0f, FILL, minigunCylinder);
+                        glPopMatrix();
+
+                        glColor3f(0.0f, 0.0f, 0.0f);
+                        for (float angle = 0; angle <= 360; angle = angle + 60) {
+                            glPushMatrix();
+                                float convertToRadian = angle * 3.14159 / 180.0;
+                                glTranslatef(sin(convertToRadian) * 2.6f, cos(convertToRadian) * 2.6f, 0);
+                                drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 12.0f, FILL, minigunCylinder);
+                            glPopMatrix();
+                            //glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
+                        }
+                        glPopMatrix();
+                    //minigun cover
+                    glPushMatrix();
+                        glColor3f(1.0f, 1.0f, 1.0f);
+                        glTranslatef(0.0f, 0.0f, -0.1f);
+                        drawCylinderWithCap(varCylinder, 4.0f, 4.0f, 2.0f, FILL, minigunCover);
+                        glPushMatrix();
+                            glTranslatef(0.0f, 0.0f, 4.0f);
+                            drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, minigunCover);
+                            glPushMatrix();
+                                glTranslatef(0.0f, 0.0f, 4.0f);
+                                drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, minigunCover);
+                                glPushMatrix();
+                                    glTranslatef(0.0f, 0.0f, 2.0f);
+                                    drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, minigunCover);
+                                glPopMatrix();
+                            glPopMatrix();
+                        glPopMatrix();
+                    glPopMatrix();
+                glPopMatrix();
+
+                //rocket launcher
+                glPushMatrix();
+                    glTranslatef(0.0f, 0.0f, 3.0f);
+                    drawRocketLauncher();
                 glPopMatrix();
                 //elbow joint small connecting nerve
                 glPushMatrix();
                     glTranslatef(0.0f, 0.0f, 0.0f);
 				    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.7, 0.7, 0.7);
-                    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, NULL);
+                    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, blackMetalic);
                 glPopMatrix();
                 //elbow joint large connecting nerve
                 glPushMatrix();
                     glTranslatef(0.0f, -1.0f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, NULL);
+                    drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, blackMetalic);
                 glPopMatrix();
 
                 // lowerarm cover cap
@@ -848,7 +1486,7 @@ void LeftArm::draw() {
                     glTranslatef(0.0f, -1.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.2, 0.2, 0.2);
-                    drawCircle(1.7f, NULL);
+                    drawCircle(1.7f, white);
                 glPopMatrix();
 
                 //lower arm
@@ -856,15 +1494,25 @@ void LeftArm::draw() {
                     glTranslatef(0.0f, -1.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.7, 0.7, 0.7);
-                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL, NULL);
+                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL, camouflageWhite);
                 glPopMatrix();
 
+                // lowerarm bottom cover cap
+                glPushMatrix();
+                    glTranslatef(0.0f, -7.5f, 0.0f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glColor3f(0.7f, 0.7f, 0.7f); 
+                    drawCircle(1.5f, blackMetalic);
+                glPopMatrix();
+                
 				//Small connecting nerve to wrist
                 glPushMatrix();
                     glTranslatef(0.0f, -7.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, NULL);
+                    glColor3f(0.7f, 0.7f, 0.7f);
+                    drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, blackMetalic);
                 glPopMatrix();
+
 
 				//wrist joint
                 glPushMatrix();
@@ -873,15 +1521,54 @@ void LeftArm::draw() {
                     glRotatef(RobotWrist_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
                     glRotatef(RobotWrist_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
                     
+                    
+                    bool keyVPressedThisFrame = (diKeys[DIK_V] & 0x80) && !(prevDiKeys[DIK_V] & 0x80);
+
+                    if (keyVPressedThisFrame) {
+                        if (nextHandMovement == 0) {
+                            handMovement[0].isActive = true;
+                            nextHandMovement = 1; // Set up to next hand movement next time
+                        }
+                        else if (nextHandMovement == 1) {
+                            handMovement[1].isActive = true;
+                            handMovement[0].isActive = false;
+                            nextHandMovement = 2; // Set up to next hand movement next time
+                        }
+                        else if (nextHandMovement == 2) {
+                            handMovement[2].isActive = true;
+                            handMovement[1].isActive = false;
+                            nextHandMovement = 0; // Loop back to the first hand movement
+                        }
+                    }
+                    //hand movement 1
+                    if (handMovement[0].isActive) {
+                        //rotate wrist upwards
+                        if (handMovement[0].currentRotationX >= -90)
+                        {
+                            handMovement[0].currentRotationX = handMovement[0].currentRotationX - 5.0f;
+                        }
+                    }
+
+                    //hand movement2
+                    if (handMovement[1].isActive) {
+                        //rotate wrist upwards
+                        if (handMovement[0].currentRotationX <= 0)
+                        {
+                            handMovement[0].currentRotationX = handMovement[0].currentRotationX + 5.0f;
+                        }
+                    }
+
+                    glRotatef(handMovement[0].currentRotationX, 1.0f, 0.0f, 0.0f);
 
                     glPushMatrix();
                         glTranslatef(0.0f, -1.0f, 0.0f);
                         glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                        drawCylinder(varCylinder, 0.5f, 0.7f, 0.3f, FILL, NULL);
+                        glColor3f(0.0f, 0.0f, 0.0f); 
+                        drawCylinder(varCylinder, 0.5f, 0.7f, 0.3f, FILL, blackMetalic);
                     glPopMatrix();
                     glPushMatrix();
                         glTranslatef(0.0f, -1.3f, 0.0f);
-                        drawCuboid(3.4f, 3.8f, 1.4f, 0.0f, -1.9f, 0.0f, 1.0f, 1.0f, 1.0f, NULL);
+                        drawCuboid(3.4f, 3.8f, 1.4f, 0.0f, -1.9f, 0.0f, 0.0f, 0.0f, 0.0f, wristPattern);
                         //drawSphere(varSphere, 1.0f, 100, 100
                     
                     glPopMatrix();
@@ -892,14 +1579,14 @@ void LeftArm::draw() {
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.6f, 0.3f, 1.6f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.6f, 0.3f, 1.6f, FILL, whitePattern);
                         glPopMatrix();
 
                         glPushMatrix();
                             glTranslatef(0.0f, -1.2f, 0.0f);
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.3f, 0.2f, 1.4f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.3f, 0.2f, 1.4f, FILL, whitePattern);
 
 							//for cylinder cap, supposingly is y axis negative offset, but because of rotation it becomes z axis positive
                             glTranslatef(0.0f, 0.0f, 1.4f);
@@ -918,20 +1605,21 @@ void LeftArm::draw() {
                         glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
                         */
 					    glTranslatef(finger1OffsetFromWrist.x, finger1OffsetFromWrist.y, finger1OffsetFromWrist.z);
+                        //glRotatef(150, 1.0f, 0.0f, 0.0f);
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f , 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
                         glPopMatrix();
                         glPushMatrix();
                             glTranslatef(fingerMiddleJoint1OffsetFromFinger.x, fingerMiddleJoint1OffsetFromFinger.y, fingerMiddleJoint1OffsetFromFinger.z);
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-							drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
+							drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
                             glPushMatrix();
 							//supposingly is y axis negative offset, but because of rotation it becomes z axis
                                 glTranslatef(0.0f, 0.0f, 1.6f);
                                 glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
+                                drawCircle(0.15f, whitePattern);
                             glPopMatrix();
                         glPopMatrix();
                     glPopMatrix();
@@ -940,17 +1628,17 @@ void LeftArm::draw() {
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
                         glPopMatrix();
                         glPushMatrix();
                             glTranslatef(fingerMiddleJoint2OffsetFromFinger.x, fingerMiddleJoint2OffsetFromFinger.y, fingerMiddleJoint2OffsetFromFinger.z);
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
                             glPushMatrix();
 							//supposingly is y axis negative offset, but because of rotation it becomes z axis
                                 glTranslatef(0.0f, 0.0f, 1.6f);
                                 glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
+                                drawCircle(0.15f, whitePattern);
                             glPopMatrix();
                         glPopMatrix();
                     glPopMatrix();
@@ -959,17 +1647,17 @@ void LeftArm::draw() {
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
                         glPopMatrix();
                         glPushMatrix();
                             glTranslatef(fingerMiddleJoint3OffsetFromFinger.x, fingerMiddleJoint3OffsetFromFinger.y, fingerMiddleJoint3OffsetFromFinger.z);
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
                             glPushMatrix();
 							//supposingly is y axis negative offset, but because of rotation it becomes z axis
                                 glTranslatef(0.0f, 0.0f, 1.6f);
                                 glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
+                                drawCircle(0.15f, whitePattern);
                             glPopMatrix();
                         glPopMatrix();
                     glPopMatrix();
@@ -978,17 +1666,17 @@ void LeftArm::draw() {
                         glPushMatrix();
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                             glColor3f(1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
                         glPopMatrix();
                         glPushMatrix();
                             glTranslatef(fingerMiddleJoint4OffsetFromFinger.x, fingerMiddleJoint4OffsetFromFinger.y, fingerMiddleJoint4OffsetFromFinger.z);
                             glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, NULL);
+                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
                             glPushMatrix();
 							//supposingly is y axis negative offset, but because of rotation it becomes z axis
                                 glTranslatef(0.0f, 0.0f, 1.6f);
                                 glColor3f(0.0f, 0.0f, 0.0f);
-                                drawCircle(0.15f, NULL);
+                                drawCircle(0.15f, whitePattern);
                             glPopMatrix();
                         glPopMatrix();
                     glPopMatrix();
@@ -996,6 +1684,10 @@ void LeftArm::draw() {
             glPopMatrix();
         glPopMatrix();
     glPopMatrix();
+
+    //*** CRITICAL STEP ***: Save the current input state for the next frame's check (Put at after everything done)
+    memcpy(prevDiKeys, diKeys, sizeof(diKeys));
+
     //glPushMatrix();
 
     // 1. Move to arm position relative to body
@@ -1030,8 +1722,32 @@ void LeftArm::draw() {
     //glPopMatrix();
 }
 
+
+ 
+
 void LeftArm::draw2()
 {
+    //
+    glPushMatrix();
+        glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
+        glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+        glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);       
+        glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+    
+        //first Joint
+        glPushMatrix();
+            glColor3f(0.0f, 0.0f, 0.0f);
+            drawSphere(varSphere, 1.0f, 30, 30, NULL);
+            glPushMatrix();
+                glColor3f(1.0f, 1.0f, 1.0f);
+                glTranslatef(0.0f, 3.0f, 0.0f);
+                drawSphere(varSphere, 3.0f, 30, 30, NULL);
+            glPopMatrix();
+        glPopMatrix();
+
+    glPopMatrix();
+    //Minigun
+    /*
     glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
     glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
     glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
@@ -1039,7 +1755,7 @@ void LeftArm::draw2()
     glPushMatrix();
         glColor3f(0.0f, 0.0f, 0.0f);
         glTranslatef(0.0f, 0.0f, 0.0f);
-        drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 2.0f, FILL, NULL);
+        drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 12.0f, FILL, NULL);
     glPopMatrix();
 
     glColor3f(0.0f, 0.0f, 0.0f);
@@ -1047,13 +1763,27 @@ void LeftArm::draw2()
         glPushMatrix();
         float convertToRadian = angle * 3.14159 / 180.0;
         glTranslatef(sin(convertToRadian) * 2.6f, cos(convertToRadian) * 2.6f, 0);
-        drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 2.0f, FILL, NULL);
+        drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 12.0f, FILL, NULL);
         glPopMatrix();
         //glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
     }
-    //glTranslatef(2.4f, 2.4f, 0.0f);
-    //drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 2.0f, FILL, NULL);
-
-    //drawCylinderWithCap(varCylinder, 2.0f, 2.0f, 1.0f, FILL, NULL);
-    //drawCylinder(varCylinder, 2.0f, 2.0f, 1.0f, FILL, NULL);
+    //minigun cover
+    glPushMatrix();
+        glColor3f(1.0f, 1.0f, 1.0f);
+        glTranslatef(0.0f, 0.0f, -0.1f);
+        drawCylinderWithCap(varCylinder, 4.0f, 4.0f, 2.0f, FILL, NULL);
+        glPushMatrix();
+            glTranslatef(0.0f, 0.0f, 4.0f);
+            drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
+            glPushMatrix();
+                glTranslatef(0.0f, 0.0f, 4.0f);
+                drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
+                glPushMatrix();
+                    glTranslatef(0.0f, 0.0f, 2.0f);
+                    drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
+                glPopMatrix();
+            glPopMatrix();
+        glPopMatrix();
+    glPopMatrix();
+    */
 }

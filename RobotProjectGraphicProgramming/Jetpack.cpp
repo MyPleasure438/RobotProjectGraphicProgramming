@@ -1,5 +1,5 @@
 #include "Jetpack.h"
-
+/*
 ExperimentationStation Es;
 
 GLUquadricObj* rocket = gluNewQuadric();
@@ -114,3 +114,5 @@ void Jetpack::drawJetpack(float cx, float cy, float cz) {
 	glPopMatrix();
 	glPopMatrix();
 } 
+
+*/

@@ -6,11 +6,15 @@
 #include <ctime>
 #include <vector>
 #include <iostream>
+#include <cstdio>
+#include <vector>
 #include "InputManager.h"
-
+#include "LeftLeg.h"
 #include "LeftArm.h"
+#include "Head.h"
 #include "Body.h"
 #include "Jetpack.h"
+
 
 #include "ExperimentationStation.h"
 #pragma comment (lib, "OpenGL32.lib")
@@ -21,19 +25,23 @@
 #include <GL/glu.h>
 #pragma comment(lib, "glu32.lib")
 
-int QuestionToRender = 1;
+using namespace std;
+int QuestionToRender = 0;
 
 enum RobotDisplayParts
 {
 	LEFTARM = 0
-	
+
 };
 
 //Global object initialization
 LeftArm leftArm;
+Head head;
 Body body;
 Jetpack* jpk = new Jetpack();
 ExperimentationStation experimentationStation;
+
+LeftLeg leftLeg;
 
 
 float objectRed = 0.0f;
@@ -75,8 +83,8 @@ float aspectRatio = cameraScreenWidth / cameraScreenHeight;
 
 //lighting
 float diffuseLightPositionX = 0.0f;
-float diffuseLightPositionY = 1.0f;
-float diffuseLightPositionZ = 0.0f;
+float diffuseLightPositionY = 3.0f;
+float diffuseLightPositionZ = 0.7f;
 
 GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f };
 GLfloat diffuseLight[] = { 0.9f, 0.9f, 0.9f };
@@ -108,16 +116,16 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			PostQuitMessage(0);
 			break;
 
-		//case '0':
-		//	//draw RobotArm 3D
-		//	QuestionToRender = LEFTARM;
-		//	break;
+			//case '0':
+			//	//draw RobotArm 3D
+			//	QuestionToRender = LEFTARM;
+			//	break;
 
 		case '1':
 			//draw RobotArm 3D
 			QuestionToRender = 1;
 			break;
-		
+
 		case '8':
 		case VK_NUMPAD8:
 			translateCameraY = translateCameraY + 0.1f;
@@ -152,9 +160,9 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			translateCameraZ = translateCameraZ + 0.1f;
 
 			break;
-			
+
 		case 'K':
-			
+
 			break;
 
 		case VK_UP:
@@ -187,12 +195,12 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			//reset position
 			glLoadIdentity();
 
-			
+
 			objectRed = 0.0f;
 			objectGreen = 0.0f;
 			objectBlue = 0.0f;
 
-			
+
 			break;
 
 
@@ -222,12 +230,12 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 		case VK_OEM_6:
 			//] key
-			diffuseLightPositionY= diffuseLightPositionY + 0.1f;
+			diffuseLightPositionY= diffuseLightPositionY - 0.1f;
 			break;
 
 		case VK_OEM_5:
 			//using \ key
-			diffuseLightPositionY = diffuseLightPositionY - 0.1f;
+			diffuseLightPositionY = diffuseLightPositionY + 0.1f;
 			break;
 
 		case VK_OEM_1:
@@ -260,6 +268,14 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 //--------------------------------------------------------------------
+
+void AttachConsoleOutput() {
+	AllocConsole(); // Create a console window
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout); // Redirect stdout
+	freopen_s(&fp, "CONIN$", "r", stdin);  // Optional: enable cin
+	ios::sync_with_stdio();    // Sync C++ streams
+}
 
 bool initPixelFormat(HDC hdc)
 {
@@ -310,49 +326,44 @@ void Display(int QuestionsToRender)
 	glRotatef(rotateCameraX, 1.0f, 0.0f, 0.0f);
 	glRotatef(rotateCameraY, 0.0f, 1.0f, 0.0f);
 	glRotatef(rotateCameraZ, 0.0f, 0.0f, 1.0f);
-	
+
 
 	//End Camera///
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	//glTranslatef(translateCameraX, translateCameraY, translateCameraZ);
-	
+
 
 
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);   // set background color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear BOTH buffers
 
-	
+
 
 	//lighting///
 	//diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ };
 	
-	
-	diffuseLightPosition[0] = diffuseLightPositionX;
+	// 4. DEFINE WORLD-FIXED LIGHT POSITION
+	// The matrix now contains only the View transformation (from step 3).
+	// This ensures the light position is defined in world space, relative to the camera's fixed position.
+	/*
+  diffuseLightPosition[0] = diffuseLightPositionX;
 	diffuseLightPosition[1] = diffuseLightPositionY;
 	diffuseLightPosition[2] = diffuseLightPositionZ;
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
-	
-	// 4. DEFINE WORLD-FIXED LIGHT POSITION
-	// The matrix now contains only the View transformation (from step 3).
-	// This ensures the light position is defined in world space, relative to the camera's fixed position.
-	diffuseLightPosition[0] = diffuseLightPositionX;
-	diffuseLightPosition[1] = diffuseLightPositionY;
-	diffuseLightPosition[2] = diffuseLightPositionZ;
-	//glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
-	//glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
-	//glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
-
+  
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHTING);
+  */
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glPushMatrix();
 		//glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
-	drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
+	//drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
 	glPopMatrix();
+	
 	//End Lighting///
 
 	glEnable(GL_DEPTH_TEST);   // enable depth test (stay ON forever)
@@ -367,27 +378,62 @@ void Display(int QuestionsToRender)
 			//gluSphere(quad
 		glPopMatrix();
 		
-		experimentationStation.updateInput();
+		
+		//experimentationStation.updateInput();
 		//experimentationStation.drawIceCream();
-		experimentationStation.draw();
+		//experimentationStation.draw();
 		//experimentationStation.draw3();
 		//experimentationStation.shadeModel();
 		//experimentationStation.lightingTestCube();
 		//experimentationStation.lightingTestPyramidAndSphere();
 		//leftArm.updateInput();
-		//leftArm.draw2();
+		//leftArm.drawMissle();
 		//leftArm.draw();
+		head.updateInput();
+		head.draw2();
+		
 		//drawCube();
     break;
   case 1:
+		//Inputs
+		leftArm.updateInput();
 		body.updateInput();
-		jpk->jetpackInput();
+		jpk->jetpackInput()；
+		head.updateInput();
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientLight);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseLight);
-		body.drawBodyFrame(jpk);
-		break;
-	}
 		
+
+		//AttachLeftArmToBody
+		glPushMatrix();
+			glScalef(0.5f, 0.5f, 0.5f);
+
+			//Head
+			glPushMatrix();
+				glTranslatef(0.0f, 8.3f, 0.0f);
+				head.draw2();
+			glPopMatrix();
+			//left arm
+			glPushMatrix();
+				glTranslatef(5.3f, 0.0f, 0.0f);
+				glRotatef(90, 0.0f, 0.0f, 1.0f);
+				glRotatef(90, 0.0f, 1.0f, 0.0f);
+				glScalef(1.5, 1.5f, 1.5f);
+				leftArm.draw();
+			glPopMatrix();
+			body.drawBodyFrame(jpk);
+		glPopMatrix();
+		
+		break;
+    case 2:
+		leftLeg.updateInput();
+		//Resh@Legs
+		leftLeg.draw();
+		//leftLeg.drawBolt();
+  
+    break;
+	}
+
 
 
 	//-------------------------------
@@ -402,8 +448,9 @@ void Display(int QuestionsToRender)
 
 
 //int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
-int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 {
+	AttachConsoleOutput();
 	WNDCLASSEX wc;
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
 
@@ -455,6 +502,9 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	experimentationStation.loadTextures();
 	jpk->initTexture();
 	body.initBodyTexture();
+	leftArm.loadTextures();
+	leftLeg.loadTextures();
+	head.loadTextures();
 	//texture loading
 	/*
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -481,13 +531,13 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
-	
+
 
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
 	glScalef(2.0, 1.0, 1.0);
 	*/
-	
+
 	///end texture loading///
 
 	while (true)
@@ -506,9 +556,12 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	}
 
 	//Delete texture after closes window
+	leftArm.deleteTextures();
+	leftLeg.deleteTextures();
 	experimentationStation.deleteTextures();
 	jpk->clearTexture();
 	body.clearBodyTexture();
+	head.deleteTextures();
 	UnregisterClass(WINDOW_TITLE, wc.hInstance);
 
 	return true;
@@ -519,12 +572,13 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 void orthographicProjection()
 {
 	glLoadIdentity();
-	glOrtho(-2, 2, -2, 2, -2, 2);
-	//glOrtho(-10, 10, -10, 10, -10, 10);
+	//glOrtho(-4, 4, -4, 4, -4, 4);
+	//glOrtho(-8, 8, -8, 8, -8, 8);
+	glOrtho(-25, 25, -25, 25, -25, 25);
 }
 
 void perspectiveProjection()
-{	
+{
 	glLoadIdentity();
 	gluPerspective(100.0f, aspectRatio, 0.1f, 100.0f);
 }
@@ -545,7 +599,6 @@ void drawLightBulb()
 	gluQuadricDrawStyle(quadLightBulb, GLU_LINE);   // wireframe sphere
 
 	glPushMatrix();
-	glTranslatef(diffuseLightPosition[0], diffuseLightPosition[1], diffuseLightPosition[2]);
 	// c) draw sphere at origin
 	gluSphere(quadLightBulb, 0.1, 20, 20);   // radius = ?, slices & stacks = ?
 
@@ -564,7 +617,7 @@ void drawLightBulb()
 void drawCube()
 {
 	/*
-	glBegin(GL_QUADS);	
+	glBegin(GL_QUADS);
 	glVertex3f(0.5f, 0.5f, -0.5f);
 	glVertex3f(0.5f, 0.5f, 0.5f);
 	glVertex3f(-0.5f, 0.5f, 0.5f);
@@ -601,7 +654,7 @@ void drawCube()
 	glVertex3f(-0.5f, -0.5f, -0.5f);
 	*/
 	//ENABLE THIS TEXTURE CODE IF YOU WANT TO TEST TEXTURES
-	
+
 	/*
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);
