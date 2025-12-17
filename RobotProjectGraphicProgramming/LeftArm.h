@@ -93,7 +93,8 @@ private:
 	GLuint white = 0;
 	GLuint wristPattern = 0;
 	GLuint deadlyPattern = 0;
-
+	GLuint blackGlossy = 0;
+	GLuint fire = 0;
 	BITMAP BMP;
 	HBITMAP hBMP = NULL;
 
@@ -199,6 +200,7 @@ public:
 	void drawMissle();
 	void drawRocketLauncher();
 	void draw();
+	void drawAnotherArm();
 	void draw2();    
 
 

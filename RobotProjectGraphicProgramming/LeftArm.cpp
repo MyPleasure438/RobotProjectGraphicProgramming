@@ -919,6 +919,30 @@ void LeftArm::loadTextures()
     //glScalef(30.0, 20.0, 1.0);
 
     glMatrixMode(GL_MODELVIEW);
+
+    //blackGlossy texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "blackGlossy.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &blackGlossy);
+    glBindTexture(GL_TEXTURE_2D, blackGlossy);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //fire texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "fire.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &fire);
+    glBindTexture(GL_TEXTURE_2D, fire);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
 }
 
 void LeftArm::beginScaleTexture(float scaleX, float scaleY)
@@ -1170,6 +1194,7 @@ void LeftArm::draw() {
     drawText3D(buf);
     */
     //points for references
+    /*
     glPushMatrix();
         glTranslatef(shoulder.x, shoulder.y, shoulder.z);
         drawJointMarker();
@@ -1198,7 +1223,7 @@ void LeftArm::draw() {
         sprintf_s(buf, "Wrist (%.1f, %.1f, %.1f)", shoulder.x + elbowOffsetFromShoulder.x + wristOffsetFromElbow.x, shoulder.y + elbowOffsetFromShoulder.y + wristOffsetFromElbow.y, shoulder.z + elbowOffsetFromShoulder.z + wristOffsetFromElbow.z);
         drawText3D(buf);
     glPopMatrix();
-
+    */
     //New Arm
     glPushMatrix();
         glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
@@ -1446,16 +1471,16 @@ void LeftArm::draw() {
                     glPushMatrix();
                         glColor3f(1.0f, 1.0f, 1.0f);
                         glTranslatef(0.0f, 0.0f, -0.1f);
-                        drawCylinderWithCap(varCylinder, 4.0f, 4.0f, 2.0f, FILL, minigunCover);
+                        drawCylinderWithCap(varCylinder, 4.0f, 4.0f, 2.0f, FILL, fire);
                         glPushMatrix();
                             glTranslatef(0.0f, 0.0f, 4.0f);
-                            drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, minigunCover);
+                            drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, fire);
                             glPushMatrix();
                                 glTranslatef(0.0f, 0.0f, 4.0f);
-                                drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, minigunCover);
+                                drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, fire);
                                 glPushMatrix();
                                     glTranslatef(0.0f, 0.0f, 2.0f);
-                                    drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, minigunCover);
+                                    drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, fire);
                                 glPopMatrix();
                             glPopMatrix();
                         glPopMatrix();
@@ -1722,7 +1747,571 @@ void LeftArm::draw() {
     //glPopMatrix();
 }
 
+void LeftArm::drawAnotherArm() {
+    /*drawJointMarker();
+    glRasterPos3f(0, 0, 1);
+    sprintf_s(buf, "Ori coordinate (%.1f %.1f %.1f)", 0.0, 0.0, 0.0);
+    drawText3D(buf);
+    */
+    //points for references
+    /*
+    glPushMatrix();
+        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
+        drawJointMarker();
+        glRasterPos3f(0, 0, 1);
+        sprintf_s(buf, "Shoulder (%.1f %.1f %.1f)", shoulder.x, shoulder.y, shoulder.z);
+        drawText3D(buf);
+    glPopMatrix();
+    
+    glPushMatrix();
+        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
+        glTranslatef(elbowOffsetFromShoulder.x, elbowOffsetFromShoulder.y, elbowOffsetFromShoulder.z);
+        drawJointMarker();
+        glRasterPos3f(0.0f, 1.5f, 3.0f); // slightly above joint
+        sprintf_s(buf, "Elbow (%.1f, %.1f, %.1f)", shoulder.x + elbowOffsetFromShoulder.x , shoulder.y + elbowOffsetFromShoulder.y, shoulder.z + elbowOffsetFromShoulder.z);
+        drawText3D(buf);
+    glPopMatrix();
 
+    
+
+    glPushMatrix();
+        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
+        glTranslatef(elbowOffsetFromShoulder.x, elbowOffsetFromShoulder.y, elbowOffsetFromShoulder.z);
+        glTranslatef(wristOffsetFromElbow.x, wristOffsetFromElbow.y, wristOffsetFromElbow.z);
+        drawJointMarker();
+        glRasterPos3f(0.0f, 1.5f, 3.0f); // slightly above joint
+        sprintf_s(buf, "Wrist (%.1f, %.1f, %.1f)", shoulder.x + elbowOffsetFromShoulder.x + wristOffsetFromElbow.x, shoulder.y + elbowOffsetFromShoulder.y + wristOffsetFromElbow.y, shoulder.z + elbowOffsetFromShoulder.z + wristOffsetFromElbow.z);
+        drawText3D(buf);
+    glPopMatrix();
+    */
+    //New Arm
+    glPushMatrix();
+        glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
+        glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+        glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);       
+        glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+        
+        //no need since another arm got edi
+        /*
+        bool keyMPressedThisFrame = (diKeys[DIK_M] & 0x80) && !(prevDiKeys[DIK_M] & 0x80);
+        if (keyMPressedThisFrame) {
+            if (nextEntireArmSpeed == 0) {
+                entireArmSpeed[0].isActive = true;
+                entireArmSpeed[2].isActive = false;
+                nextEntireArmSpeed = 1; // Set up to next hand movement next time
+            }
+            else if (nextEntireArmSpeed == 1) {
+                entireArmSpeed[1].isActive = true;
+                entireArmSpeed[0].isActive = false;
+                nextEntireArmSpeed = 2; // Set up to next hand movement next time
+            }
+            else if (nextEntireArmSpeed == 2) {
+                entireArmSpeed[2].isActive = true;
+                entireArmSpeed[1].isActive = false;
+                nextEntireArmSpeed = 0; // Loop back to the first hand movement
+            }
+        }
+
+        if (entireArmSpeed[0].isActive == true)
+        {
+            anim_value_entireArm += 10;
+        }
+
+        if (entireArmSpeed[1].isActive == true)
+        {
+            anim_value_entireArm += 40;
+        }
+
+        if (entireArmSpeed[2].isActive == true)
+        {
+            anim_value_entireArm += 0;
+        }
+        */
+        glRotatef(-anim_value_entireArm, 0.0f, 1.0f, 0.0f);
+
+        glPushMatrix();
+	        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
+            glColor3f(0.2, 0.2, 0.2);
+            //beginScaleTexture(0.1, 0.1);
+			drawSphere(varSphere, 1.0f, 100, 100, blackMetalic);
+
+            glColor3f(0.0f, 1.0f, 0.0f);
+
+            
+            //small connecting nerve
+            glPushMatrix();
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                glColor3f(0.7, 0.7, 0.7);
+			    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, blackMetalic);
+            glPopMatrix();
+            //Large connecting nerve
+            glPushMatrix();
+                glTranslatef(0.0f, -1.0f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, blackMetalic);
+            glPopMatrix();
+                
+            //upper arm cover cap
+            glPushMatrix();
+                glTranslatef(0.0f, -1.5f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                glColor3f(0.2, 0.2, 0.2);
+                drawCircle(1.7f, blackMetalic);
+            glPopMatrix();
+            
+            //upper arm
+            glPushMatrix();
+                glColor3f(1.0, 1.0, 1.0);
+                glTranslatef(0.0f, -1.5f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinder(varCylinder, 1.7f, 1.3f, 6.0f, FILL, white);  
+            glPopMatrix();
+
+            //energy pulse / shield 1
+
+            glPushMatrix();
+                glColor3f(0.0f, 0.6f, 1.0f);
+                glTranslatef(0.0f, -3.0f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinderAlongCurve(0, 360, 1.5f, 1.5f, 0.5f, FILL, glass);
+            glPopMatrix();
+
+            //5 spheres on upper arm 1
+            glPushMatrix();
+                glTranslatef(0.0f, -3.0f, 0.0f);
+                for (float angle = 20; angle <= 450; angle = angle + 72) {
+                    glPushMatrix();
+                        float convertToRadian = angle * 3.14159 / 180.0;
+                        glRotatef(angle, 0.0f, 1.0f, 0.0f);
+                        glTranslatef(2.4f, 0.0f, 0.0f);
+                        drawSphere(quad, 0.5f, 30, 30, energyPulse);
+                    glPopMatrix();
+                }
+                //glColor3f(0.0f, 0.30f, 0.50f);
+                //glTranslatef(0.0f, -6.5f, 0.0f);
+                //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                //drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
+            glPopMatrix();
+
+            //energy pulse / shield 2
+
+            glPushMatrix();
+                glColor3f(0.0f, 0.45f, 0.75f);
+                glTranslatef(0.0f, -4.75f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, glass);
+            glPopMatrix();
+
+            //4 spheres on upper arm 2
+            glPushMatrix();
+                glTranslatef(0.0f, -4.75f, 0.0f);
+                for (float angle = 90; angle <= 450; angle = angle + 90) {
+                    glPushMatrix();
+                        float convertToRadian = angle * 3.14159 / 180.0;
+                        glRotatef(angle, 0.0f, 1.0f, 0.0f);
+                        glTranslatef(2.4f, 0.0f, 0.0f);
+                        drawSphere(quad, 0.5f, 30, 30, energyPulse);
+                    glPopMatrix();
+                }
+                //glColor3f(0.0f, 0.30f, 0.50f);
+                //glTranslatef(0.0f, -6.5f, 0.0f);
+                //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                //drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
+            glPopMatrix();
+
+
+            //energy pulse / shield 3
+
+            glPushMatrix();
+                glColor3f(0.0f, 0.30f, 0.50f);
+                glTranslatef(0.0f, -6.5f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, glass);
+            glPopMatrix();
+
+            //3 spheres on upper arm 3
+            glPushMatrix();
+                glTranslatef(0.0f, -6.5f, 0.0f);
+                for (float angle = 90; angle <= 330; angle = angle + 120) {
+                    glPushMatrix();
+                        float convertToRadian = angle * 3.14159 / 180.0;
+                        glRotatef(angle, 0.0f, 1.0f, 0.0f);
+                        glTranslatef(2.4f, 0.0f, 0.0f);
+                        drawSphere(quad, 0.5f, 30, 30, energyPulse);
+                    glPopMatrix();
+                }
+                //glColor3f(0.0f, 0.30f, 0.50f);
+                //glTranslatef(0.0f, -6.5f, 0.0f);
+                //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                //drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
+            glPopMatrix();
+
+
+            //Small connecting nerve to elbow
+            glPushMatrix();
+                glColor3f(0.0f, 0.15f, 0.25f);
+                glTranslatef(0.0f, -7.5f, 0.0f);
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, blackMetalic);
+            glPopMatrix();
+
+            //elbow joint
+            glPushMatrix();
+                glTranslatef(elbowOffsetFromShoulder.x, elbowOffsetFromShoulder.y, elbowOffsetFromShoulder.z);
+                glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+                glRotatef(RobotElbow_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+                glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+                glPushMatrix();
+                    glColor3f(0.2, 0.2, 0.2);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+				    drawSphere(varSphere, 1.0f, 100, 100, blackMetalic);
+                glPopMatrix();
+                
+                
+
+                //Minigun
+                glPushMatrix();
+                    glTranslatef(0.0f, -1.6f, -3.7f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glScalef(0.5f, 0.5f, 1.0f);
+
+                    glPushMatrix();
+                    
+                    bool keyNPressedThisFrame = (diKeys[DIK_N] & 0x80) && !(prevDiKeys[DIK_N] & 0x80);
+
+                    /*
+                    if (keyNPressedThisFrame) {
+                        if (nextMinigunSpeed == 0) {
+                            minigunSpeed[0].isActive = true;
+                            minigunSpeed[2].isActive = false;
+                            nextMinigunSpeed = 1; // Set up to next hand movement next time
+                        }
+                        else if (nextMinigunSpeed == 1) {
+                            minigunSpeed[1].isActive = true;
+                            minigunSpeed[0].isActive = false;
+                            nextMinigunSpeed = 2; // Set up to next hand movement next time
+                        }
+                        else if (nextMinigunSpeed == 2) {
+                            minigunSpeed[2].isActive = true;
+                            minigunSpeed[1].isActive = false;
+                            nextMinigunSpeed = 0; // Loop back to the first hand movement
+                        }
+                    }
+
+                    if (minigunSpeed[0].isActive == true)
+                    {
+                        anim_value_minigun += 10;
+                    }
+
+                    if (minigunSpeed[1].isActive == true)
+                    {
+                        anim_value_minigun += 40;
+                    }
+
+                    if (minigunSpeed[2].isActive == true)
+                    {
+                        anim_value_minigun += 0;
+                    }
+                    */
+                    //std::cout << "anim_value_minigun:" << anim_value_minigun;
+                    glRotatef(-anim_value_minigun, 0.0f, 0.0f, 1.0f);
+
+                        glPushMatrix();
+                            glColor3f(0.0f, 0.0f, 0.0f);
+                            glTranslatef(0.0f, 0.0f, 0.0f);
+                            drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 12.0f, FILL, minigunCylinder);
+                        glPopMatrix();
+
+                        glColor3f(0.0f, 0.0f, 0.0f);
+                        for (float angle = 0; angle <= 360; angle = angle + 60) {
+                            glPushMatrix();
+                                float convertToRadian = angle * 3.14159 / 180.0;
+                                glTranslatef(sin(convertToRadian) * 2.6f, cos(convertToRadian) * 2.6f, 0);
+                                drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 12.0f, FILL, minigunCylinder);
+                            glPopMatrix();
+                            //glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
+                        }
+                        glPopMatrix();
+                    //minigun cover
+                    glPushMatrix();
+                        glColor3f(1.0f, 1.0f, 1.0f);
+                        glTranslatef(0.0f, 0.0f, -0.1f);
+                        drawCylinderWithCap(varCylinder, 4.0f, 4.0f, 2.0f, FILL, fire);
+                        glPushMatrix();
+                            glTranslatef(0.0f, 0.0f, 4.0f);
+                            drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, fire);
+                            glPushMatrix();
+                                glTranslatef(0.0f, 0.0f, 4.0f);
+                                drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, fire);
+                                glPushMatrix();
+                                    glTranslatef(0.0f, 0.0f, 2.0f);
+                                    drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, fire);
+                                glPopMatrix();
+                            glPopMatrix();
+                        glPopMatrix();
+                    glPopMatrix();
+                glPopMatrix();
+
+                //rocket launcher
+                glPushMatrix();
+                    glTranslatef(0.0f, 0.0f, 3.0f);
+                    drawRocketLauncher();
+                glPopMatrix();
+                //elbow joint small connecting nerve
+                glPushMatrix();
+                    glTranslatef(0.0f, 0.0f, 0.0f);
+				    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glColor3f(0.7, 0.7, 0.7);
+                    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, blackMetalic);
+                glPopMatrix();
+                //elbow joint large connecting nerve
+                glPushMatrix();
+                    glTranslatef(0.0f, -1.0f, 0.0f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, blackMetalic);
+                glPopMatrix();
+
+                // lowerarm cover cap
+                glPushMatrix();
+                    glTranslatef(0.0f, -1.5f, 0.0f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glColor3f(0.2, 0.2, 0.2);
+                    drawCircle(1.7f, white);
+                glPopMatrix();
+
+                //lower arm
+                glPushMatrix();
+                    glTranslatef(0.0f, -1.5f, 0.0f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glColor3f(0.7, 0.7, 0.7);
+                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL, camouflageWhite);
+                glPopMatrix();
+
+                // lowerarm bottom cover cap
+                glPushMatrix();
+                    glTranslatef(0.0f, -7.5f, 0.0f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glColor3f(0.7f, 0.7f, 0.7f); 
+                    drawCircle(1.5f, blackMetalic);
+                glPopMatrix();
+                
+				//Small connecting nerve to wrist
+                glPushMatrix();
+                    glTranslatef(0.0f, -7.5f, 0.0f);
+                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    glColor3f(0.7f, 0.7f, 0.7f);
+                    drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, blackMetalic);
+                glPopMatrix();
+
+
+				//wrist joint
+                glPushMatrix();
+                    glTranslatef(wristOffsetFromElbow.x, wristOffsetFromElbow.y, wristOffsetFromElbow.z);
+                    glRotatef(RobotWrist_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+                    glRotatef(RobotWrist_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+                    glRotatef(RobotWrist_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+                    
+                    
+                    bool keyVPressedThisFrame = (diKeys[DIK_V] & 0x80) && !(prevDiKeys[DIK_V] & 0x80);
+
+                    if (keyVPressedThisFrame) {
+                        if (nextHandMovement == 0) {
+                            handMovement[0].isActive = true;
+                            nextHandMovement = 1; // Set up to next hand movement next time
+                        }
+                        else if (nextHandMovement == 1) {
+                            handMovement[1].isActive = true;
+                            handMovement[0].isActive = false;
+                            nextHandMovement = 2; // Set up to next hand movement next time
+                        }
+                        else if (nextHandMovement == 2) {
+                            handMovement[2].isActive = true;
+                            handMovement[1].isActive = false;
+                            nextHandMovement = 0; // Loop back to the first hand movement
+                        }
+                    }
+                    //hand movement 1
+                    if (handMovement[0].isActive) {
+                        //rotate wrist upwards
+                        if (handMovement[0].currentRotationX >= -90)
+                        {
+                            handMovement[0].currentRotationX = handMovement[0].currentRotationX - 5.0f;
+                        }
+                    }
+
+                    //hand movement2
+                    if (handMovement[1].isActive) {
+                        //rotate wrist upwards
+                        if (handMovement[0].currentRotationX <= 0)
+                        {
+                            handMovement[0].currentRotationX = handMovement[0].currentRotationX + 5.0f;
+                        }
+                    }
+
+                    glRotatef(handMovement[0].currentRotationX, 1.0f, 0.0f, 0.0f);
+
+                    glPushMatrix();
+                        glTranslatef(0.0f, -1.0f, 0.0f);
+                        glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                        glColor3f(0.0f, 0.0f, 0.0f); 
+                        drawCylinder(varCylinder, 0.5f, 0.7f, 0.3f, FILL, blackMetalic);
+                    glPopMatrix();
+                    glPushMatrix();
+                        glTranslatef(0.0f, -1.3f, 0.0f);
+                        drawCuboid(3.4f, 3.8f, 1.4f, 0.0f, -1.9f, 0.0f, 0.0f, 0.0f, 0.0f, wristPattern);
+                        //drawSphere(varSphere, 1.0f, 100, 100
+                    
+                    glPopMatrix();
+                    //thumb finger
+                    glPushMatrix();
+                    glRotatef(180, 0.0f, 1.0f, 0.0f);
+                        glTranslatef(-1.0f, -3.6f, 0.0f);
+                        glRotatef(300.0f, 0.0f, 0.0f, 1.0f);
+                        glPushMatrix();
+                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                            glColor3f(1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 0.6f, 0.3f, 1.6f, FILL, whitePattern);
+                        glPopMatrix();
+
+                        glPushMatrix();
+                            glTranslatef(0.0f, -1.2f, 0.0f);
+                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                            glColor3f(1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 0.3f, 0.2f, 1.4f, FILL, whitePattern);
+
+							//for cylinder cap, supposingly is y axis negative offset, but because of rotation it becomes z axis positive
+                            glTranslatef(0.0f, 0.0f, 1.4f);
+                            glColor3f(0.0f, 0.0f, 0.0f);
+                            drawCircle(0.2f, NULL);
+                        glPopMatrix();
+                    glPopMatrix();
+                  
+
+                    //four fingers
+                    glPushMatrix();
+                        //fingers rotate transformation if needed
+                        /*
+                        glRotatef(RobotElbow_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+                        glRotatef(RobotElbow_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+                        glRotatef(RobotElbow_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+                        */
+					    glTranslatef(finger1OffsetFromWrist.x, finger1OffsetFromWrist.y, finger1OffsetFromWrist.z);
+                        //glRotatef(150, 1.0f, 0.0f, 0.0f);
+                        glPushMatrix();
+                            glRotatef(90.0f, 1.0f, 0.0f , 0.0f);
+                            glColor3f(1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
+                        glPopMatrix();
+                        glPushMatrix();
+                            glTranslatef(fingerMiddleJoint1OffsetFromFinger.x, fingerMiddleJoint1OffsetFromFinger.y, fingerMiddleJoint1OffsetFromFinger.z);
+                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+							drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
+                            glPushMatrix();
+							//supposingly is y axis negative offset, but because of rotation it becomes z axis
+                                glTranslatef(0.0f, 0.0f, 1.6f);
+                                glColor3f(0.0f, 0.0f, 0.0f);
+                                drawCircle(0.15f, whitePattern);
+                            glPopMatrix();
+                        glPopMatrix();
+                    glPopMatrix();
+                    glPushMatrix();
+                        glTranslatef(finger2OffsetFromWrist.x, finger2OffsetFromWrist.y, finger2OffsetFromWrist.z);
+                        glPushMatrix();
+                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                            glColor3f(1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
+                        glPopMatrix();
+                        glPushMatrix();
+                            glTranslatef(fingerMiddleJoint2OffsetFromFinger.x, fingerMiddleJoint2OffsetFromFinger.y, fingerMiddleJoint2OffsetFromFinger.z);
+                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
+                            glPushMatrix();
+							//supposingly is y axis negative offset, but because of rotation it becomes z axis
+                                glTranslatef(0.0f, 0.0f, 1.6f);
+                                glColor3f(0.0f, 0.0f, 0.0f);
+                                drawCircle(0.15f, whitePattern);
+                            glPopMatrix();
+                        glPopMatrix();
+                    glPopMatrix();
+                    glPushMatrix();
+                        glTranslatef(finger3OffsetFromWrist.x, finger3OffsetFromWrist.y, finger3OffsetFromWrist.z);
+                        glPushMatrix();
+                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                            glColor3f(1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
+                        glPopMatrix();
+                        glPushMatrix();
+                            glTranslatef(fingerMiddleJoint3OffsetFromFinger.x, fingerMiddleJoint3OffsetFromFinger.y, fingerMiddleJoint3OffsetFromFinger.z);
+                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
+                            glPushMatrix();
+							//supposingly is y axis negative offset, but because of rotation it becomes z axis
+                                glTranslatef(0.0f, 0.0f, 1.6f);
+                                glColor3f(0.0f, 0.0f, 0.0f);
+                                drawCircle(0.15f, whitePattern);
+                            glPopMatrix();
+                        glPopMatrix();
+                    glPopMatrix();
+                    glPushMatrix();
+                        glTranslatef(finger4OffsetFromWrist.x, finger4OffsetFromWrist.y, finger4OffsetFromWrist.z);
+                        glPushMatrix();
+                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                            glColor3f(1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 0.425f, 0.2f, 2.0f, FILL, whitePattern);
+                        glPopMatrix();
+                        glPushMatrix();
+                            glTranslatef(fingerMiddleJoint4OffsetFromFinger.x, fingerMiddleJoint4OffsetFromFinger.y, fingerMiddleJoint4OffsetFromFinger.z);
+                            glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                            drawCylinder(varCylinder, 0.2f, 0.15f, 1.6f, FILL, whitePattern);
+                            glPushMatrix();
+							//supposingly is y axis negative offset, but because of rotation it becomes z axis
+                                glTranslatef(0.0f, 0.0f, 1.6f);
+                                glColor3f(0.0f, 0.0f, 0.0f);
+                                drawCircle(0.15f, whitePattern);
+                            glPopMatrix();
+                        glPopMatrix();
+                    glPopMatrix();
+                glPopMatrix();
+            glPopMatrix();
+        glPopMatrix();
+    glPopMatrix();
+
+    //*** CRITICAL STEP ***: Save the current input state for the next frame's check (Put at after everything done)
+    memcpy(prevDiKeys, diKeys, sizeof(diKeys));
+
+    //glPushMatrix();
+
+    // 1. Move to arm position relative to body
+    //glTranslatef(x, y, z);
+
+    // 2. Apply rotation for shoulder joint
+    //glRotatef(jointAngle, 1.0f, 0.0f, 0.0f);
+
+    // 3. Apply base rotation if robot wants to rotate arm in more axes
+    //glRotatef(rx, 1, 0, 0);
+    //glRotatef(ry, 0, 1, 0);
+    //glRotatef(rz, 0, 0, 1);
+
+    // ------------ DRAW ARM GEOMETRY ----------------
+    // Upper arm
+    
+
+
+
+    //glPushMatrix();
+    //glScalef(thickness, length, thickness);
+    //glutSolidCube(1.0); // A cube stretched to make an arm
+    //glPopMatrix();
+
+    // Forearm (optional)
+    //glPushMatrix();
+    //glTranslatef(0.0f, -length * 0.9f, 0.0f);
+    //glScalef(thickness, length * 0.8f, thickness);
+    //glutSolidCube(1.0);
+    //glPopMatrix();
+
+    //glPopMatrix();
+}
  
 
 void LeftArm::draw2()

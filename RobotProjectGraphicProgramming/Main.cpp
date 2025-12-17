@@ -26,7 +26,7 @@
 #pragma comment(lib, "glu32.lib")
 
 using namespace std;
-int QuestionToRender = 0;
+int QuestionToRender = 1;
 
 enum RobotDisplayParts
 {
@@ -92,13 +92,7 @@ GLfloat diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY,
 
 GLUquadricObj* quadLightBulb = NULL;
 
-///textures////
-/*
-GLuint texture = 0;
-GLuint metal = 0;
-BITMAP BMP;
-HBITMAP hBMP = NULL;
-*/
+float bodyArmsRotationAngle = 0;
 
 
 LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -346,7 +340,7 @@ void Display(int QuestionsToRender)
 	// 4. DEFINE WORLD-FIXED LIGHT POSITION
 	// The matrix now contains only the View transformation (from step 3).
 	// This ensures the light position is defined in world space, relative to the camera's fixed position.
-	/*
+	
   diffuseLightPosition[0] = diffuseLightPositionX;
 	diffuseLightPosition[1] = diffuseLightPositionY;
 	diffuseLightPosition[2] = diffuseLightPositionZ;
@@ -356,12 +350,12 @@ void Display(int QuestionsToRender)
   
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHTING);
-  */
+  
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glPushMatrix();
-		//glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
-	//drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
+		glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
+		drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
 	glPopMatrix();
 	
 	//End Lighting///
@@ -386,11 +380,12 @@ void Display(int QuestionsToRender)
 		//experimentationStation.shadeModel();
 		//experimentationStation.lightingTestCube();
 		//experimentationStation.lightingTestPyramidAndSphere();
-		//leftArm.updateInput();
+		leftArm.updateInput();
 		//leftArm.drawMissle();
 		//leftArm.draw();
-		head.updateInput();
-		head.draw2();
+		leftArm.drawAnotherArm();
+		//head.updateInput();
+		//head.draw2();
 		
 		//drawCube();
     break;
@@ -398,30 +393,68 @@ void Display(int QuestionsToRender)
 		//Inputs
 		leftArm.updateInput();
 		body.updateInput();
-		jpk->jetpackInput()；
+		jpk->jetpackInput();
 		head.updateInput();
+		leftLeg.updateInput();
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientLight);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseLight);
 		
 
 		//AttachLeftArmToBody
 		glPushMatrix();
-			glScalef(0.5f, 0.5f, 0.5f);
-
+			
+			glScalef(0.2f, 0.2f, 0.2f);
 			//Head
 			glPushMatrix();
 				glTranslatef(0.0f, 8.3f, 0.0f);
+				glScalef(0.8f, 0.8f, 0.8f);
 				head.draw2();
 			glPopMatrix();
-			//left arm
+
 			glPushMatrix();
-				glTranslatef(5.3f, 0.0f, 0.0f);
-				glRotatef(90, 0.0f, 0.0f, 1.0f);
-				glRotatef(90, 0.0f, 1.0f, 0.0f);
+				bodyArmsRotationAngle = bodyArmsRotationAngle + 40;
+				glRotatef(bodyArmsRotationAngle, 0.0f, 1.0f, 0.0f);
+				//left arm
+				glPushMatrix();
+					glTranslatef(5.3f, 2.5f, 0.0f);
+					glRotatef(90, 0.0f, 0.0f, 1.0f);
+					glRotatef(90, 0.0f, 1.0f, 0.0f);
+					glScalef(1.5, 1.5f, 1.5f);
+					glScalef(0.65f, 0.65f, 0.65f);
+					leftArm.draw();
+				glPopMatrix();
+
+				//right arm
+				glPushMatrix();
+				glTranslatef(-5.3f, 2.5f, 0.0f);
+				glRotatef(270, 0.0f, 0.0f, 1.0f);
+				glRotatef(270, 0.0f, 1.0f, 0.0f);
 				glScalef(1.5, 1.5f, 1.5f);
-				leftArm.draw();
+				glScalef(0.65f, 0.65f, 0.65f);
+					leftArm.drawAnotherArm();
+				glPopMatrix();
+
+			
+				//body
+				glPushMatrix();
+					glScalef(20.0f, 20.0f, 20.0f);
+					body.drawBodyFrame(jpk);
+				glPopMatrix();
+			
 			glPopMatrix();
-			body.drawBodyFrame(jpk);
+			//legs
+			glPushMatrix();
+				glTranslatef(3.0f, -9.5f, 0.0f);
+				glScalef(1.0f, 1.1f, 1.0f);
+				leftLeg.draw();
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(-3.0f, -9.5f, 0.0f);
+				glScalef(1.0f, 1.1f, 1.0f);
+				leftLeg.draw();
+			glPopMatrix();
+
 		glPopMatrix();
 		
 		break;
@@ -573,8 +606,8 @@ void orthographicProjection()
 {
 	glLoadIdentity();
 	//glOrtho(-4, 4, -4, 4, -4, 4);
-	//glOrtho(-8, 8, -8, 8, -8, 8);
-	glOrtho(-25, 25, -25, 25, -25, 25);
+	glOrtho(-8, 8, -8, 8, -8, 8);
+	//glOrtho(-25, 25, -25, 25, -25, 25);
 }
 
 void perspectiveProjection()
