@@ -356,6 +356,7 @@ void Display(int QuestionsToRender)
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+
 	glPushMatrix();
 		//glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
 	drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
@@ -575,8 +576,11 @@ void drawLightBulb()
 	glPushMatrix();
 	glTranslatef(diffuseLightPosition[0], diffuseLightPosition[1], diffuseLightPosition[2]);
 	// c) draw sphere at origin
+	glDisable(GL_LIGHTING);
+	glColor3f(1.0f, 1.0f, 0.0f);
 	gluSphere(quadLightBulb, 0.1, 20, 20);   // radius = ?, slices & stacks = ?
 
+	glEnable(GL_LIGHTING);
 	glPopMatrix();
 	// f) delete quadric (free memory)
 	gluDeleteQuadric(quadLightBulb);

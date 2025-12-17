@@ -148,8 +148,9 @@ void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ
     glScalef(scaleX, scaleY, scaleZ);
     glColor3f(red, green, blue);
     glBindTexture(GL_TEXTURE_2D, texture);
+   
     Vector3D normal = findNormalVector(Point3D{ -0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
-    glNormal3f(normal.x, normal.y, normal.z);
+    glNormal3f(0,0,-1);
     //done
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 0.0f);
@@ -163,7 +164,7 @@ void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ
     glEnd();
 
     normal = findNormalVector(Point3D{ 0.5f, 0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, 0.5f });
-    glNormal3f(normal.x, normal.y, normal.z);
+    glNormal3f(1,0,0);
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 1.0f);
     glVertex3f(0.5f, 0.5f, -0.5f);
@@ -176,7 +177,7 @@ void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ
     glEnd();
 
     normal = findNormalVector(Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ -0.5f, 0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
-    glNormal3f(normal.x, normal.y, normal.z);
+    glNormal3f(0,1,0);
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, 0.5f);
@@ -189,7 +190,7 @@ void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ
     glEnd();
 
     normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ 0.5f, 0.5f, 0.5f });
-    glNormal3f(normal.x, normal.y, normal.z);
+    glNormal3f(0,0,1);
     glBegin(GL_QUADS);
     glTexCoord2f(1.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.5f);
@@ -202,7 +203,7 @@ void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ
     glEnd();
 
     normal = findNormalVector(Point3D{ -0.5f, 0.5f, -0.5f }, Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ -0.5f, -0.5f, 0.5f });
-    glNormal3f(normal.x, normal.y, normal.z);
+    glNormal3f(-1,0,0);
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, 0.5f, -0.5f);
@@ -215,7 +216,7 @@ void ExperimentationStation::drawCuboid(float scaleX, float scaleY, float scaleZ
     glEnd();
 
     normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, -0.5f });
-    glNormal3f(normal.x, normal.y, normal.z);
+    glNormal3f(0,-1,0);
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-0.5f, -0.5f, 0.5f);
@@ -1407,7 +1408,7 @@ void ExperimentationStation::drawCuboid2(float scaleX, float scaleY, float scale
 
 void ExperimentationStation::drawPlane() {
     glPushMatrix();
-    glNormal3f(0, 1, 0);
+    glDisable(GL_LIGHTING);
     glColor3f(1.0, 1.0, 1.0);
     glBegin(GL_QUADS);
     glVertex3f(-1, -1, 1);
@@ -1415,6 +1416,7 @@ void ExperimentationStation::drawPlane() {
     glVertex3f(1, -1, -1);
     glVertex3f(-1, -1 , -1);
     glEnd();
+    glEnable(GL_LIGHTING);
     glPopMatrix();
 }
 
