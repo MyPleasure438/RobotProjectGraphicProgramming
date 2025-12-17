@@ -795,6 +795,101 @@ void LeftArm::loadTextures()
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
 
+    //camouflageWhite texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "camouflageWhite.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &camouflageWhite);
+    glBindTexture(GL_TEXTURE_2D, camouflageWhite);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //energyPulse texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "energyPulse.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &energyPulse);
+    glBindTexture(GL_TEXTURE_2D, energyPulse);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //minigunCover texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "minigunCover.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &minigunCover);
+    glBindTexture(GL_TEXTURE_2D, minigunCover);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //minigunCylinder texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "minigunCylinder.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &minigunCylinder);
+    glBindTexture(GL_TEXTURE_2D, minigunCylinder);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //blackMetalic texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "blackMetalic.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &blackMetalic);
+    glBindTexture(GL_TEXTURE_2D, blackMetalic);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //glass texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "glass.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &glass);
+    glBindTexture(GL_TEXTURE_2D, glass);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //whitePattern texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "whitePattern.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &whitePattern);
+    glBindTexture(GL_TEXTURE_2D, whitePattern);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+    //white texture
+    hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), "white.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+    GetObject(hBMP, sizeof(BMP), &BMP);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &white);
+    glBindTexture(GL_TEXTURE_2D, white);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
     
     //glMatrixMode(GL_TEXTURE);
     //glLoadIdentity();
@@ -1124,7 +1219,7 @@ void LeftArm::draw() {
         glPushMatrix();
 	        glTranslatef(shoulder.x, shoulder.y, shoulder.z);
             glColor3f(0.2, 0.2, 0.2);
-			drawSphere(varSphere, 1.0f, 100, 100, NULL);
+			drawSphere(varSphere, 1.0f, 100, 100, blackMetalic);
 
             glColor3f(0.0f, 1.0f, 0.0f);
 
@@ -1133,13 +1228,13 @@ void LeftArm::draw() {
             glPushMatrix();
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.7, 0.7, 0.7);
-			    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, NULL);
+			    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, blackMetalic);
             glPopMatrix();
             //Large connecting nerve
             glPushMatrix();
                 glTranslatef(0.0f, -1.0f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, NULL);
+                drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, blackMetalic);
             glPopMatrix();
                 
             //upper arm cover cap
@@ -1147,15 +1242,15 @@ void LeftArm::draw() {
                 glTranslatef(0.0f, -1.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.2, 0.2, 0.2);
-                drawCircle(1.7f, NULL);
+                drawCircle(1.7f, blackMetalic);
             glPopMatrix();
             
             //upper arm
             glPushMatrix();
-                glColor3f(0.7, 0.7, 0.7);
+                glColor3f(1.0, 1.0, 1.0);
                 glTranslatef(0.0f, -1.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 1.7f, 1.3f, 6.0f, FILL, NULL);  
+                drawCylinder(varCylinder, 1.7f, 1.3f, 6.0f, FILL, white);  
             glPopMatrix();
 
             //energy pulse / shield 1
@@ -1164,7 +1259,7 @@ void LeftArm::draw() {
                 glColor3f(0.0f, 0.6f, 1.0f);
                 glTranslatef(0.0f, -3.0f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinderAlongCurve(0, 360, 1.5f, 1.5f, 0.5f, FILL, NULL);
+                drawCylinderAlongCurve(0, 360, 1.5f, 1.5f, 0.5f, FILL, glass);
             glPopMatrix();
 
             //5 spheres on upper arm 1
@@ -1175,7 +1270,7 @@ void LeftArm::draw() {
                         float convertToRadian = angle * 3.14159 / 180.0;
                         glRotatef(angle, 0.0f, 1.0f, 0.0f);
                         glTranslatef(2.4f, 0.0f, 0.0f);
-                        drawSphere(quad, 0.5f, 30, 30, NULL);
+                        drawSphere(quad, 0.5f, 30, 30, energyPulse);
                     glPopMatrix();
                 }
                 //glColor3f(0.0f, 0.30f, 0.50f);
@@ -1190,7 +1285,7 @@ void LeftArm::draw() {
                 glColor3f(0.0f, 0.45f, 0.75f);
                 glTranslatef(0.0f, -4.75f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
+                drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, glass);
             glPopMatrix();
 
             //4 spheres on upper arm 2
@@ -1201,7 +1296,7 @@ void LeftArm::draw() {
                         float convertToRadian = angle * 3.14159 / 180.0;
                         glRotatef(angle, 0.0f, 1.0f, 0.0f);
                         glTranslatef(2.4f, 0.0f, 0.0f);
-                        drawSphere(quad, 0.5f, 30, 30, NULL);
+                        drawSphere(quad, 0.5f, 30, 30, energyPulse);
                     glPopMatrix();
                 }
                 //glColor3f(0.0f, 0.30f, 0.50f);
@@ -1217,7 +1312,7 @@ void LeftArm::draw() {
                 glColor3f(0.0f, 0.30f, 0.50f);
                 glTranslatef(0.0f, -6.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, NULL);
+                drawCylinderAlongCurve(0, 360, 1.8f, 1.8f, 0.5f, FILL, glass);
             glPopMatrix();
 
             //3 spheres on upper arm 3
@@ -1228,7 +1323,7 @@ void LeftArm::draw() {
                         float convertToRadian = angle * 3.14159 / 180.0;
                         glRotatef(angle, 0.0f, 1.0f, 0.0f);
                         glTranslatef(2.4f, 0.0f, 0.0f);
-                        drawSphere(quad, 0.5f, 30, 30, NULL);
+                        drawSphere(quad, 0.5f, 30, 30, energyPulse);
                     glPopMatrix();
                 }
                 //glColor3f(0.0f, 0.30f, 0.50f);
@@ -1243,7 +1338,7 @@ void LeftArm::draw() {
                 glColor3f(0.0f, 0.15f, 0.25f);
                 glTranslatef(0.0f, -7.5f, 0.0f);
                 glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, NULL);
+                drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, blackMetalic);
             glPopMatrix();
 
             //elbow joint
@@ -1255,7 +1350,7 @@ void LeftArm::draw() {
                 glPushMatrix();
                     glColor3f(0.2, 0.2, 0.2);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-				    drawSphere(varSphere, 1.0f, 100, 100, NULL);
+				    drawSphere(varSphere, 1.0f, 100, 100, blackMetalic);
                 glPopMatrix();
                 
                 
@@ -1306,17 +1401,17 @@ void LeftArm::draw() {
                     glRotatef(anim_value_minigun, 0.0f, 0.0f, 1.0f);
 
                         glPushMatrix();
-                            glColor3f(0.0f, 0.0f, 0.0f);
+                            glColor3f(0.1f, 0.1f, 0.1f);
                             glTranslatef(0.0f, 0.0f, 0.0f);
-                            drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 12.0f, FILL, NULL);
+                            drawCylinderWithCap(varCylinder, 1.2f, 1.2f, 12.0f, FILL, minigunCylinder);
                         glPopMatrix();
 
-                        glColor3f(0.0f, 0.0f, 0.0f);
+                        glColor3f(0.1f, 0.1f, 0.1f);
                         for (float angle = 0; angle <= 360; angle = angle + 60) {
                             glPushMatrix();
                                 float convertToRadian = angle * 3.14159 / 180.0;
                                 glTranslatef(sin(convertToRadian) * 2.6f, cos(convertToRadian) * 2.6f, 0);
-                                drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 12.0f, FILL, NULL);
+                                drawCylinderWithCap(varCylinder, 1.0f, 1.0f, 12.0f, FILL, minigunCylinder);
                             glPopMatrix();
                             //glVertex3f(sin(convertToRadian) * circleRadius, cos(convertToRadian) * circleRadius, 0);
                         }
@@ -1325,16 +1420,16 @@ void LeftArm::draw() {
                     glPushMatrix();
                         glColor3f(1.0f, 1.0f, 1.0f);
                         glTranslatef(0.0f, 0.0f, -0.1f);
-                        drawCylinderWithCap(varCylinder, 4.0f, 4.0f, 2.0f, FILL, NULL);
+                        drawCylinderWithCap(varCylinder, 4.0f, 4.0f, 2.0f, FILL, minigunCover);
                         glPushMatrix();
                             glTranslatef(0.0f, 0.0f, 4.0f);
-                            drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
+                            drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, minigunCover);
                             glPushMatrix();
                                 glTranslatef(0.0f, 0.0f, 4.0f);
-                                drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
+                                drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, minigunCover);
                                 glPushMatrix();
                                     glTranslatef(0.0f, 0.0f, 2.0f);
-                                    drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, NULL);
+                                    drawCylinderWithCap(varCylinder, 3.7f, 3.7f, 0.6f, FILL, minigunCover);
                                 glPopMatrix();
                             glPopMatrix();
                         glPopMatrix();
@@ -1351,13 +1446,13 @@ void LeftArm::draw() {
                     glTranslatef(0.0f, 0.0f, 0.0f);
 				    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.7, 0.7, 0.7);
-                    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, NULL);
+                    drawCylinder(varCylinder, 0.7f, 0.5f, 1.0f, FILL, blackMetalic);
                 glPopMatrix();
                 //elbow joint large connecting nerve
                 glPushMatrix();
                     glTranslatef(0.0f, -1.0f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, NULL);
+                    drawCylinder(varCylinder, 0.5f, 1.4f, 0.5f, FILL, blackMetalic);
                 glPopMatrix();
 
                 // lowerarm cover cap
@@ -1365,7 +1460,7 @@ void LeftArm::draw() {
                     glTranslatef(0.0f, -1.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.2, 0.2, 0.2);
-                    drawCircle(1.7f, NULL);
+                    drawCircle(1.7f, white);
                 glPopMatrix();
 
                 //lower arm
@@ -1373,7 +1468,7 @@ void LeftArm::draw() {
                     glTranslatef(0.0f, -1.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.7, 0.7, 0.7);
-                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL, NULL);
+                    drawCylinder(varCylinder, 1.7f, 1.5f, 6.0f, FILL, white);
                 glPopMatrix();
 
                 // lowerarm bottom cover cap
@@ -1381,14 +1476,14 @@ void LeftArm::draw() {
                     glTranslatef(0.0f, -7.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
                     glColor3f(0.2, 0.2, 0.2);
-                    drawCircle(1.5f, NULL);
+                    drawCircle(1.5f, blackMetalic);
                 glPopMatrix();
                 
 				//Small connecting nerve to wrist
                 glPushMatrix();
                     glTranslatef(0.0f, -7.5f, 0.0f);
                     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                    drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, NULL);
+                    drawCylinder(varCylinder, 1.3f, 0.5f, 1.00f, FILL, blackMetalic);
                 glPopMatrix();
 
 
@@ -1598,6 +1693,9 @@ void LeftArm::draw() {
 
     //glPopMatrix();
 }
+
+
+ 
 
 void LeftArm::draw2()
 {

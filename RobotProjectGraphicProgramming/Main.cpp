@@ -22,7 +22,7 @@
 #include <GL/glu.h>
 #pragma comment(lib, "glu32.lib")
 
-int QuestionToRender = 1;
+int QuestionToRender = 0;
 
 enum RobotDisplayParts
 {
@@ -378,9 +378,32 @@ void Display(int QuestionsToRender)
 		//drawCube();
     break;
   case 1:
+		//Inputs
+		leftArm.updateInput();
 		body.updateInput();
 		jpk.jetpackInput();
-		body.drawBodyFrame();
+		head.updateInput();
+
+		//AttachLeftArmToBody
+		glPushMatrix();
+			glScalef(0.5f, 0.5f, 0.5f);
+
+			//Head
+			glPushMatrix();
+				glTranslatef(0.0f, 8.3f, 0.0f);
+				head.draw2();
+			glPopMatrix();
+			//left arm
+			glPushMatrix();
+				glTranslatef(5.3f, 0.0f, 0.0f);
+				glRotatef(90, 0.0f, 0.0f, 1.0f);
+				glRotatef(90, 0.0f, 1.0f, 0.0f);
+				glScalef(1.5, 1.5f, 1.5f);
+				leftArm.draw();
+			glPopMatrix();
+			body.drawBodyFrame();
+		glPopMatrix();
+		
 		break;
 	}
 		
@@ -449,6 +472,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	//texture initialization
 	experimentationStation.loadTextures();
+	leftArm.loadTextures();
 	//texture loading
 	/*
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -500,6 +524,7 @@ int main(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	}
 
 	//Delete texture after closes window
+	leftArm.deleteTextures();
 	experimentationStation.deleteTextures();
 	UnregisterClass(WINDOW_TITLE, wc.hInstance);
 

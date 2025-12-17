@@ -81,6 +81,15 @@ private:
 	//Load Texture///
 	GLuint texture = 0;
 	GLuint metal = 0;
+	GLuint camouflageWhite = 0;
+	GLuint energyPulse= 0;
+	GLuint minigunCover = 0;
+	GLuint minigunCylinder = 0;
+	GLuint blackMetalic = 0;
+	GLuint glass = 0;
+	GLuint whitePattern = 0;
+	GLuint white = 0;
+
 	BITMAP BMP;
 	HBITMAP hBMP = NULL;
 

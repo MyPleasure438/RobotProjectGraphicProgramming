@@ -32,7 +32,7 @@ void Jetpack::jetpackInput() {
 void Jetpack::drawJetpack(float cx, float cy, float cz) {
 	glPushMatrix();
 	glTranslatef(cx, cy, cz);
-	Es.drawCuboid(0.35, 0.3, 0.2, 0, 0, 0, 0, 1, 1);
+	Es.drawCuboid(0.35, 0.3, 0.2, 0, 0, 0, 0, 1, 1, NULL);
 
 	glPushMatrix();
 	glColor3f(1, 0, 0);
@@ -41,40 +41,40 @@ void Jetpack::drawJetpack(float cx, float cy, float cz) {
 		if (jp_anim_flag && transitionX <= 0.23) {
 			glPushMatrix();
 			glTranslatef(transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0, NULL);
 			glPopMatrix();
 
 			glPushMatrix();
 			glTranslatef(-transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0, NULL);
 			glPopMatrix();
 			transitionX += 0.01;
 		}
 		else if (!jp_anim_flag && transitionX > 0) {
 			glPushMatrix();
 			glTranslatef(transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0, NULL);
 			glPopMatrix();
 
 			glPushMatrix();
 			glTranslatef(-transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0, NULL);
 			glPopMatrix();
 			transitionX -= 0.01;
 		}
 		else {
 			glPushMatrix();
 			glTranslatef(transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0, NULL);
 			glTranslatef(0, 0, 0.1);
-			Es.drawCylinder(fire, 0.05, 0, firepower, 0);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0, NULL);
 			glPopMatrix();
 
 			glPushMatrix();
 			glTranslatef(-transitionX, 0, -0.05);
-			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0);
+			Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0, NULL);
 			glTranslatef(0, 0, 0.1);
-			Es.drawCylinder(fire, 0.05, 0, firepower, 0);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0, NULL);
 			glPopMatrix();
 		}
 	glPopMatrix();
