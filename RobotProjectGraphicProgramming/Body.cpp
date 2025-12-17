@@ -120,12 +120,14 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 	glShadeModel(GL_SHADE_MODEL);
 	glLineWidth(5.0);
 	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
 	//glScalef(20, 20, 20);
 	glTranslatef(BodyTranslateX, BodyTranslateY, BodyTranslateZ);
 	glRotatef(BodyRotateX, 1.0f, 0.0f, 0.0f);
 	glRotatef(BodyRotateY+180, 0.0f, 1.0f, 0.0f);
 	glRotatef(BodyRotateZ, 0.0f, 0.0f, 1.0f);
 	
+	glPushMatrix();
 		glBindTexture(GL_TEXTURE_2D, bodyTex);
 		glNormal3f(0, 0, 1);
 		glBegin(GL_QUADS); //back
@@ -190,6 +192,11 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 		glVertex3f(0.3, 0.1, -0.3);
 		glEnd();
 
+		glPopMatrix();
+
+		//----------------------------------------------------------------------
+		drawEnergyStone(0.0, 0.1, -0.25);
+
 		//----------------------------------------------------------------------
 
 		for (int i = 0; i < 20; i++) {
@@ -225,10 +232,7 @@ void Body::drawBodyFrame(Jetpack *jpk) {
 			jpk->drawJetpack(0.01, 0, anim_value);
 		}
 
-		waves_time += 0.005;
-
-		//----------------------------------------------------------------------
-		drawEnergyStone(0.0, 0.1, -0.25);
+		waves_time += 0.05;
 
 	glPopMatrix();
 }
@@ -242,7 +246,7 @@ void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset
 	glRotatef(-swing, 1.0, 0, 0);
 
 	glBindTexture(GL_TEXTURE_2D, finsTex);
-	glNormal3f(0, 0, 1);
+	glNormal3f(0, 0, 0.7);
 	glBegin(GL_QUADS);
 	glVertex3f(-0.01,0,0);
 	glVertex3f(-0.01, -0.05, 0);
@@ -253,21 +257,18 @@ void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset
 }
 
 void Body::drawEnergyStone(float cx, float cy,float cz) {
-	float red = sin(time_value*5);
-	float b1 = cos(time_value*5);
-	float b2 = sin(time_value * 2.5);
+	float red = abs(sin(time_value * 0.5));
+
 	glPushMatrix();
-	
 		glTranslatef(cx, cy, cz);
-		glPushMatrix();
-		glColor3f(0, 0, b1);
-		glTranslatef(0, 0, -0.05);
-		//ES.drawCylinderAlongCurve(0, 180, 0.1, 0.1, 0.01, 1);
-		glColor3f(0, 0, b2);
-		//ES.drawCylinderAlongCurve(180, 360, 0.1, 0.1, 0.01, 1);
-		glPopMatrix();
-		glColor3f(red, 0.2, 0.2);
+		glColor3f(red, 0.2f, 0.2f);
+		GLfloat glow[] = { red * 0.5f, 0.0f, 0.0f, 1.0f };
+		glMaterialfv(GL_FRONT, GL_EMISSION, glow);
+		gluQuadricNormals(ERStone, GLU_SMOOTH);
 		gluSphere(ERStone, 0.1, 100, 100);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		GLfloat noGlow[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		glMaterialfv(GL_FRONT, GL_EMISSION, noGlow);
 	glPopMatrix();
 	time_value += 0.01;
 }

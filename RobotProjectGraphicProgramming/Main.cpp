@@ -347,6 +347,8 @@ void Display(int QuestionsToRender)
 
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glPushMatrix();
 		//glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
 	drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.

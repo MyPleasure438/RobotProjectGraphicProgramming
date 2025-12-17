@@ -32,6 +32,8 @@ private:
 	float waves_time;
 	float anim_value;
 
+	
+
 	BITMAP BMP;
 	HBITMAP hBMP;
 	GLuint bodyTex = 0;
