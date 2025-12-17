@@ -5,7 +5,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <cstdio>
-
+#include <iostream>
 #include <cmath>
 #pragma comment (lib, "OpenGL32.lib")
 #pragma comment (lib, "GLU32.lib")

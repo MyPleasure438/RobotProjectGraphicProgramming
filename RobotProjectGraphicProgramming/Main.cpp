@@ -383,8 +383,9 @@ void Display(int QuestionsToRender)
 		//Inputs
 		leftArm.updateInput();
 		body.updateInput();
-		jpk.jetpackInput();
+		//jpk.jetpackInput();
 		head.updateInput();
+		
 
 		//AttachLeftArmToBody
 		glPushMatrix();
@@ -403,11 +404,12 @@ void Display(int QuestionsToRender)
 				glScalef(1.5, 1.5f, 1.5f);
 				leftArm.draw();
 			glPopMatrix();
-			body.drawBodyFrame();
+			//body.drawBodyFrame();
 		glPopMatrix();
 		
 		break;
     case 2:
+		leftLeg.updateInput();
 		//Resh@Legs
 		leftLeg.draw();
 		//leftLeg.drawBolt();

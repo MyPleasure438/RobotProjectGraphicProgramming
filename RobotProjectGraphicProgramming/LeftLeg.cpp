@@ -18,13 +18,10 @@ LeftLeg::LeftLeg() {
 void LeftLeg::updateInput() {
     InputManager& inputManager = InputManager::getInstance();
     LPDIRECTINPUTDEVICE8 dInputKeyboardDevice = inputManager.getDInputKeyboardDevice();
-
-
     HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
     if (diKeys[DIK_W] & 0x80) {
 
-        THIGH_3DRotationAngleX = THIGH_3DRotationAngleX + 0.2;
-
+        THIGH_3DRotationAngleX = THIGH_3DRotationAngleX + 5;
       /*  if (legControl == 0) 
         {
             if (THIGH_3DRotationAngleX < 0.90)
@@ -44,7 +41,6 @@ void LeftLeg::updateInput() {
     }
 
     if (diKeys[DIK_S] & 0x80) {
-
         if (legControl = 0) {
             if (THIGH_3DRotationAngleX > -0.90)
             {
@@ -1150,27 +1146,24 @@ void LeftLeg::draw() {
     //Whole Leg
 
     glPushMatrix();
-
-             glTranslatef(0.0f, 0.5, 0.0f);
-
-            glRotatef(0.45, 1.0f, 0.0f, 0.0f);
-            glRotatef(THIGH_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-            glRotatef(THIGH_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-
-            glTranslatef(0.0f, -0.5, 0.0f);
-
-            glPushMatrix();
+        glTranslatef(0.0f, 0.5, 0.0f);
+        glRotatef(0.45, 1.0f, 0.0f, 0.0f);
+        glRotatef(THIGH_3DRotationAngleX, 0.0f, 1.0f, 0.0f);
+        glRotatef(THIGH_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+        glRotatef(THIGH_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+        glTranslatef(0.0f, -0.5, 0.0f);
+        glPushMatrix();
             //Tigh
             glPushMatrix();
-            glTranslatef(0.0f, 0.0f, 0.0f);
-            drawThigh();
+                glTranslatef(0.0f, 0.0f, 0.0f);
+                drawThigh();
             glPopMatrix();
 
             //Joint
             glPushMatrix();
-            glColor3f(0.0, 0.0, 0.0);
-            glTranslatef(0.0f, -7.8f, 0.0f);
-            drawSphere(joint, 1.6f, 10, 10, NULL);
+                glColor3f(0.0, 0.0, 0.0);
+                glTranslatef(0.0f, -7.8f, 0.0f);
+                drawSphere(joint, 1.6f, 10, 10, NULL);
             glPopMatrix();
 
             //Whole Calf
@@ -1178,34 +1171,32 @@ void LeftLeg::draw() {
 
                 //Calf
                 glPushMatrix();
-                glTranslatef(0.0f, -9.5f, 0.3f);
-                drawShin();
+                    glTranslatef(0.0f, -9.5f, 0.3f);
+                    drawShin();
                 glPopMatrix();
 
                 //Joint
                 glPushMatrix();
-                glColor3f(0.0, 0.0, 0.0);
-                glTranslatef(0.0f, -16.8f, 0.2f);
-                drawSphere(joint, 0.9f, 10, 10, NULL);
+                    glColor3f(0.0, 0.0, 0.0);
+                    glTranslatef(0.0f, -16.8f, 0.2f);
+                    drawSphere(joint, 0.9f, 10, 10, NULL);
                 glPopMatrix();
 
                 glPushMatrix();
         
                     //Foot
                     glPushMatrix();
-                    glTranslatef(-0.0f, -19.0f, 2.5f);
-                    glRotatef(-90.0f, 0.0, 1.0, 0.0);
-                    glScalef(2.0f, 3.0f, 3.0f);
-                    drawFoot();
+                        glTranslatef(-0.0f, -19.0f, 2.5f);
+                        glRotatef(-90.0f, 0.0, 1.0, 0.0);
+                        glScalef(2.0f, 3.0f, 3.0f);
+                        drawFoot();
                     glPopMatrix();
 
                     //glTranslatef(-0.0f, -19.0f, 2.5f);
                     //glRotatef(-40.0f, 1.0, 0.0, 0.0);
 
                 glPopMatrix();
-
-             glPopMatrix();
-
+            glPopMatrix();
         glPopMatrix();
     glPopMatrix();
 
