@@ -9,6 +9,7 @@
 #include "InputManager.h"
 #include "LeftLeg.h"
 #include "LeftArm.h"
+#include "Head.h"
 #include "Body.h"
 #include "Jetpack.h"
 
@@ -31,6 +32,7 @@ enum RobotDisplayParts
 
 //Global object initialization
 LeftArm leftArm;
+Head head;
 Body body;
 Jetpack jpk;
 ExperimentationStation experimentationStation;
@@ -224,12 +226,12 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 		case VK_OEM_6:
 			//] key
-			diffuseLightPositionY = diffuseLightPositionY + 0.1f;
+			diffuseLightPositionY= diffuseLightPositionY - 0.1f;
 			break;
 
 		case VK_OEM_5:
 			//using \ key
-			diffuseLightPositionY = diffuseLightPositionY - 0.1f;
+			diffuseLightPositionY = diffuseLightPositionY + 0.1f;
 			break;
 
 		case VK_OEM_1:
@@ -328,7 +330,10 @@ void Display(int QuestionsToRender)
 
 	//lighting///
 	//diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ };
-
+	
+	// 4. DEFINE WORLD-FIXED LIGHT POSITION
+	// The matrix now contains only the View transformation (from step 3).
+	// This ensures the light position is defined in world space, relative to the camera's fixed position.
 	/*
 	diffuseLightPosition[0] = diffuseLightPositionX;
 	diffuseLightPosition[1] = diffuseLightPositionY;
@@ -336,23 +341,14 @@ void Display(int QuestionsToRender)
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
-	*/
-	// 4. DEFINE WORLD-FIXED LIGHT POSITION
-	// The matrix now contains only the View transformation (from step 3).
-	// This ensures the light position is defined in world space, relative to the camera's fixed position.
-	diffuseLightPosition[0] = diffuseLightPositionX;
-	diffuseLightPosition[1] = diffuseLightPositionY;
-	diffuseLightPosition[2] = diffuseLightPositionZ;
-	//glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
-	//glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
-	//glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
 
-	//glEnable(GL_LIGHT0);
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
 	glPushMatrix();
-	//glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
-//drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
+	glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
+	drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
 	glPopMatrix();
+	*/
 	//End Lighting///
 
 	glEnable(GL_DEPTH_TEST);   // enable depth test (stay ON forever)
@@ -366,33 +362,57 @@ void Display(int QuestionsToRender)
 		//glTranslate3f()
 			//gluSphere(quad
 		glPopMatrix();
-
-		experimentationStation.updateInput();
+		
+		
+		//experimentationStation.updateInput();
 		//experimentationStation.drawIceCream();
 		//experimentationStation.draw();
 		//experimentationStation.draw3();
 		//experimentationStation.shadeModel();
 		//experimentationStation.lightingTestCube();
 		//experimentationStation.lightingTestPyramidAndSphere();
-		//leftArm.updateInput();
+		leftArm.updateInput();
 		//leftArm.draw2();
 		leftArm.draw();
+		//head.updateInput();
+		//head.draw2();
+		
 		//drawCube();
-		break;
-	case 1:
-		//body.updateInput();
-		/*
+    break;
+  case 1:
+		//Inputs
+		leftArm.updateInput();
+		body.updateInput();
 		jpk.jetpackInput();
-		body.drawBodyFrame();
-		*/
+		head.updateInput();
+
+		//AttachLeftArmToBody
+		glPushMatrix();
+			glScalef(0.5f, 0.5f, 0.5f);
+
+			//Head
+			glPushMatrix();
+				glTranslatef(0.0f, 8.3f, 0.0f);
+				head.draw2();
+			glPopMatrix();
+			//left arm
+			glPushMatrix();
+				glTranslatef(5.3f, 0.0f, 0.0f);
+				glRotatef(90, 0.0f, 0.0f, 1.0f);
+				glRotatef(90, 0.0f, 1.0f, 0.0f);
+				glScalef(1.5, 1.5f, 1.5f);
+				leftArm.draw();
+			glPopMatrix();
+			body.drawBodyFrame();
+		glPopMatrix();
+		
 		break;
-	case 2:
+    case 2:
 		//Resh@Legs
 		leftLeg.draw();
 		//leftLeg.drawBolt();
-
-
-		break;
+  
+    break;
 	}
 
 
@@ -460,6 +480,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	//texture initialization
 	experimentationStation.loadTextures();
+	leftArm.loadTextures();
 	//texture loading
 	/*
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -511,6 +532,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	}
 
 	//Delete texture after closes window
+	leftArm.deleteTextures();
 	experimentationStation.deleteTextures();
 	UnregisterClass(WINDOW_TITLE, wc.hInstance);
 
@@ -522,8 +544,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 void orthographicProjection()
 {
 	glLoadIdentity();
-	glOrtho(-2, 2, -2, 2, -2, 2);
-	//glOrtho(-10, 10, -10, 10, -10, 10);
+	//glOrtho(-4, 4, -4, 4, -4, 4);
+	glOrtho(-25, 25, -25, 25, -25, 25);
 }
 
 void perspectiveProjection()
@@ -548,7 +570,6 @@ void drawLightBulb()
 	gluQuadricDrawStyle(quadLightBulb, GLU_LINE);   // wireframe sphere
 
 	glPushMatrix();
-	glTranslatef(diffuseLightPosition[0], diffuseLightPosition[1], diffuseLightPosition[2]);
 	// c) draw sphere at origin
 	gluSphere(quadLightBulb, 0.1, 20, 20);   // radius = ?, slices & stacks = ?
 
