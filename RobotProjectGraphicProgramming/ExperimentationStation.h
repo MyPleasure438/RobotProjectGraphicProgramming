@@ -129,13 +129,13 @@ public:
 	void drawJointMarker();
 	void drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture);
 	void drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks, GLuint texture);
-	void drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture);
-	void drawCircle(float circleRadius, GLuint texture);
+	void drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture, bool isShdaow);
+	void drawCircle(float circleRadius, GLuint texture, bool isShadow);
 	void drawCircleWithHole(float outerRadius, float innerRadius, int segments);
 	void drawPyramid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, GLuint texture);
 	ExperimentationStation::Vector3D findNormalVector(Point3D v1, Point3D v2, Point3D v3);
 	void drawBeautifulCircleWithFlowers(float circleRadius, float baseRadius, float topRadius, float height, int numCylinders, int selectedDrawStyle);
-	void drawCylinderAlongCurve(float angleBegins, float angleEnds, float circleXRadius, float circleYRadius, float cylinderRadius, int selectedDrawStyle, GLuint texture);
+	void drawCylinderAlongCurve(float angleBegins, float angleEnds, float circleXRadius, float circleYRadius, float cylinderRadius, int selectedDrawStyle, GLuint texture, bool isShadow);
 	void drawText3D(const char* text);
 	void initFont();
 	void loadTextures();
@@ -157,8 +157,9 @@ public:
 
 	void shadeModel();
 
-	void drawCuboid2(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture1, GLuint texture2);
-
+	void drawCuboid2(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture1, GLuint texture2, bool isShadow);
+	void drawPlane();
+	void calculateShadowMatrix(GLfloat matrix[16], GLfloat ground[4], GLfloat light[4]);
 
 };
 

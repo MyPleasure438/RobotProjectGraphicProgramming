@@ -27,6 +27,6 @@ public:
 	void initTexture();
 	void clearTexture();
 	void jetpackInput();
-	void drawJetpack(float cx, float cy, float cz);
+	void drawJetpack(float cx, float cy, float cz, bool isShadow);
 };
 

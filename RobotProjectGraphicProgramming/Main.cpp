@@ -35,6 +35,8 @@ Body body;
 Jetpack* jpk = new Jetpack();
 ExperimentationStation experimentationStation;
 
+bool isShadow = false;
+
 
 float objectRed = 0.0f;
 float objectGreen = 0.0f;
@@ -81,6 +83,9 @@ float diffuseLightPositionZ = 0.0f;
 GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f };
 GLfloat diffuseLight[] = { 0.9f, 0.9f, 0.9f };
 GLfloat diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ, 1.0f };
+
+GLfloat plane[] = { 0.0f, 1.0f, 0.0f, 1.0f };
+GLfloat shadowMatrix[16];
 
 GLUquadricObj* quadLightBulb = NULL;
 
@@ -345,6 +350,8 @@ void Display(int QuestionsToRender)
 	//glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	//glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
 
+	experimentationStation.calculateShadowMatrix(shadowMatrix, plane, diffuseLightPosition);
+
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
@@ -369,7 +376,7 @@ void Display(int QuestionsToRender)
 		
 		experimentationStation.updateInput();
 		//experimentationStation.drawIceCream();
-		experimentationStation.draw();
+		//experimentationStation.draw();
 		//experimentationStation.draw3();
 		//experimentationStation.shadeModel();
 		//experimentationStation.lightingTestCube();
@@ -382,9 +389,30 @@ void Display(int QuestionsToRender)
   case 1:
 		body.updateInput();
 		jpk->jetpackInput();
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientLight);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseLight);
-		body.drawBodyFrame(jpk);
+
+		experimentationStation.drawPlane();
+		
+		//Put FALSE to draw a robot or TRUE for shadow
+		//Real Robot
+		glPushMatrix();
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientLight);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseLight);
+			body.drawBodyFrame(jpk,false);
+		glPopMatrix();
+
+		//Shadow
+		glPushMatrix();
+			glTranslatef(0, 0.01, 0);
+			glMultMatrixf(shadowMatrix);
+			glDisable(GL_LIGHTING);
+			glDisable(GL_TEXTURE_2D);
+			glColor3f(0.0f, 0.0f, 0.0f);
+			body.drawBodyFrame(jpk,true);
+
+			glEnable(GL_TEXTURE_2D);
+			glEnable(GL_LIGHTING);
+			glColor3f(1.0f, 1.0f, 1.0f);
+		glPopMatrix();
 		break;
 	}
 		

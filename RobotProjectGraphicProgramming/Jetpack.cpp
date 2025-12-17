@@ -72,43 +72,48 @@ void Jetpack::jetpackInput() {
 	}
 }
 
-void Jetpack::drawJetpack(float cx, float cy, float cz) {
-
-	if (jp_anim_flag) {
-		if (transitionX < 0.23) {
-			transitionX += 0.01;
+void Jetpack::drawJetpack(float cx, float cy, float cz, bool isShadow) {
+	if(!isShadow){
+		if (jp_anim_flag) {
+			if (transitionX < 0.23) {
+				transitionX += 0.01;
+			}
+		}
+		else {
+			if (transitionX > 0) {
+				transitionX -= 0.01;
+				firepower -= 0.1f;
+			}
 		}
 	}
-	else {
-		if (transitionX > 0) {
-			transitionX -= 0.01;
-			firepower -= 0.1f;
-		}
-	}
+	
+	GLuint useMetal = isShadow ? 0 : metal;
+	GLuint useLogo = isShadow ? 0 : logo;
+	GLuint useFlame = isShadow ? 0 : flame;
 
 	glPushMatrix();
 	glTranslatef(cx, cy, cz);
-	Es.drawCuboid2(0.35, 0.3, 0.2, 0, 0, 0, 0, 1, 1,metal,logo);
+	Es.drawCuboid2(0.35, 0.3, 0.2, 0, 0, 0, 0, 1, 1,useMetal,useLogo,isShadow);
 
 	glPushMatrix();
 	glRotatef(90, 1.0, 0, 0);
 	glPushMatrix();
 		glTranslatef(transitionX, 0, -0.05);
-		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0, metal);
-		Es.drawCircle(0.05, metal);
-		if (jp_anim_flag && firepower >=0) {
+		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0, useMetal, isShadow);
+		Es.drawCircle(0.05, useMetal,isShadow);
+		if (jp_anim_flag && firepower >=0 && !isShadow) {
 			glTranslatef(0, 0, 0.15);
-			Es.drawCylinder(fire, 0.05, 0, firepower, 0,flame);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0,useFlame, false);
 		}
 		glPopMatrix();
 
 		glPushMatrix();
 		glTranslatef(-transitionX, 0, -0.05);
-		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,metal);
-		Es.drawCircle(0.05, metal);
-		if (jp_anim_flag && firepower >=0) {
+		Es.drawCylinder(rocket, 0.05, 0.05, 0.15, 0,useMetal, isShadow);
+		Es.drawCircle(0.05, useMetal,isShadow);
+		if (jp_anim_flag && firepower >=0 && !isShadow) {
 			glTranslatef(0, 0, 0.15);
-			Es.drawCylinder(fire, 0.05, 0, firepower, 0,flame);
+			Es.drawCylinder(fire, 0.05, 0, firepower, 0,useFlame, false);
 		}
 		glPopMatrix();
 	glPopMatrix();
