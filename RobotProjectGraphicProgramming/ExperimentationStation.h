@@ -157,6 +157,8 @@ public:
 
 	void shadeModel();
 
+	void drawCuboid2(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture1, GLuint texture2);
+
 
 };
 

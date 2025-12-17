@@ -38,7 +38,7 @@ enum RobotDisplayParts
 LeftArm leftArm;
 Head head;
 Body body;
-Jetpack jpk;
+Jetpack* jpk = new Jetpack();
 ExperimentationStation experimentationStation;
 
 LeftLeg leftLeg;
@@ -63,7 +63,7 @@ enum ProjectionMode
 	Orthographic = 0,
 	Perspective = 1
 };
-int projectionMode = Orthographic;
+int projectionMode = Perspective;
 void orthographicProjection();
 void perspectiveProjection();
 void drawLightBulb();
@@ -87,7 +87,7 @@ float diffuseLightPositionY = 3.0f;
 float diffuseLightPositionZ = 0.7f;
 
 GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f };
-GLfloat diffuseLight[] = { 0.7f, 0.7f, 0.7f };
+GLfloat diffuseLight[] = { 0.9f, 0.9f, 0.9f };
 GLfloat diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ, 1.0f };
 
 GLUquadricObj* quadLightBulb = NULL;
@@ -342,22 +342,25 @@ void Display(int QuestionsToRender)
 
 	//lighting///
 	//diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ };
+	
 	// 4. DEFINE WORLD-FIXED LIGHT POSITION
 	// The matrix now contains only the View transformation (from step 3).
 	// This ensures the light position is defined in world space, relative to the camera's fixed position.
-
 	/*
-	diffuseLightPosition[0] = diffuseLightPositionX;
+  diffuseLightPosition[0] = diffuseLightPositionX;
 	diffuseLightPosition[1] = diffuseLightPositionY;
 	diffuseLightPosition[2] = diffuseLightPositionZ;
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT0, GL_POSITION, diffuseLightPosition);
-	*/
-	//glEnable(GL_LIGHT0);
-	//glEnable(GL_LIGHTING);
+  
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
+  */
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glPushMatrix();
-	glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
+		//glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
 	//drawLightBulb(); // This function should be modified to accept the position, or just draw at the origin.
 	glPopMatrix();
 	
@@ -395,8 +398,10 @@ void Display(int QuestionsToRender)
 		//Inputs
 		leftArm.updateInput();
 		body.updateInput();
-		//jpk.jetpackInput();
+		jpk->jetpackInput()；
 		head.updateInput();
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientLight);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseLight);
 		
 
 		//AttachLeftArmToBody
@@ -416,7 +421,7 @@ void Display(int QuestionsToRender)
 				glScalef(1.5, 1.5f, 1.5f);
 				leftArm.draw();
 			glPopMatrix();
-			//body.drawBodyFrame();
+			body.drawBodyFrame(jpk);
 		glPopMatrix();
 		
 		break;
@@ -495,6 +500,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	//texture initialization
 	experimentationStation.loadTextures();
+	jpk->initTexture();
+	body.initBodyTexture();
 	leftArm.loadTextures();
 	leftLeg.loadTextures();
 	head.loadTextures();
@@ -552,6 +559,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	leftArm.deleteTextures();
 	leftLeg.deleteTextures();
 	experimentationStation.deleteTextures();
+	jpk->clearTexture();
+	body.clearBodyTexture();
 	head.deleteTextures();
 	UnregisterClass(WINDOW_TITLE, wc.hInstance);
 
@@ -597,12 +606,12 @@ void drawLightBulb()
 	// f) delete quadric (free memory)
 	gluDeleteQuadric(quadLightBulb);
 
-	printf("diffuseLightPosition = { %.2f, %.2f, %.2f, %.2f }\n",
-		diffuseLightPosition[0],
-		diffuseLightPosition[1],
-		diffuseLightPosition[2],
-		diffuseLightPosition[3]
-	);
+	//printf("diffuseLightPosition = { %.2f, %.2f, %.2f, %.2f }\n",
+	//	diffuseLightPosition[0],
+	//	diffuseLightPosition[1],
+	//	diffuseLightPosition[2],
+	//	diffuseLightPosition[3]
+	//);
 }
 
 void drawCube()

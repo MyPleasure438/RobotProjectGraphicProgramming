@@ -1,14 +1,41 @@
 #include "Body.h"
 /*
 ExperimentationStation ES;
-Jetpack Jpk;
 
 GLUquadricObj* ERStone = gluNewQuadric();
-float time_value = 0.0f;
-float waves_time = 0.0f;
-float anim_value = 0.0f;
-bool anim_flag = false;
 
+bool anim_flag = false;
+static bool isAnim_flag = false;
+
+void Body::initBodyTexture() {
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	HBITMAP hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL),
+		"bodyTex.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION |
+		LR_LOADFROMFILE);
+	GetObject(hBMP, sizeof(BMP), &BMP);
+	glEnable(GL_TEXTURE_2D);
+	glGenTextures(1, &bodyTex);
+	glBindTexture(GL_TEXTURE_2D, bodyTex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+
+	hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL),
+		"finsTex.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION |
+		LR_LOADFROMFILE);
+	GetObject(hBMP, sizeof(BMP), &BMP);
+	glEnable(GL_TEXTURE_2D);
+	glGenTextures(1, &finsTex);
+	glBindTexture(GL_TEXTURE_2D, finsTex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+}
+
+void Body::clearBodyTexture() {
+	glDeleteTextures(1, &bodyTex);
+	glDeleteTextures(1, &finsTex);
+}
 
 void Body::updateInput() {
 	InputManager& inputManager = InputManager::getInstance();
@@ -78,81 +105,115 @@ void Body::updateInput() {
 	}
 
 	if (diKeys[DIK_0] & 0x80) {
-		if (!anim_flag) {
-			anim_flag = true;
+		if (!isAnim_flag) {
+			anim_flag = !anim_flag;
+			isAnim_flag = true;
 		}
-		else {
-			anim_flag = false;
-		}
+	}
+	else {
+		isAnim_flag = false;
 	}
 
 }
 
-void Body::drawBodyFrame() {
+void Body::drawBodyFrame(Jetpack *jpk) {
 	glShadeModel(GL_SHADE_MODEL);
 	glLineWidth(5.0);
 	glPushMatrix();
-	glScalef(20, 20, 20);
+	glColor3f(1.0, 1.0, 1.0);
+	//glScalef(20, 20, 20);
 	glTranslatef(BodyTranslateX, BodyTranslateY, BodyTranslateZ);
 	glRotatef(BodyRotateX, 1.0f, 0.0f, 0.0f);
 	glRotatef(BodyRotateY+180, 0.0f, 1.0f, 0.0f);
 	glRotatef(BodyRotateZ, 0.0f, 0.0f, 1.0f);
-		
-		glColor3f(1.0, 1.0, 1.0);
+	
+	glPushMatrix();
+		glBindTexture(GL_TEXTURE_2D, bodyTex);
+		glNormal3f(0, 0, 1);
 		glBegin(GL_QUADS); //back
+		glTexCoord2f(0, 0);
 		glVertex3f(-0.3, 0.4, 0.2);
+		glTexCoord2f(1, 0);
 		glVertex3f(-0.3, -0.4, 0.2);
+		glTexCoord2f(1, 1);
 		glVertex3f(0.3, -0.4, 0.2);
+		glTexCoord2f(0, 1);
 		glVertex3f(0.3, 0.4, 0.2);
 		glEnd();
 
-		glColor3f(1.0, 0, 0);
+		glNormal3f(-1, 0, 0);
 		glBegin(GL_POLYGON); //left
+		glTexCoord2f(0.2f, 1.0f);
 		glVertex3f(-0.3, 0.4, -0.2);
+		glTexCoord2f(0.0f, 0.625f);
 		glVertex3f(-0.3, 0.1, -0.3);
+		glTexCoord2f(0.2f, 0.0f);
 		glVertex3f(-0.3, -0.4, -0.2);
+		glTexCoord2f(1.0f, 0.0f);
 		glVertex3f(-0.3, -0.4, 0.2);
+		glTexCoord2f(1.0f, 1.0f);
 		glVertex3f(-0.3, 0.4, 0.2);
 		glEnd();
 
-		glColor3f(0, 1, 0);
+		glNormal3f(0.0f, 0.316f, -0.948f);
 		glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(-0.3, 0.4, -0.2);
+		glTexCoord2f(1.0f, 0.0f);
 		glVertex3f(-0.3, 0.1, -0.3);
+		glTexCoord2f(1.0f, 1.0f);
 		glVertex3f(0.3, 0.1, -0.3);
+		glTexCoord2f(0.0f, 1.0f);
 		glVertex3f(0.3, 0.4, -0.2);
 		glEnd();
 
-		glColor3f(0, 0, 0);
+		glNormal3f(0.0f, -0.196f, -0.980f);
 		glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(-0.3, 0.1, -0.3);
+		glTexCoord2f(1.0f, 0.0f);
 		glVertex3f(-0.3, -0.4, -0.2);
+		glTexCoord2f(1.0f, 1.0f);
 		glVertex3f(0.3, -0.4, -0.2);
+		glTexCoord2f(0.0f, 1.0f);
 		glVertex3f(0.3, 0.1, -0.3);
 		glEnd();
 
-		glColor3f(0, 0, 1.0);
+		glNormal3f(1, 0, 0);
 		glBegin(GL_POLYGON);//right
+		glTexCoord2f(0.2f, 1.0f);
 		glVertex3f(0.3, 0.4, -0.2);
+		glTexCoord2f(0.0f, 0.625f);
 		glVertex3f(0.3, 0.1, -0.3);
+		glTexCoord2f(0.2f, 0.0f);
 		glVertex3f(0.3, -0.4, -0.2);
+		glTexCoord2f(1.0f, 0.0f);
 		glVertex3f(0.3, -0.4, 0.2);
+		glTexCoord2f(1.0f, 1.0f);
 		glVertex3f(0.3, 0.4, 0.2);
 		glEnd();
 
-		glColor3f(1, 0, 1);
+		glNormal3f(0, 1, 0);
 		glBegin(GL_QUADS);//top
+		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(-0.3, 0.4, -0.2);
+		glTexCoord2f(1.0f, 0.0f);
 		glVertex3f(-0.3, 0.4, 0.2);
+		glTexCoord2f(1.0f, 1.0f);
 		glVertex3f(0.3, 0.4, 0.2);
+		glTexCoord2f(0.0f, 1.0f);
 		glVertex3f(0.3, 0.4, -0.2);
 		glEnd();
 
-		glColor3f(0, 1, 1);
+		glNormal3f(0, -1, 0);
 		glBegin(GL_QUADS);//bottom
+		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(-0.3, -0.4, -0.2);
+		glTexCoord2f(1.0f, 0.0f);
 		glVertex3f(-0.3, -0.4, 0.2);
+		glTexCoord2f(1.0f, 1.0f);
 		glVertex3f(0.3, -0.4, 0.2);
+		glTexCoord2f(0.0f, 1.0f);
 		glVertex3f(0.3, -0.4, -0.2);
 		glEnd();
 
@@ -160,6 +221,11 @@ void Body::drawBodyFrame() {
 		glVertex3f(-0.3, 0.1, -0.3);
 		glVertex3f(0.3, 0.1, -0.3);
 		glEnd();
+
+		glPopMatrix();
+
+		//----------------------------------------------------------------------
+		drawEnergyStone(0.0, 0.1, -0.25);
 
 		//----------------------------------------------------------------------
 
@@ -183,25 +249,20 @@ void Body::drawBodyFrame() {
 				}
 			}
 		}
-		
 
 		if (anim_flag && anim_value <0.31){
-			Jpk.drawJetpack(0.01, 0, anim_value);
+			jpk->drawJetpack(0.01, 0, anim_value);
 			anim_value += 0.001;
 		}
 		else if (!anim_flag && anim_value > 0) {
-			Jpk.drawJetpack(0.01, 0, anim_value);
+			jpk->drawJetpack(0.01, 0, anim_value);
 			anim_value -= 0.001;
 		}
 		else {
-			Jpk.drawJetpack(0.01, 0, anim_value);
+			jpk->drawJetpack(0.01, 0, anim_value);
 		}
 
-		waves_time += 0.005;
-
-		
-		//----------------------------------------------------------------------
-		drawEnergyStone(0.0, 0.1, -0.25);
+		waves_time += 0.01;
 
 	glPopMatrix();
 }
@@ -213,33 +274,35 @@ void Body :: drawScales(float cx, float cy, float cz,float facingR, float offset
 	glTranslatef(0, -0.05, 0);
 	glRotatef(facingR, 0, 1.0, 0);
 	glRotatef(-swing, 1.0, 0, 0);
-	
-	glColor3f(0.5, 0.5, 0.5);
+
+	glBindTexture(GL_TEXTURE_2D, finsTex);
+	glNormal3f(0, 0, 0.7);
 	glBegin(GL_QUADS);
+	glTexCoord2f(0, 0);
 	glVertex3f(-0.01,0,0);
+	glTexCoord2f(1, 0);
 	glVertex3f(-0.01, -0.05, 0);
+	glTexCoord2f(1, 1);
 	glVertex3f(0.01, -0.05, 0);
+	glTexCoord2f(0, 1);
 	glVertex3f(0.01, 0, 0);
 	glEnd();
 	glPopMatrix();
 }
 
 void Body::drawEnergyStone(float cx, float cy,float cz) {
-	float red = sin(time_value*5);
-	float b1 = cos(time_value*5);
-	float b2 = sin(time_value * 2.5);
+	float red = abs(sin(time_value * 0.5));
+
 	glPushMatrix();
-	
 		glTranslatef(cx, cy, cz);
-		glPushMatrix();
-		glColor3f(0, 0, b1);
-		glTranslatef(0, 0, -0.05);
-		//ES.drawCylinderAlongCurve(0, 180, 0.1, 0.1, 0.01, 1);
-		glColor3f(0, 0, b2);
-		//ES.drawCylinderAlongCurve(180, 360, 0.1, 0.1, 0.01, 1);
-		glPopMatrix();
-		glColor3f(red, 0.2, 0.2);
+		glColor3f(red, 0.2f, 0.2f);
+		GLfloat glow[] = { red * 0.5f, 0.0f, 0.0f, 1.0f };
+		glMaterialfv(GL_FRONT, GL_EMISSION, glow);
+		gluQuadricNormals(ERStone, GLU_SMOOTH);
 		gluSphere(ERStone, 0.1, 100, 100);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		GLfloat noGlow[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		glMaterialfv(GL_FRONT, GL_EMISSION, noGlow);
 	glPopMatrix();
 	time_value += 0.01;
 }

@@ -17,11 +17,16 @@ private:
 	float transitionX;
 	float firepower;
 
+	BITMAP BMP;
+	HBITMAP hBMP;
+	GLuint metal = 0;
+	GLuint logo = 0;
+	GLuint flame = 0;
+
 public:
-	/*
+	void initTexture();
+	void clearTexture();
 	void jetpackInput();
 	void drawJetpack(float cx, float cy, float cz);
-	*/
-
 };
 

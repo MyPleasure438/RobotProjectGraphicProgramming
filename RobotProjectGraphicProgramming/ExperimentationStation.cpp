@@ -266,6 +266,7 @@ void ExperimentationStation::drawCylinder(GLUquadricObj* quad, float baseRadius,
         return;
     }
 
+    gluQuadricNormals(quad, GLU_SMOOTH);
     gluQuadricTexture(quad, GL_TRUE);
     glPushMatrix();
         glEnable(GL_TEXTURE_2D);
@@ -312,6 +313,7 @@ void ExperimentationStation::drawCircle(float circleRadius, GLuint texture)
 
     // 2. Set the color filter to white so the texture appears in its true colors
     glColor3f(1.0f, 1.0f, 1.0f);
+    glNormal3f(0, 1, 0);
 
     // Use GL_TRIANGLE_FAN for better performance and guaranteed behavior
     glBegin(GL_TRIANGLE_FAN);
@@ -1791,3 +1793,100 @@ void ExperimentationStation::shadeModel()
     glPopMatrix();
 }
 
+
+void ExperimentationStation::drawCuboid2(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture1, GLuint texture2)
+{
+    glPushMatrix();
+    //translate the center point for transformation of the cuboid (This acts as a pivot point to rotate the cuboid)
+    glTranslatef(centerPointTransformationTranslationX, centerPointTransformationTranslationY, centerPointTransformationTranslationZ);
+    //scale first
+    glScalef(scaleX, scaleY, scaleZ);
+    glColor3f(red, green, blue);
+
+    glBindTexture(GL_TEXTURE_2D, texture1);
+    Vector3D normal = findNormalVector(Point3D{ -0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    //done
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f, -0.5f);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-0.5f, 0.5f, -0.5f);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, texture1);
+    normal = findNormalVector(Point3D{ 0.5f, 0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f, -0.5f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f, 0.5f);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, texture1);
+    normal = findNormalVector(Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ -0.5f, 0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-0.5f, 0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, 0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f, 0.5f);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, texture2);
+    normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ 0.5f, 0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_QUADS);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, 0.5f);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, texture1);
+    normal = findNormalVector(Point3D{ -0.5f, 0.5f, -0.5f }, Point3D{ -0.5f, 0.5f, 0.5f }, Point3D{ -0.5f, -0.5f, 0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-0.5f, 0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(-0.5f, 0.5f, 0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, texture1);
+    normal = findNormalVector(Point3D{ -0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, 0.5f }, Point3D{ 0.5f, -0.5f, -0.5f });
+    glNormal3f(normal.x, normal.y, normal.z);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(0.5f, -0.5f, 0.5f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(0.5f, -0.5f, -0.5f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glEnd();
+
+    glPopMatrix();
+}
