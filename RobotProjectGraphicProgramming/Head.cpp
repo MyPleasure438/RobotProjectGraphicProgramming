@@ -133,14 +133,23 @@ void Head::drawJointMarker()
     gluDeleteQuadric(quad);
 }
 
-void Head::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture)
+void Head::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture, bool isShadow)
 {
     glPushMatrix();
     //translate the center point for transformation of the cuboid (This acts as a pivot point to rotate the cuboid)
     glTranslatef(centerPointTransformationTranslationX, centerPointTransformationTranslationY, centerPointTransformationTranslationZ);
     //scale first
     glScalef(scaleX, scaleY, scaleZ);
-    glColor3f(red, green, blue);
+
+    if (!isShadow) {
+        glColor3f(red, green, blue);
+    }
+
+    if (isShadow) {
+        texture = 0;
+    }
+
+    
     glBindTexture(GL_TEXTURE_2D, texture);
     Vector3D normal = findNormalVector(Point3D{ -0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
     glNormal3f(normal.x, normal.y, normal.z);
@@ -331,6 +340,7 @@ void Head::drawSlantedCuboid(float scaleX, float scaleY, float scaleZ, float add
     glPopMatrix();
 
 }
+
 void Head::drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks, GLuint texture)
 {
     // a) declare quadric pointer
@@ -410,7 +420,7 @@ void Head::drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, 
     glPopMatrix();
 }
 
-void Head::drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture)
+void Head::drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture, bool isShadow)
 {
     // a) declare quadric pointer
     quad = NULL;
@@ -422,11 +432,19 @@ void Head::drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float topR
         printf("Failed to create quadric!\n");
         return;
     }
-
-    gluQuadricTexture(quad, GL_TRUE);
     glPushMatrix();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texture);
+
+    if(isShadow) {
+        gluQuadricTexture(quad, GL_FALSE); 
+        glDisable(GL_TEXTURE_2D);          
+        glBindTexture(GL_TEXTURE_2D, 0);   
+    }
+    else {
+        gluQuadricTexture(quad, GL_TRUE);  
+        glEnable(GL_TEXTURE_2D);           
+        glBindTexture(GL_TEXTURE_2D, texture); 
+    }
+
     // e) set quadric draw style
     // Options: GLU_FILL, GLU_LINE, GLU_SILHOUETTE, GLU_POINT
 
@@ -447,10 +465,11 @@ void Head::drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float topR
         gluQuadricDrawStyle(quad, GLU_POINT);   // wireframe sphere 
         break;
     }
-    drawCircle(baseRadius, texture);
+
+    drawCircle(baseRadius, texture,isShadow);
     glPushMatrix();
     glTranslatef(0.0f, 0.0f, height);
-    drawCircle(topRadius, texture);
+    drawCircle(topRadius, texture, isShadow);
     glPopMatrix();
     // c) draw sphere at origin
     gluCylinder(quad,
@@ -465,9 +484,13 @@ void Head::drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float topR
     glPopMatrix();
 }
 
-void Head::drawCircle(float circleRadius, GLuint texture)
+void Head::drawCircle(float circleRadius, GLuint texture, bool isShadow)
 {
     // 1. Bind the texture
+    if (isShadow) {
+        texture = 0;
+    }
+
     glBindTexture(GL_TEXTURE_2D, texture);
 
     // 2. Set the color filter to white so the texture appears in its true colors
@@ -972,7 +995,7 @@ void Head::drawMissle()
     glPushMatrix();
         glColor3f(0.5f, 0.5f, 0.5f);
         glRotatef(270, 1.0f, 0.0f, 0.0f);
-        drawCylinderWithCap(varCylinder, 1.3f, 0.1f, 1.0f, FILL, NULL);
+        drawCylinderWithCap(varCylinder, 1.3f, 0.1f, 1.0f, FILL, NULL,false);
         //red line
         glPushMatrix();
             glTranslatef(0.0f, 0.0f, -0.2f);
@@ -1002,7 +1025,7 @@ void Head::drawMissle()
                             glPushMatrix();
                                 glTranslatef(0.0f, 0.0f, -6.0f);
                                 glColor3f(0.8f, 0.8f, 0.8f);
-                                drawCylinderWithCap(varCylinder, 1.3f, 2.1f, 6.0f, FILL, NULL);
+                                drawCylinderWithCap(varCylinder, 1.3f, 2.1f, 6.0f, FILL, NULL,false);
 
                                 //rocket fins
                                 glPushMatrix();
@@ -1041,7 +1064,7 @@ void Head::drawMissle()
                                 glPushMatrix();
                                     glColor3f(0.3f, 0.3f, 0.3f);
                                     glTranslatef(0.0f, 0.0f, -0.5f);
-                                    drawCylinderWithCap(varCylinder, 1.3f, 1.3f, 0.5f, FILL, NULL);
+                                    drawCylinderWithCap(varCylinder, 1.3f, 1.3f, 0.5f, FILL, NULL,false);
                                 glPopMatrix();
                             glPopMatrix();
                         glPopMatrix();
@@ -1053,7 +1076,7 @@ void Head::drawMissle()
     glPopMatrix();
 }
 
-void Head::drawRocketLauncher()
+void Head::drawRocketLauncher(bool isShadow)
 {
     //Missle Equpment
     glColor3f(0.92f, 0.92f, 0.92f);
@@ -1061,11 +1084,11 @@ void Head::drawRocketLauncher()
     
     glPushMatrix();
         glTranslatef(0.0f, -1.0f, 0.0f);
-        drawCuboid(2.7f, 5.5f, 2.7f, 0.0f, -2.75f, 0.0f, 0.0f, 0.0f, 0.0f, NULL);
+        drawCuboid(2.7f, 5.5f, 2.7f, 0.0f, -2.75f, 0.0f, 0.0f, 0.0f, 0.0f, NULL,isShadow);
         //gray block
         glPushMatrix();
             glTranslatef(0.0f, -5.5f, 0.0f);
-            drawCuboid(2.7f, 0.5f, 2.7f, 0.0f, -0.25f, 0.0f, 0.3f, 0.3f, 0.3f, NULL);
+            drawCuboid(2.7f, 0.5f, 2.7f, 0.0f, -0.25f, 0.0f, 0.3f, 0.3f, 0.3f, NULL,isShadow);
             //circle hole 1
             glPushMatrix();
                 glColor3f(0.0f, 0.0f, 0.0f);
@@ -1103,7 +1126,7 @@ void Head::drawRocketLauncher()
                 glColor3f(0.85f, 0.15f, 0.15f);
                 glTranslatef(-1.0f, -0.5f, 1.1f);
                 glRotatef(90, 1.0f, 0.0f, 0.0f);
-                drawCylinderWithCap(quad, 0.2f, 0.2f, 0.1f, FILL, NULL);
+                drawCylinderWithCap(quad, 0.2f, 0.2f, 0.1f, FILL, NULL,false);
             glPopMatrix();
             
             // missle projectiles 1
@@ -1145,7 +1168,7 @@ void Head::draw() {
    
 }
 
-void Head::draw2()
+void Head::draw2(bool isShadow)
 {
     //
     glPushMatrix();
@@ -1159,36 +1182,37 @@ void Head::draw2()
             glColor3f(0.0f, 0.0f, 0.0f);
             drawSphere(varSphere, 1.0f, 30, 30, blackMetalic);
             glTranslatef(0.0f, -0.5f, 0.0f);
+
             //Cuboid Gun
             glPushMatrix();
                 glTranslatef(0.0f, 1.2f, 6.5f);
-                drawCuboid(4.0f, 5.0f, 10.0f, 0.0f, 2.5f, 0.0f, 0.8f, 0.8f, 0.8f, camouflageWhite);
+                drawCuboid(4.0f, 5.0f, 10.0f, 0.0f, 2.5f, 0.0f, 0.8f, 0.8f, 0.8f, camouflageWhite,isShadow);
             glPopMatrix();
 
             //Cuboid Gun on Top
             glPushMatrix();
                 glTranslatef(0.0f, 5.0f, 10.0f);
-                drawCuboid(1.5f, 1.5f, 3.0f, 0.0f, 2.5f, 0.0f, 0.5f, 0.5f, 0.5f, blackGlossy);
+                drawCuboid(1.5f, 1.5f, 3.0f, 0.0f, 2.5f, 0.0f, 0.5f, 0.5f, 0.5f, blackGlossy,isShadow);
             glPopMatrix();
             
             //Cuboid Gun on Top down part
             glPushMatrix();
                 glTranslatef(0.0f, 4.0f, 6.5f);
-                drawCuboid(3.8f, 0.5f, 10.0f, 0.0f, 2.5f, 0.0f, 0.1f, 0.1f, 0.1f, blackGlossy);
+                drawCuboid(3.8f, 0.5f, 10.0f, 0.0f, 2.5f, 0.0f, 0.1f, 0.1f, 0.1f, blackGlossy,isShadow);
             glPopMatrix();
 
             //Cylindrical Top head gun part
             glPushMatrix();
                 glTranslatef(0.0f, 7.0f, 1.5f);
                 glColor3f(0.30f, 0.05f, 0.05f);
-                drawCylinderWithCap(varCylinder, 0.7f, 0.7f, 7.0f, FILL, blackGlossy);
+                drawCylinderWithCap(varCylinder, 0.7f, 0.7f, 7.0f, FILL, blackGlossy,isShadow);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders right long horizontal 1
             glPushMatrix();
                 glTranslatef(2.1f, 2.0f, 1.5f);
                 glColor3f(0.90f, 0.1f, 0.1f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 7.0f, FILL, glass);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 7.0f, FILL, glass,isShadow);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders right vertical 1
@@ -1196,7 +1220,7 @@ void Head::draw2()
                 glTranslatef(2.1f, 5.2f, 8.5f);
                 glRotatef(90, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.90f, 0.1f, 0.1f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.5f, FILL, glass);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.5f, FILL, glass,isShadow);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders short right horizontal 2
@@ -1204,14 +1228,14 @@ void Head::draw2()
                 glTranslatef(2.1f, 5.2f, 8.2f);
                 
                 glColor3f(0.90f, 0.1f, 0.1f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.25f, FILL, glass);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.25f, FILL, glass,isShadow);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders Left long horizontal 1
             glPushMatrix();
                 glTranslatef(-2.1f, 2.0f, 1.5f);
                 glColor3f(0.05f, 0.05f, 0.3f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 7.0f, FILL, glass);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 7.0f, FILL, glass,isShadow);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders Left vertical 1
@@ -1219,7 +1243,7 @@ void Head::draw2()
                 glTranslatef(-2.1f, 5.2f, 8.5f);
                 glRotatef(90, 1.0f, 0.0f, 0.0f);
                 glColor3f(0.05f, 0.05f, 0.3f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.5f, FILL, glass);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.5f, FILL, glass,isShadow);
             glPopMatrix();
 
             //Front Gunhead Energy cylinders short Left horizontal 2
@@ -1227,7 +1251,7 @@ void Head::draw2()
                 glTranslatef(-2.1f, 5.2f, 8.2f);
                 
                 glColor3f(0.05f, 0.05f, 0.3f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.25f, FILL, glass);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 3.25f, FILL, glass,isShadow);
             glPopMatrix();
 
             //Front Gunhead Mark
@@ -1250,14 +1274,14 @@ void Head::draw2()
                 glTranslatef(1.3f, 5.2f, 11.45f);
                 
                 glColor3f(0.90f, 0.1f, 0.1f);
-                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 0.3f, FILL, glass);
+                drawCylinderWithCap(varCylinder, 0.3f, 0.3f, 0.3f, FILL, glass,isShadow);
             glPopMatrix();
 
             //Cylindrical Head 1
             glPushMatrix();
                 glTranslatef(0.0f, 4.0f, 1.5f);
                 glColor3f(0.8f, 0.5f, 0.9f);
-                drawCylinderWithCap(varCylinder, 3.5f, 2.0f, 4.5f, FILL, fire);
+                drawCylinderWithCap(varCylinder, 3.5f, 2.0f, 4.5f, FILL, fire,isShadow);
             glPopMatrix();
 
             //Cylindrical Head 2
@@ -1265,28 +1289,28 @@ void Head::draw2()
                 glTranslatef(0.0f, 4.0f, -3.5f);
                 glColor3f(0.1f, 0.1f, 0.1f);
                 //glColor3f(0.7f, 0.7f, 0.7f);
-                drawCylinderWithCap(varCylinder, 3.5f, 3.5f, 5.0f, FILL, fire);
+                drawCylinderWithCap(varCylinder, 3.5f, 3.5f, 5.0f, FILL, fire,isShadow);
 
                 //Cylindrical Head 3
                 
                 glPushMatrix();
                     glTranslatef(0.0f, 0.0f, -3.5f);
                     glColor3f(0.7f, 0.6f, 0.9f);
-                    drawCylinderWithCap(varCylinder, 2.5f, 3.5f, 3.5f, FILL, fire);
+                    drawCylinderWithCap(varCylinder, 2.5f, 3.5f, 3.5f, FILL, fire,isShadow);
                     
                     //Cylinder Head BackPlug
                     
                     glPushMatrix();
                         glTranslatef(0.0f, 0.0f, -5.0f);
                         glColor3f(0.3f, 0.3f, 0.3f);
-                        drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 5.0f, FILL, energyPulse);
+                        drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 5.0f, FILL, energyPulse,isShadow);
 
                         //Cylinder Head BackPlug Cover cap
                         glPushMatrix();
                             glTranslatef(0.0f, 0.0f, 5.0f);
                             glTranslatef(0.0f, 0.0f, -0.4f);
                             glColor3f(0.1f, 0.1f, 0.1f);
-                            drawCylinderWithCap(varCylinder, 1.7f, 1.7f, 0.4f, FILL, blackGlossy);
+                            drawCylinderWithCap(varCylinder, 1.7f, 1.7f, 0.4f, FILL, blackGlossy,isShadow);
                         glPopMatrix();
 
                         
@@ -1323,7 +1347,7 @@ void Head::draw2()
                                 glPushMatrix();
                                     float convertToRadian = angle * 3.14159 / 180.0;
                                     glTranslatef(sin(convertToRadian) * 1.5f, cos(convertToRadian) * 1.5f, 0);
-                                    drawCylinderWithCap(quad, 0.2f, 0.2f, 2.0f, FILL, glass);
+                                    drawCylinderWithCap(quad, 0.2f, 0.2f, 2.0f, FILL, glass,isShadow);
                                 glPopMatrix();
                             }
                         glPopMatrix();
@@ -1332,31 +1356,31 @@ void Head::draw2()
                         glPushMatrix();
                             glTranslatef(0.0f, 0.0f, -0.3);
                             glColor3f(0.0f, 0.0f, 0.0f);
-                            drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, white);
+                            drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, white,isShadow);
 
                             //Cylinder Head BackPlug little gray stripes
                             glPushMatrix();
                                 glTranslatef(0.0f, 0.0f, -0.3);
                                 glColor3f(0.6f, 0.6f, 0.6f);
-                                drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, energyPulse);
+                                drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, energyPulse,isShadow);
 
                                 //Cylinder Head BackPlug little black stripes
                                 glPushMatrix();
                                     glTranslatef(0.0f, 0.0f, -0.3);
                                     glColor3f(0.0f, 0.0f, 0.0f);
-                                    drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, energyPulse);
+                                    drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, energyPulse,isShadow);
 
                                     //Cylinder Head BackPlug little olive brown stripes
                                     glPushMatrix();
                                         glTranslatef(0.0f, 0.0f, -0.4);
                                         glColor3f(0.35f, 0.35f, 0.2f);
-                                        drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.4f, FILL, white);
+                                        drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.4f, FILL, white,isShadow);
                                         
                                         //Cylinder Head BackPlug last little gray stripes
                                         glPushMatrix();
                                             glTranslatef(0.0f, 0.0f, -0.3);
                                             glColor3f(0.7f, 0.7f, 0.7f);
-                                            drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, energyPulse);
+                                            drawCylinderWithCap(varCylinder, 1.5f, 1.5f, 0.3f, FILL, energyPulse,isShadow);
                                         glPopMatrix();
                                     glPopMatrix();
                                 glPopMatrix();

@@ -1422,6 +1422,14 @@ void ExperimentationStation::drawPlane() {
 }
 
 void ExperimentationStation::calculateShadowMatrix(GLfloat matrix[16], GLfloat ground[4], GLfloat light[4]) {
+    /*
+        Get from main.
+        Ground (Or called as Plane) = {0,1,0,6.5}
+        lightPos = {0,4,0.7,1.0}
+        dot = 10.5, calculate the angle/distance between light and the floor
+        use dot if row = column, else 0 in subtraction
+    */
+
     GLfloat dot = ground[0] * light[0] + ground[1] * light[1] +
         ground[2] * light[2] + ground[3] * light[3];
 

@@ -94,9 +94,63 @@ GLfloat diffuseLightPosition[] = { diffuseLightPositionX, diffuseLightPositionY,
 GLfloat plane[] = { 0.0f, 1.0f, 0.0f, 6.5f };
 GLfloat shadowMatrix[16];
 
+
 GLUquadricObj* quadLightBulb = NULL;
 
 float bodyArmsRotationAngle = 0;
+
+void drawWholeBody(bool isShadow) {
+	glPushMatrix();
+	glScalef(0.2f, 0.2f, 0.2f);
+	//Head
+	glPushMatrix();
+	glTranslatef(0.0f, 8.3f, 0.0f);
+	glScalef(0.8f, 0.8f, 0.8f);
+	head.draw2(isShadow);
+	glPopMatrix();
+
+	glPushMatrix();
+	bodyArmsRotationAngle = bodyArmsRotationAngle + 40;
+	//glRotatef(bodyArmsRotationAngle, 0.0f, 1.0f, 0.0f);
+	//left arm
+	glPushMatrix();
+	glTranslatef(5.3f, 2.5f, 0.0f);
+	glRotatef(90, 0.0f, 0.0f, 1.0f);
+	glRotatef(90, 0.0f, 1.0f, 0.0f);
+	glScalef(1.5, 1.5f, 1.5f);
+	glScalef(0.65f, 0.65f, 0.65f);
+	leftArm.draw();
+	glPopMatrix();
+
+	//right arm
+	glPushMatrix();
+	glTranslatef(-5.3f, 2.5f, 0.0f);
+	glRotatef(270, 0.0f, 0.0f, 1.0f);
+	glRotatef(270, 0.0f, 1.0f, 0.0f);
+	glScalef(1.5, 1.5f, 1.5f);
+	glScalef(0.65f, 0.65f, 0.65f);
+	leftArm.drawAnotherArm();
+	glPopMatrix();
+
+	glPushMatrix();
+	glScalef(10.0, 10.0, 10.0);
+	body.drawBodyFrame(jpk, isShadow);
+	glPopMatrix();
+
+	//legs
+	glPushMatrix();
+	glTranslatef(3.0f, -9.5f, 0.0f);
+	glScalef(1.0f, 1.1f, 1.0f);
+	leftLeg.draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-3.0f, -9.5f, 0.0f);
+	glScalef(1.0f, 1.1f, 1.0f);
+	leftLeg.draw();
+	glPopMatrix();
+	glPopMatrix();
+}
 
 
 LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -122,6 +176,10 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		case '1':
 			//draw RobotArm 3D
 			QuestionToRender = 1;
+			break;
+
+		case '3':
+			QuestionToRender = 3;
 			break;
 
 		case '8':
@@ -309,6 +367,12 @@ bool initPixelFormat(HDC hdc)
 
 void Display(int QuestionsToRender)
 {
+	/*GLfloat shadowMatrix2[16] = { diffuseLightPosition[1], 0,0,0,
+							-diffuseLightPosition[0], 0, -diffuseLightPosition[2], -1,
+							0,0,diffuseLightPosition[1],0,
+							0,0,0,diffuseLightPosition[1]
+	};*/
+
 	//Camera
 	glMatrixMode(GL_PROJECTION);
 	glViewport(offsetXToCenter, offsetYToCenter, cameraScreenWidth, cameraScreenHeight);
@@ -359,6 +423,8 @@ void Display(int QuestionsToRender)
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 
 	experimentationStation.calculateShadowMatrix(shadowMatrix, plane, diffuseLightPosition);
+
+
 
 	glPushMatrix();
 		glTranslatef(diffuseLightPositionX, diffuseLightPositionY, diffuseLightPositionZ);
@@ -416,7 +482,7 @@ void Display(int QuestionsToRender)
 			glPushMatrix();
 				glTranslatef(0.0f, 8.3f, 0.0f);
 				glScalef(0.8f, 0.8f, 0.8f);
-				head.draw2();
+				head.draw2(false);
 			glPopMatrix();
 
 			glPushMatrix();
@@ -473,10 +539,7 @@ void Display(int QuestionsToRender)
 			glColor3f(0.0f, 0.0f, 0.0f);
 			glScalef(0.2f, 0.2f, 0.2f);
 
-			glPushMatrix();
-			glScalef(10.0, 10.0, 10.0);
-			body.drawBodyFrame(jpk, true);
-			glPopMatrix();
+			drawWholeBody(true);
 
 			glEnable(GL_TEXTURE_2D);
 			glEnable(GL_LIGHTING);
@@ -512,6 +575,7 @@ void Display(int QuestionsToRender)
 		glPushMatrix();
 			glTranslatef(0, 0.01, 0);
 			glMultMatrixf(shadowMatrix);
+
 			glDisable(GL_LIGHTING);
 			glDisable(GL_TEXTURE_2D);
 			glColor3f(0.0f, 0.0f, 0.0f);

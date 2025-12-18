@@ -100,12 +100,12 @@ public:
 	Head();
 	void updateInput() override;
 	void drawJointMarker();
-	void drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture);
+	void drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture, bool isShadow);
 	void drawSlantedCuboid(float scaleX, float scaleY, float scaleZ, float additionalSlantedHeight, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture);
 	void drawSphere(GLUquadricObj* quad, float radius, int slices, int stacks, GLuint texture);
 	void drawCylinder(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture);
-	void drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture);
-	void drawCircle(float circleRadius, GLuint texture);
+	void drawCylinderWithCap(GLUquadricObj* quad, float baseRadius, float topRadius, float height, int selectedDrawStyle, GLuint texture, bool isShadow);
+	void drawCircle(float circleRadius, GLuint texture, bool isShadow);
 	void drawCircleWithHole(float outerRadius, float innerRadius, int segments);
 	void drawPyramid(float scaleX, float scaleY, float scaleZ, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, GLuint texture);
 	Head::Vector3D findNormalVector(Point3D v1, Point3D v2, Point3D v3);
@@ -119,9 +119,9 @@ public:
 	void deleteTextures();
 	void drawIceCream();
 	void drawMissle();
-	void drawRocketLauncher();
+	void drawRocketLauncher(bool isShadow);
 	void draw();
-	void draw2();
+	void draw2(bool isShadow);
 
 };
 
