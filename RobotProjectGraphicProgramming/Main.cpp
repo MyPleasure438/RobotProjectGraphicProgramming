@@ -465,10 +465,10 @@ void Display(int QuestionsToRender)
   case 1:
 		//Inputs
 		leftArm.updateInput();
-		body.updateInput();
-		jpk->jetpackInput();
 		head.updateInput();
 		leftLeg.updateInput();
+		body.updateInput();
+		jpk->jetpackInput();
 
 		experimentationStation.drawPlane();
 
@@ -561,7 +561,9 @@ void Display(int QuestionsToRender)
 		//leftLeg.drawBolt();
     break;
     case 3:
-     experimentationStation.drawPlane();
+		body.updateInput();
+		jpk->jetpackInput();
+		experimentationStation.drawPlane();
 		
 		//Put FALSE to draw a robot or TRUE for shadow
 		//Real Robot

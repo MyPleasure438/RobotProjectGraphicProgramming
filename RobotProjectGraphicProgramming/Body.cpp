@@ -247,6 +247,12 @@ void Body::drawBodyFrame(Jetpack *jpk, bool isShadow) {
 			drawScales(0.3001, 0.45, zPos, 90, offset);
 		}
 
+		for (int i = 0; i < 20; i++) {
+			float zPos = 0.19 - (i * 0.02);
+			float offset = 0 + (i * 0.5);
+			drawScales(0.3001, 0.45, zPos, 180, offset);
+		}
+
 		for (int j = 0; j < 16; j++) {
 			float yPos = 0.45 - (j * 0.05);
 			float offset = 0 + (j * 0.5);
@@ -270,10 +276,14 @@ void Body::drawBodyFrame(Jetpack *jpk, bool isShadow) {
 		// Wrap this in (!isShadow) to prevent the animation running 2x faster!
 		if (!isShadow) {
 			if (anim_flag && anim_value < 0.31) {
-				anim_value += 0.001;
+				anim_value += 0.1;
+				if (anim_value > 0.31) {
+					anim_value = 0.31;
+
+				}
 			}
 			else if (!anim_flag && anim_value > 0) {
-				anim_value -= 0.001;
+				anim_value -= 0.1;
 			}
 		}
 		waves_time += 0.01;

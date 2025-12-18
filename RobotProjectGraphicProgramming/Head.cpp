@@ -233,7 +233,7 @@ void Head::drawCuboid(float scaleX, float scaleY, float scaleZ, float centerPoin
     glPopMatrix();
 }
 
-void Head::drawSlantedCuboid(float scaleX, float scaleY, float scaleZ, float additionalSlantedHeight, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture)
+void Head::drawSlantedCuboid(float scaleX, float scaleY, float scaleZ, float additionalSlantedHeight, float centerPointTransformationTranslationX, float centerPointTransformationTranslationY, float centerPointTransformationTranslationZ, float red, float green, float blue, GLuint texture, bool isShadow)
 {
     glPushMatrix();
     //translate the center point for transformation of the cuboid (This acts as a pivot point to rotate the cuboid)
@@ -241,6 +241,9 @@ void Head::drawSlantedCuboid(float scaleX, float scaleY, float scaleZ, float add
     //scale first
     glScalef(scaleX, scaleY, scaleZ);
     
+    if (isShadow) {
+        texture = 0;
+    }
     glBindTexture(GL_TEXTURE_2D, texture);
     Vector3D normal = findNormalVector(Point3D{ -0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, -0.5f, -0.5f }, Point3D{ 0.5f, 0.5f, -0.5f });
     glNormal3f(normal.x, normal.y, normal.z);
@@ -1038,7 +1041,7 @@ void Head::drawMissle()
                                             float convertToRadian = angle * 3.14159 / 180.0;
                                             glTranslatef(0.0f, 0.0f, 0.0f);
                                             glRotatef(angle, 0.0f, 1.0f, 0.0f);
-                                            drawSlantedCuboid(4.0f, 1.0f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, NULL);
+                                            drawSlantedCuboid(4.0f, 1.0f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, NULL,false);
                                         glPopMatrix();
                                     }
                                     
@@ -1055,7 +1058,7 @@ void Head::drawMissle()
                                             float convertToRadian = angle * 3.14159 / 180.0;
                                             glTranslatef(0.0f, 0.0f, 0.0f);
                                             glRotatef(angle, 0.0f, 1.0f, 0.0f);
-                                            drawSlantedCuboid(1.5f, 0.7f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, NULL);
+                                            drawSlantedCuboid(1.5f, 0.7f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, NULL,false);
                                         glPopMatrix();
                                     }
 
@@ -1264,7 +1267,7 @@ void Head::draw2(bool isShadow)
                         float convertToRadian = angle * 3.14159 / 180.0;
                         glTranslatef(sin(convertToRadian) * 1.5f, cos(convertToRadian) * 1.5f, 0);
                         glRotatef(angle, 0.0f, 0.0f, 1.0f);
-                        drawSlantedCuboid(4.0f, 1.0f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, energyPulse);
+                        drawSlantedCuboid(4.0f, 1.0f, 0.2f, 0.7f, -2.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, energyPulse,isShadow);
                     glPopMatrix();
                 }
             glPopMatrix();

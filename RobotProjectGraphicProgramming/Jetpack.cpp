@@ -76,13 +76,16 @@ void Jetpack::drawJetpack(float cx, float cy, float cz, bool isShadow) {
 	if(!isShadow){
 		if (jp_anim_flag) {
 			if (transitionX < 0.23) {
-				transitionX += 0.01;
+				transitionX += 0.1;
 				firepower = 0;
+				if (transitionX > 0.23) {
+					transitionX = 0.23;
+				}
 			}
 		}
 		else {
 			if (transitionX > 0) {
-				transitionX -= 0.01;
+				transitionX -= 0.1;
 				firepower -= 0.1f;
 			}
 		}
