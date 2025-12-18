@@ -271,10 +271,13 @@ void Body::drawBodyFrame(Jetpack *jpk, bool isShadow) {
 		// Wrap this in (!isShadow) to prevent the animation running 2x faster!
 		if (!isShadow) {
 			if (anim_flag && anim_value < 0.31) {
-				anim_value += 0.001;
+				anim_value += 0.1;
+				if (anim_value > 0.31) {
+					anim_value = 0.31;
+				}
 			}
 			else if (!anim_flag && anim_value > 0) {
-				anim_value -= 0.001;
+				anim_value -= 0.1;
 			}
 		}
 		waves_time += 0.01;

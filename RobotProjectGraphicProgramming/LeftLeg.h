@@ -17,7 +17,7 @@ private:
 
 
 
-	const float ROT_SPEED = 0.1f;
+	const float ROT_SPEED = 5;
 
 	int legControl = 0;
 	int legcounter = 1;
@@ -26,6 +26,8 @@ private:
 	float thickness;
 	float jointAngle;
 	float xpositionupdate = 0;
+
+	int RlegControl = 0;
 
 
 	float FOOT_3DRotationAngleX = 0.0f;
@@ -77,9 +79,9 @@ private:
 	float RTHIGH_TranslationZ = 0.0f;
 	//___________________________________________________________________
 
-	int animationStep = 0; 
+	int animationStep = 0;
 
-	const float Anim_Rot_Speed = 0.5f; 
+	const float Anim_Rot_Speed = 20.0f;
 	int legSide = 0;
 
 	Joint shoulder = { 0.0f, 0.0f, 0.0f };
@@ -140,29 +142,6 @@ private:
 	HBITMAP hBMP = NULL;
 
 
-
-	float anim_value = 0.0f;
-	float anim_value_leftLeg = 0.0f;
-	float anim_value_leftLegCalf = 0.0f;
-	//Leg
-	struct Legs
-	{
-		bool isActive;
-		float currentX;
-	};
-
-	Legs legs[5] =
-	{
-		{false, 0.0f}, // Leg Movement 1
-		{false, 0.0f}, // Leg Movement 2
-		{false, 0.0f}, // Leg Movement 3
-		{false, 0.0f}, // Leg Movement 4
-		{false, 0.0f} // Leg Movement 5
-	};
-
-	int nextLegMovement = 0;
-	//store previous tate
-	char prevDiKeys[256];
 public:
 	LeftLeg();
 	void updateInput() override;

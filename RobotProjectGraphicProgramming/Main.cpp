@@ -96,6 +96,7 @@ GLfloat shadowMatrix[16];
 
 GLUquadricObj* quadLightBulb = NULL;
 
+int rotationFlag = 0;
 float bodyArmsRotationAngle = 0;
 
 
@@ -159,8 +160,12 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 			break;
 
-		case 'K':
+		case VK_F2:
+			rotationFlag = 1;
+			break;
 
+		case VK_F1:
+			rotationFlag = 0;
 			break;
 
 		case VK_UP:
@@ -417,10 +422,12 @@ void Display(int QuestionsToRender)
 			glPopMatrix();
 
 			glPushMatrix();
-				/*
-				bodyArmsRotationAngle = bodyArmsRotationAngle + 40;
-				glRotatef(bodyArmsRotationAngle, 0.0f, 1.0f, 0.0f);
-				*/
+				//body spin
+				if (rotationFlag == 1)
+				{
+					bodyArmsRotationAngle = bodyArmsRotationAngle + 40;
+					glRotatef(bodyArmsRotationAngle, 0.0f, 1.0f, 0.0f);
+				}
 				//left arm
 				glPushMatrix();
 					glTranslatef(5.3f, 2.5f, 0.0f);
@@ -459,7 +466,7 @@ void Display(int QuestionsToRender)
 			glPushMatrix();
 				glTranslatef(-3.0f, -9.5f, 0.0f);
 				glScalef(1.0f, 1.1f, 1.0f);
-				leftLeg.draw();
+				leftLeg.draw2();
 			glPopMatrix();
 
 		glPopMatrix();

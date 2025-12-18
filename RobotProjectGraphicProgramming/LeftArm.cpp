@@ -18,91 +18,91 @@ void LeftArm::updateInput() {
     LPDIRECTINPUTDEVICE8 dInputKeyboardDevice = inputManager.getDInputKeyboardDevice();
     HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
     if (diKeys[DIK_W] & 0x80) {
-        RobotEntireArm_TranslationY = RobotEntireArm_TranslationY + 0.5f;
+        RobotEntireArm_TranslationY = RobotEntireArm_TranslationY + 5.0f;
     }
 
     if (diKeys[DIK_S] & 0x80) {
-        RobotEntireArm_TranslationY = RobotEntireArm_TranslationY - 0.5f;
+        RobotEntireArm_TranslationY = RobotEntireArm_TranslationY - 5.0f;
 
     }
 
     if (diKeys[DIK_A] & 0x80) {
         xpositionupdate = xpositionupdate - 0.0001f;
-        RobotEntireArm_TranslationX = RobotEntireArm_TranslationX - 0.5f;
+        RobotEntireArm_TranslationX = RobotEntireArm_TranslationX - 5.0f;
     }
 
     if (diKeys[DIK_D] & 0x80) {
         xpositionupdate = xpositionupdate - 0.0001f;
-        RobotEntireArm_TranslationX = RobotEntireArm_TranslationX + 0.5f;
+        RobotEntireArm_TranslationX = RobotEntireArm_TranslationX + 5.0f;
     }
 
     if (diKeys[DIK_Q] & 0x80) {
-        RobotEntireArm_TranslationZ = RobotEntireArm_TranslationZ - 0.5f;
+        RobotEntireArm_TranslationZ = RobotEntireArm_TranslationZ - 5.0f;
 
     }
 
     if (diKeys[DIK_E] & 0x80) {
-        RobotEntireArm_TranslationZ = RobotEntireArm_TranslationZ + 0.5f;
+        RobotEntireArm_TranslationZ = RobotEntireArm_TranslationZ + 5.0f;
 
     }
 
     if (diKeys[DIK_T] & 0x80) {
-        RobotEntireArm_3DRotationAngleY = RobotEntireArm_3DRotationAngleY + 0.5f;
+        RobotEntireArm_3DRotationAngleY = RobotEntireArm_3DRotationAngleY + 5.0f;
 
     }
 
     if (diKeys[DIK_G] & 0x80) {
-        RobotEntireArm_3DRotationAngleY = RobotEntireArm_3DRotationAngleY - 0.5f;
+        RobotEntireArm_3DRotationAngleY = RobotEntireArm_3DRotationAngleY - 5.0f;
 
     }
 
     if (diKeys[DIK_F] & 0x80) {
-        RobotEntireArm_3DRotationAngleX = RobotEntireArm_3DRotationAngleX - 0.5f;
+        RobotEntireArm_3DRotationAngleX = RobotEntireArm_3DRotationAngleX - 5.0f;
 
     }
 
     if (diKeys[DIK_H] & 0x80) {
-        RobotEntireArm_3DRotationAngleX = RobotEntireArm_3DRotationAngleX + 0.5f;
+        RobotEntireArm_3DRotationAngleX = RobotEntireArm_3DRotationAngleX + 5.0f;
 
     }
 
     if (diKeys[DIK_R] & 0x80) {
-        RobotEntireArm_3DRotationAngleZ = RobotEntireArm_3DRotationAngleZ - 0.5f;
+        RobotEntireArm_3DRotationAngleZ = RobotEntireArm_3DRotationAngleZ - 5.0f;
 
     }
 
     if (diKeys[DIK_Y] & 0x80) {
-        RobotEntireArm_3DRotationAngleZ = RobotEntireArm_3DRotationAngleZ + 0.5f;
+        RobotEntireArm_3DRotationAngleZ = RobotEntireArm_3DRotationAngleZ + 5.0f;
 
     }
 
     if (diKeys[DIK_I] & 0x80) {
-        RobotElbow_3DRotationAngleY = RobotElbow_3DRotationAngleY + 0.5f;
+        RobotElbow_3DRotationAngleY = RobotElbow_3DRotationAngleY + 5.0f;
 
     }
 
     if (diKeys[DIK_K] & 0x80) {
-        RobotElbow_3DRotationAngleY = RobotElbow_3DRotationAngleY - 0.5f;
+        RobotElbow_3DRotationAngleY = RobotElbow_3DRotationAngleY - 5.0f;
 
     }
 
     if (diKeys[DIK_J] & 0x80) {
-        RobotElbow_3DRotationAngleX = RobotElbow_3DRotationAngleX - 0.5f;
+        RobotElbow_3DRotationAngleX = RobotElbow_3DRotationAngleX - 5.0f;
 
     }
 
     if (diKeys[DIK_L] & 0x80) {
-        RobotElbow_3DRotationAngleX = RobotElbow_3DRotationAngleX + 0.5f;
+        RobotElbow_3DRotationAngleX = RobotElbow_3DRotationAngleX + 5.0f;
 
     }
 
     if (diKeys[DIK_U] & 0x80) {
-        RobotElbow_3DRotationAngleZ = RobotElbow_3DRotationAngleZ - 0.5f;
+        RobotElbow_3DRotationAngleZ = RobotElbow_3DRotationAngleZ - 5.0f;
 
     }
 
     if (diKeys[DIK_O] & 0x80) {
-        RobotElbow_3DRotationAngleZ = RobotElbow_3DRotationAngleZ + 0.5f;
+        RobotElbow_3DRotationAngleZ = RobotElbow_3DRotationAngleZ + 5.0f;
 
     }
 
