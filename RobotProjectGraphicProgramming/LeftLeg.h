@@ -27,6 +27,8 @@ private:
 	float jointAngle;
 	float xpositionupdate = 0;
 
+	int RlegControl = 0;
+
 
 	float FOOT_3DRotationAngleX = 0.0f;
 	float FOOT_3DRotationAngleY = 0.0f;

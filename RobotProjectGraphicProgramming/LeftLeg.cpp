@@ -65,7 +65,7 @@ void LeftLeg::updateInput() {
                     }
 
                     else {
-                        animationStep++; // move to next step
+                        animationStep++; 
                     }
                     break;
 
@@ -108,40 +108,12 @@ void LeftLeg::updateInput() {
                         CALF_3DRotationAngleX -= ROT_SPEED;
                     }
                     else {
-                        animationStep = 0;
-                    }
-                    break;
-
-                case 4: // Calf rotates back down
-                    if (CALF_3DRotationAngleX > -10.0f) {
-
-                    }
-                    else {
                         animationStep++;
                     }
                     break;
 
-                case 5:
-                    if (THIGH_3DRotationAngleX < 40.0f) {
 
-                    }
-
-                    else {
-                        animationStep++;
-                    }
-                    break;
-
-                case 6:
-                    if (FOOT_3DRotationAngleX < 60.0f) {
-
-                    }
-                    else {
-                        //animationStep = 0; // loop animation
-                        animationStep++;
-                    }
-                    break;
-
-                case 7: // Thigh rotates down
+                case 4: // Thigh rotates down
                     if (RTHIGH_3DRotationAngleX > -25.0f) {
                         RTHIGH_3DRotationAngleX -= ROT_SPEED;
 
@@ -155,7 +127,7 @@ void LeftLeg::updateInput() {
                     }
                     break;
 
-                case 8: // Foot rotates down
+                case 5: // Foot rotates down
                     if (RFOOT_3DRotationAngleX > -20.0f) {
                         RFOOT_3DRotationAngleX -= ROT_SPEED;
                     }
@@ -168,7 +140,7 @@ void LeftLeg::updateInput() {
                     }
                     break;
 
-                case 9: // Calf rotates up
+                case 6: // Calf rotates up
                     if (RTHIGH_3DRotationAngleX < -12.0f) {
                         RTHIGH_3DRotationAngleX += ROT_SPEED;
 
@@ -182,7 +154,7 @@ void LeftLeg::updateInput() {
                     break;
 
 
-                case 10: // Foot rotates up
+                case 7: // Foot rotates up
                     if (RFOOT_3DRotationAngleX < 0.0f) {
                         RFOOT_3DRotationAngleX += ROT_SPEED;
                     }
@@ -226,9 +198,8 @@ void LeftLeg::updateInput() {
                     }
                     break;
                 }
-                }
-
             }
+
             else if (legControl == 4)
             {
 
@@ -300,12 +271,12 @@ void LeftLeg::updateInput() {
                 }
 
             }
-            
+
         }
 
         else if (legSide == 1)
         {
-            if (legControl == 0)
+            if (RlegControl == 0)
             {
 
                 if (RTHIGH_3DRotationAngleX > -80.0f)
@@ -314,21 +285,27 @@ void LeftLeg::updateInput() {
                 }
 
             }
-            else if (legControl == 1)
+            else if (RlegControl == 1)
             {
                 if (RCALF_3DRotationAngleX > 0.0f)
                 {
                     RCALF_3DRotationAngleX -= ROT_SPEED;
                 }
             }
-            else if (legControl == 2)
+            else if (RlegControl == 2)
             {
                 if (RFOOT_3DRotationAngleX > -20.0f)
                 {
                     RFOOT_3DRotationAngleX -= ROT_SPEED;
                 }
             }
+
+        }
     }
+            
+
+    
+    
 
     if (diKeys[DIK_S] & 0x80)
     {
@@ -360,9 +337,10 @@ void LeftLeg::updateInput() {
                 }
             }
         }
+        
         else if (legSide == 1)
         {
-            if (legControl == 0)
+            if (RlegControl == 0)
             {
 
                 if (RTHIGH_3DRotationAngleX < 45.0f)
@@ -372,7 +350,7 @@ void LeftLeg::updateInput() {
 
             }
 
-            else if (legControl == 1)
+            else if (RlegControl == 1)
             {
                 if (RCALF_3DRotationAngleX < 120.0f)
                 {
@@ -380,7 +358,7 @@ void LeftLeg::updateInput() {
                 }
             }
 
-            else if (legControl == 2)
+            else if (RlegControl == 2)
             {
                 if (RFOOT_3DRotationAngleX < 40.0f)
                 {
@@ -452,11 +430,11 @@ void LeftLeg::updateInput() {
     }
 
     if (diKeys[DIK_L] & 0x80) {
-        
+        legControl = 4;
 
     }
 
-    if (diKeys[DIK_X] & 0x80) {
+    if (diKeys[DIK_Z] & 0x80) {
         CALF_3DRotationAngleX = 0.0f;
         CALF_3DRotationAngleY = 0.0f;
         CALF_3DRotationAngleZ = 0.0f;
@@ -486,25 +464,38 @@ void LeftLeg::updateInput() {
 
 
     }
+    if (diKeys[DIK_X] & 0x80) {
+        legSide = 0;
+        animationStep = 0;
+    }
 
     if (diKeys[DIK_C] & 0x80) {
-        legSide = 0;
+        legSide = 1;
+        animationStep = 0;
     }
 
     if (diKeys[DIK_V] & 0x80) {
-        legSide = 1;
+        
+        legControl = 0;
+        RlegControl = 0;
+        animationStep = 0;
     }
 
     if (diKeys[DIK_B] & 0x80) {
         legControl = 1;
+        RlegControl = 1;
+        animationStep = 0;
     }
 
     if (diKeys[DIK_N] & 0x80) {
         legControl = 2;
+        RlegControl = 2;
+        animationStep = 0;
     }
 
     if (diKeys[DIK_M] & 0x80) {
         legControl = 3;
+        RlegControl = 3;
     }
 
 
