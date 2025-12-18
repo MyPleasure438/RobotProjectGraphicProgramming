@@ -105,6 +105,7 @@ void Body::updateInput() {
 	}
 
 	if (diKeys[DIK_0] & 0x80) {
+		std::cout << "try33";
 		if (!isAnim_flag) {
 			anim_flag = !anim_flag;
 			isAnim_flag = true;
@@ -125,7 +126,7 @@ void Body::drawBodyFrame(Jetpack *jpk, bool isShadow) {
 		glColor3f(1.0, 1.0, 1.0);
 	}
 
-	glTranslatef(BodyTranslateX, BodyTranslateY, BodyTranslateZ);
+	//glTranslatef(BodyTranslateX, BodyTranslateY, BodyTranslateZ);
 	glRotatef(BodyRotateX, 1.0f, 0.0f, 0.0f);
 	glRotatef(BodyRotateY+180, 0.0f, 1.0f, 0.0f);
 	glRotatef(BodyRotateZ, 0.0f, 0.0f, 1.0f);

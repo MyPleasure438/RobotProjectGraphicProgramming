@@ -964,6 +964,18 @@ void Head::deleteTextures()
 
     glDeleteTextures(1, &texture);
     glDeleteTextures(1, &metal);
+    glDeleteTextures(1, &camouflageWhite);
+    glDeleteTextures(1, &energyPulse);
+    glDeleteTextures(1, &minigunCover);
+    glDeleteTextures(1, &minigunCylinder);
+    glDeleteTextures(1, &blackMetalic);
+    glDeleteTextures(1, &glass);
+    glDeleteTextures(1, &whitePattern);
+    glDeleteTextures(1, &white);
+    glDeleteTextures(1, &wristPattern);
+    glDeleteTextures(1, &deadlyPattern);
+    glDeleteTextures(1, &blackGlossy);
+    glDeleteTextures(1, &fire);
 }
 
 void Head::drawMissle()
@@ -1149,7 +1161,7 @@ void Head::draw2()
 {
     //
     glPushMatrix();
-        glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
+        //glTranslatef(RobotEntireArm_TranslationX, RobotEntireArm_TranslationY, RobotEntireArm_TranslationZ);
         glRotatef(RobotEntireArm_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
         glRotatef(RobotEntireArm_3DRotationAngleY, 0.0f, 1.0f, 0.0f);       
         glRotatef(RobotEntireArm_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);

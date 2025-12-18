@@ -140,6 +140,29 @@ private:
 	HBITMAP hBMP = NULL;
 
 
+
+	float anim_value = 0.0f;
+	float anim_value_leftLeg = 0.0f;
+	float anim_value_leftLegCalf = 0.0f;
+	//Leg
+	struct Legs
+	{
+		bool isActive;
+		float currentX;
+	};
+
+	Legs legs[5] =
+	{
+		{false, 0.0f}, // Leg Movement 1
+		{false, 0.0f}, // Leg Movement 2
+		{false, 0.0f}, // Leg Movement 3
+		{false, 0.0f}, // Leg Movement 4
+		{false, 0.0f} // Leg Movement 5
+	};
+
+	int nextLegMovement = 0;
+	//store previous tate
+	char prevDiKeys[256];
 public:
 	LeftLeg();
 	void updateInput() override;

@@ -22,9 +22,12 @@ void LeftLeg::updateInput() {
     LPDIRECTINPUTDEVICE8 dInputKeyboardDevice = inputManager.getDInputKeyboardDevice();
     HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
 
-
+    
     if (diKeys[DIK_W] & 0x80)
     {
+
+
+        /*
         if (legSide == 0)
         {
             if (legControl == 0)
@@ -328,6 +331,7 @@ void LeftLeg::updateInput() {
                     RFOOT_3DRotationAngleX -= ROT_SPEED;
                 }
             }
+            */
     }
 
     if (diKeys[DIK_S] & 0x80)
@@ -1559,8 +1563,7 @@ void ObjectTransform() {
 }
 
 void LeftLeg::draw() {
-
-
+    
     //Whole Leg
 
     glPushMatrix();
@@ -1570,6 +1573,73 @@ void LeftLeg::draw() {
         glRotatef(THIGH_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
         glRotatef(THIGH_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
         //glTranslatef(0.0f, -0.5, 0.0f);
+
+        bool keyWPressedThisFrame = (diKeys[DIK_W] & 0x80) && !(prevDiKeys[DIK_W] & 0x80);
+
+        if (keyWPressedThisFrame) {
+            if (nextLegMovement == 0) {
+                legs[4].isActive = false;
+                legs[0].isActive = true;
+                nextLegMovement = 1; // Set up next time
+            }
+            else if (nextLegMovement == 1) {
+                legs[0].isActive = false;
+                legs[1].isActive = true;
+                nextLegMovement = 2; // 
+            }
+
+            else if (nextLegMovement == 2) {
+                legs[1].isActive = false;
+                legs[2].isActive = true;
+                nextLegMovement = 3; // 
+            }
+
+            else if (nextLegMovement == 3) {
+                legs[2].isActive = false;
+                legs[3].isActive = true;
+                nextLegMovement = 4; // 
+            }
+
+            else if (nextLegMovement == 4) {
+                legs[3].isActive = false;
+                legs[4].isActive = true;
+                nextLegMovement = 5; // Loop back to the first missile
+            }
+        }
+        
+        if (legs[0].isActive && anim_value_leftLeg >= -10) {
+            anim_value_leftLeg -= 0.5f;
+        }
+
+        if (legs[1].isActive && anim_value_leftLeg <= 30) {
+            anim_value_leftLeg += 0.5f;
+        }
+
+        if (legs[2].isActive && anim_value_leftLeg >= 0) {
+            anim_value_leftLeg -= 0.5f;
+        }
+
+        if (legs[3].isActive && anim_value_leftLeg >= -20) {
+            anim_value_leftLeg -= 0.5f;
+        }
+
+        if (legs[4].isActive && anim_value_leftLeg >= -30) {
+            anim_value_leftLeg -= 0.5f;
+        }
+        /*
+        if (legs[0].isActive && anim_value_leftLeg >=-60) {
+            anim_value_leftLeg -= 0.5f;
+        }
+
+        
+
+        // leg Movement 2
+        if (legs[1].isActive && anim_value_leftLeg <= -0) {
+            anim_value_leftLeg += 0.5f;
+        }
+        */
+        glRotatef(anim_value_leftLeg, 1.0f, 0.0f, 0.0f);
+        
         glPushMatrix();
             //Tigh
             glPushMatrix();
@@ -1581,55 +1651,90 @@ void LeftLeg::draw() {
             glPushMatrix();
                 glColor3f(0.0, 0.0, 0.0);
                 glTranslatef(0.0f, -7.8f, 0.0f);
+		/*
+		glRotatef(CALF_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+ 		glRotatef(CALF_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+ 		glRotatef(CALF_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+		*/
+
+                if (legs[0].isActive&& anim_value_leftLegCalf <= 30) {
+                    anim_value_leftLegCalf += 0.5f;
+                }
+
+                // leg Movement 2
+                if (legs[1].isActive && anim_value_leftLegCalf >= 15) {
+                    anim_value_leftLegCalf -= 0.5f;
+                }
+
+                // leg Movement 3
+                if (legs[2].isActive && anim_value_leftLegCalf >= 20) {
+                    anim_value_leftLegCalf += 0.5f;
+                }
+
+                // leg Movement 3
+                if (legs[2].isActive && anim_value_leftLegCalf >= 20) {
+                    anim_value_leftLegCalf += 0.5f;
+                }
+
+                // leg Movement 4
+                if (legs[4].isActive && anim_value_leftLegCalf >= 0) {
+                    anim_value_leftLegCalf -= 0.5f;
+                }
+
+                glRotatef(anim_value_leftLegCalf, 1.0f, 0.0f, 0.0f);
+
                 drawSphere(joint, 1.6f, 10, 10, BlackShiny);
-            glPopMatrix();
+            
 
-            //Whole Calf
-            glPushMatrix();
-
-            glTranslatef(0.0f, -7.8f, 0.0f);
-            glRotatef(CALF_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-            glRotatef(CALF_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-            glRotatef(CALF_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-            glTranslatef(0.0f, 7.8f, 0.0f);
-
-                //Calf
-                glPushMatrix();
-                    glTranslatef(0.0f, -9.5f, 0.3f);
-                    drawShin();
-                glPopMatrix();
-
-                //Joint
-                glPushMatrix();
-                    glColor3f(0.0, 0.0, 0.0);
-                    glTranslatef(0.0f, -16.8f, 0.2f);
-                    drawSphere(joint, 0.9f, 10, 10, BlackShiny);
-                glPopMatrix();
-
+                //Whole Calf
                 glPushMatrix();
 
-                glTranslatef(0.0f, -16.8f, 0.0f);
-                glRotatef(FOOT_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
-                glRotatef(FOOT_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
-                glRotatef(FOOT_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
-                glTranslatef(0.0f, 16.8f, 0.0f);
-        
-                    //Foot
+                //glTranslatef(0.0f, -7.8f, 0.0f);
+           
+                glTranslatef(0.0f, 7.8f, 0.0f);
+
+            
+
+
+                    //Calf
                     glPushMatrix();
-                        glTranslatef(-0.0f, -19.0f, 2.5f);
-                        glRotatef(-90.0f, 0.0, 1.0, 0.0);
-                        glScalef(2.0f, 3.0f, 3.0f);
-                        drawFoot();
+                        glTranslatef(0.0f, -9.5f, 0.3f);
+                        drawShin();
                     glPopMatrix();
 
-                    //glTranslatef(-0.0f, -19.0f, 2.5f);
-                    //glRotatef(-40.0f, 1.0, 0.0, 0.0);
+                    //Joint
+                    glPushMatrix();
+                        glColor3f(0.0, 0.0, 0.0);
+                        glTranslatef(0.0f, -16.8f, 0.2f);
+                        drawSphere(joint, 0.9f, 10, 10, BlackShiny);
+                    glPopMatrix();
 
+                    glPushMatrix();
+
+                    glTranslatef(0.0f, -16.8f, 0.0f);
+                    glRotatef(FOOT_3DRotationAngleX, 1.0f, 0.0f, 0.0f);
+                    glRotatef(FOOT_3DRotationAngleY, 0.0f, 1.0f, 0.0f);
+                    glRotatef(FOOT_3DRotationAngleZ, 0.0f, 0.0f, 1.0f);
+                    glTranslatef(0.0f, 16.8f, 0.0f);
+        
+                        //Foot
+                        glPushMatrix();
+                            glTranslatef(-0.0f, -19.0f, 2.5f);
+                            glRotatef(-90.0f, 0.0, 1.0, 0.0);
+                            glScalef(2.0f, 3.0f, 3.0f);
+                            drawFoot();
+                        glPopMatrix();
+
+                        //glTranslatef(-0.0f, -19.0f, 2.5f);
+                        //glRotatef(-40.0f, 1.0, 0.0, 0.0);
+
+                    glPopMatrix();
                 glPopMatrix();
             glPopMatrix();
         glPopMatrix();
     glPopMatrix();
-
+    //*** CRITICAL STEP ***: Save the current input state for the next frame's check (Put at after everything done)
+    memcpy(prevDiKeys, diKeys, sizeof(diKeys));
 }
 
 void LeftLeg::draw2() {

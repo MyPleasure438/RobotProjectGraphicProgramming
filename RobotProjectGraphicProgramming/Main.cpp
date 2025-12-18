@@ -164,29 +164,29 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			break;
 
 		case VK_UP:
-			rotateCameraY = rotateCameraY + 1.0f;
+			rotateCameraY = rotateCameraY + 5.0f;
 			break;
 
 		case VK_DOWN:
-			rotateCameraY = rotateCameraY - 1.0f;
+			rotateCameraY = rotateCameraY - 5.0f;
 			break;
 
 		case VK_LEFT:
-			rotateCameraX = rotateCameraX - 1.0f;
+			rotateCameraX = rotateCameraX - 5.0f;
 			break;
 
 		case VK_RIGHT:
-			rotateCameraX = rotateCameraX + 1.0f;
+			rotateCameraX = rotateCameraX + 5.0f;
 			break;
 
 		case VK_NUMPAD0:
 			// 0 key on numpad
-			rotateCameraZ = rotateCameraZ - 1.0f;
+			rotateCameraZ = rotateCameraZ - 5.0f;
 			break;
 
 		case VK_DECIMAL:
 			// '.' key on numpad
-			rotateCameraZ = rotateCameraZ + 1.0f;
+			rotateCameraZ = rotateCameraZ + 5.0f;
 			break;
 
 		case VK_SPACE:
@@ -417,8 +417,10 @@ void Display(int QuestionsToRender)
 			glPopMatrix();
 
 			glPushMatrix();
+				/*
 				bodyArmsRotationAngle = bodyArmsRotationAngle + 40;
 				glRotatef(bodyArmsRotationAngle, 0.0f, 1.0f, 0.0f);
+				*/
 				//left arm
 				glPushMatrix();
 					glTranslatef(5.3f, 2.5f, 0.0f);
@@ -436,14 +438,14 @@ void Display(int QuestionsToRender)
 				glRotatef(270, 0.0f, 1.0f, 0.0f);
 				glScalef(1.5, 1.5f, 1.5f);
 				glScalef(0.65f, 0.65f, 0.65f);
-					leftArm.drawAnotherArm();
+				leftArm.drawAnotherArm();
 				glPopMatrix();
 
 			
 				//body
 				glPushMatrix();
 					glScalef(20.0f, 20.0f, 20.0f);
-					body.drawBodyFrame(jpk);
+					body.drawBodyFrame(jpk, false);
 				glPopMatrix();
 			
 			glPopMatrix();
@@ -643,7 +645,7 @@ void orthographicProjection()
 	glLoadIdentity();
 	//glOrtho(-4, 4, -4, 4, -4, 4);
 	glOrtho(-8, 8, -8, 8, -8, 8);
-	//glOrtho(-25, 25, -25, 25, -25, 25);
+	 //glOrtho(-25, 25, -25, 25, -25, 25);
 }
 
 void perspectiveProjection()

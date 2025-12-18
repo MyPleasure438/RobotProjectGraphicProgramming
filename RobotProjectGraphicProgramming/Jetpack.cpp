@@ -56,6 +56,7 @@ void Jetpack::jetpackInput() {
 	LPDIRECTINPUTDEVICE8 dInputKeyboardDevice = inputManager.getDInputKeyboardDevice();
 	HRESULT hr = dInputKeyboardDevice->GetDeviceState(256, diKeys);
 	if (diKeys[DIK_9] & 0x80) {
+		std::cout << "try";
 		if (!isKey9Pressed) {
 			jp_anim_flag = !jp_anim_flag; 
 			isKey9Pressed = true;         
@@ -76,6 +77,7 @@ void Jetpack::drawJetpack(float cx, float cy, float cz, bool isShadow) {
 	if(!isShadow){
 		if (jp_anim_flag) {
 			if (transitionX < 0.23) {
+				std::cout << "q";
 				transitionX += 0.01;
 				firepower = 0;
 			}
