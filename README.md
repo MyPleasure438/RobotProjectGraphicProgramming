@@ -1,162 +1,205 @@
-Robot Project – Graphic Programming
-Overview
+# Robot Project — Graphics Programming
 
-This project is a 3D robot visualization and graphics programming assignment developed in C++ using OpenGL and Win32 APIs. The application demonstrates hierarchical modeling, transformations, lighting, texturing, camera controls, and interactive object manipulation within a custom-rendered 3D environment.
+A C++ OpenGL graphics programming project built for a **Computer Graphics / Graphics Programming** assignment. The application demonstrates hierarchical modelling, transformations, lighting, texture mapping, camera controls, and interactive 3D scene rendering using Win32 and OpenGL.
 
-The robot is constructed from multiple independent components such as the head, body, arms, legs, shield, sword, and jetpack. These components are assembled using hierarchical transformations to create a complete articulated character.
+The project features a modular robot constructed from multiple articulated body parts alongside an experimentation station used to showcase graphics techniques and object manipulation.
 
-In addition to the robot model, the project includes an Experimentation Station scene featuring textured structures, environmental objects, lighting effects, and user-controlled interactions.
+## Highlights
 
-Features
-Robot Modeling
-Hierarchical robot construction
-Modular body part system
-Head, body, arms, and legs modeled separately
-Additional accessories:
-Shield
-Sword
-Jetpack
-Graphics Techniques
-OpenGL immediate mode rendering
-Hierarchical transformations
-Translation, rotation, and scaling
-Perspective and orthographic projection modes
-Dynamic lighting
-Shadow rendering
-Texture mapping using BMP textures
-Interactive Controls
-Camera movement controls
-Camera rotation controls
-Object transformations
-Keyboard input through DirectInput
-Scene switching and object manipulation
-Experimentation Station
-Textured environment
-Bridge and tower structures
-Ship and sea elements
-Lighting demonstrations
-Interactive transformation testing
-Technologies Used
-Technology	Purpose
-C++	Core application development
-OpenGL	3D rendering
-GLU	Utility rendering functions
-Win32 API	Window creation and event handling
-DirectInput	Keyboard and input management
-Visual Studio	Development environment
-Project Structure
-RobotProjectGraphicProgramming/
-│
-├── Main.cpp
-├── InputManager.cpp
-├── InputManager.h
-│
-├── Robot.cpp
-├── Robot.h
-│
-├── RobotPart.cpp
-├── RobotPart.h
-│
-├── Head.cpp
-├── Head.h
-│
-├── Body.cpp
-├── Body.h
-│
-├── LeftArm.cpp
-├── LeftArm.h
-│
-├── LeftLeg.cpp
-├── LeftLeg.h
-│
-├── Shield.cpp
-├── Shield.h
-│
-├── Sword.cpp
-├── Sword.h
-│
-├── Jetpack.cpp
-├── Jetpack.h
-│
-├── ExperimentationStation.cpp
-├── ExperimentationStation.h
-│
-└── Texture Files (*.bmp)
-Controls
-Camera Controls
-Key	Action
-Numpad 8	Move Camera Up
-Numpad 5	Move Camera Down
-Numpad 4	Move Camera Left
-Numpad 6	Move Camera Right
-Numpad 7	Move Camera Forward
-Numpad 1	Move Camera Backward
-Scene Selection
-Key	Action
-1	Display Robot Scene
-3	Display Experimentation Scene
-Experimentation Station Controls
-Key	Action
-W / S	Move Up / Down
-A / D	Move Left / Right
-Q / E	Move Forward / Backward
-T / G	Rotate Y Axis
-F / H	Rotate X Axis
-R / Y	Rotate Z Axis
-I / K	Elbow Rotation Y
-J / L	Elbow Rotation X
-Graphics Concepts Demonstrated
-Hierarchical Modeling
+- Designed and implemented a hierarchical 3D robot model using OpenGL.
+- Built reusable robot components including arms, legs, head, body, shield, sword, and jetpack.
+- Implemented translation, rotation, and scaling transformations.
+- Added dynamic lighting, texture mapping, and shadow rendering.
+- Created an experimentation station for testing graphics concepts and object manipulation.
+- Integrated keyboard controls for camera movement and scene interaction.
+
+## Technical Implementation
+
+### Architecture
+
+The project separates rendering, input handling, robot components, and scene management into focused classes:
+
+```text
+Application
+├── Main ---------------- Window creation and render loop
+├── InputManager -------- Keyboard input handling
+├── Robot --------------- Main robot controller
+│   ├── Head
+│   ├── Body
+│   ├── LeftArm
+│   ├── LeftLeg
+│   ├── Shield
+│   ├── Sword
+│   └── Jetpack
+├── RobotPart ----------- Shared robot component functionality
+└── ExperimentationStation
+    ├── Environment Objects
+    ├── Lighting Tests
+    ├── Texture Demonstrations
+    └── Transformation Controls
+```
+
+### Hierarchical Modelling
+
+The robot is constructed using a parent-child hierarchy where transformations applied to a parent component affect all attached child components.
+
+This approach enables:
+
+- Articulated body construction
+- Reusable robot parts
+- Consistent scaling and positioning
+- Efficient scene organization
+
+### Graphics Features
+
+The rendering system demonstrates several core computer graphics concepts:
+
+- Hierarchical transformations
+- Translation, rotation, and scaling
+- Perspective projection
+- Orthographic projection
+- Texture mapping
+- Dynamic lighting
+- Shadow projection
+- Camera navigation
+
+### Rendering and Input
+
+- **OpenGL** is used for all 3D rendering operations.
+- **GLU** utility functions assist with camera setup and geometric primitives.
+- **Win32 API** manages window creation and application events.
+- **DirectInput** handles realtime keyboard input.
+- The application follows a standard `input -> update -> render` loop structure.
+
+## Controls
+
+### Camera Controls
+
+| Input | Action |
+| --- | --- |
+| Numpad `8` | Move Camera Up |
+| Numpad `5` | Move Camera Down |
+| Numpad `4` | Move Camera Left |
+| Numpad `6` | Move Camera Right |
+| Numpad `7` | Move Camera Forward |
+| Numpad `1` | Move Camera Backward |
+
+### Scene Selection
+
+| Input | Action |
+| --- | --- |
+| `1` | Display Robot Scene |
+| `3` | Display Experimentation Station |
+
+### Experimentation Controls
+
+| Input | Action |
+| --- | --- |
+| `W` / `S` | Move Up / Down |
+| `A` / `D` | Move Left / Right |
+| `Q` / `E` | Move Forward / Backward |
+| `T` / `G` | Rotate Y Axis |
+| `F` / `H` | Rotate X Axis |
+| `R` / `Y` | Rotate Z Axis |
+| `I` / `K` | Elbow Rotation Y |
+| `J` / `L` | Elbow Rotation X |
+
+## Technology Stack
+
+- C++
+- Object-Oriented Programming
+- OpenGL
+- GLU
+- Win32 API
+- DirectInput
+- Visual Studio
+- Windows SDK
+
+## Building the Project
+
+### Requirements
+
+- Windows 10 or later
+- Visual Studio with **Desktop Development for C++**
+- Windows SDK
+- OpenGL libraries
+- DirectX SDK (for DirectInput)
+
+### Steps
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/RobotProjectGraphicProgramming.git
+```
+
+2. Open `RobotProjectGraphicProgramming.sln`.
+
+3. Select a Win32 build configuration.
+
+4. Build and run the solution.
+
+## Technical Highlights
+
+- Implemented hierarchical modelling using parent-child transformations to construct an articulated robot.
+- Built reusable robot components through a shared `RobotPart` architecture.
+- Applied translation, rotation, and scaling transformations to individual and grouped objects.
+- Implemented dynamic lighting and material properties using OpenGL's fixed-function pipeline.
+- Added texture mapping with BMP textures to improve scene detail and visual quality.
+- Implemented planar shadow projection techniques for environmental realism.
+- Created an experimentation station for testing graphics concepts and object manipulation.
+- Integrated DirectInput for responsive realtime keyboard controls.
+- Supported both perspective and orthographic projection modes.
+
+## Graphics Concepts Demonstrated
+
+### Hierarchical Modelling
 
 The robot is built using parent-child relationships. Transformations applied to parent components affect their children, allowing complex articulated movement.
 
-Lighting
+### Lighting
 
-The project utilizes OpenGL lighting to simulate realistic illumination using:
+The project utilizes OpenGL lighting techniques including:
 
-Ambient light
-Diffuse light
-Light positioning
-Texture Mapping
+- Ambient lighting
+- Diffuse lighting
+- Light positioning
 
-BMP textures are applied to robot components and environment objects to improve visual quality and realism.
+### Texture Mapping
 
-Projection Modes
+BMP textures are applied to robot components and environmental objects to improve visual quality and realism.
 
-The application supports:
+### Projection Modes
 
-Perspective Projection
-Orthographic Projection
-Shadow Rendering
+- Perspective Projection
+- Orthographic Projection
 
-Shadow calculations are performed using projection matrices to create planar shadows on the scene.
+### Shadow Rendering
 
-Building the Project
-Requirements
-Microsoft Visual Studio
-Windows Operating System
-OpenGL
-GLU
-DirectX SDK (DirectInput)
-Steps
-Clone the repository:
-git clone https://github.com/yourusername/RobotProjectGraphicProgramming.git
-Open:
-RobotProjectGraphicProgramming.sln
-Build the solution in Visual Studio.
-Run the project.
-Learning Objectives
+Planar shadows are generated using projection matrices to enhance depth and scene realism.
 
-This project was developed to practice and demonstrate:
+## Screenshots
 
-OpenGL rendering fundamentals
-3D transformations
-Hierarchical object modeling
-Texture mapping
-Lighting techniques
-Shadow projection
-Interactive graphics programming
-Input handling using DirectInput
-Author
+### Robot Model
+
+![Robot Model](screenshots/robot.png)
+
+### Experimentation Station
+
+![Experimentation Station](screenshots/experimentation-station.png)
+
+### Lighting Demonstration
+
+![Lighting Demonstration](screenshots/lighting-demo.png)
+
+### Textured Environment
+
+![Textured Environment](screenshots/textured-environment.png)
+
+### Shadow Rendering
+
+![Shadow Rendering](screenshots/shadows.png)
+
+## Author
 
 Developed as part of a Graphics Programming / Computer Graphics coursework project using C++, OpenGL, and Win32 APIs.
