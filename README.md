@@ -184,21 +184,6 @@ Planar shadows are generated using projection matrices to enhance depth and scen
 
 ![Robot Model](screenshots/robot.png)
 
-### Experimentation Station
-
-![Experimentation Station](screenshots/experimentation-station.png)
-
-### Lighting Demonstration
-
-![Lighting Demonstration](screenshots/lighting-demo.png)
-
-### Textured Environment
-
-![Textured Environment](screenshots/textured-environment.png)
-
-### Shadow Rendering
-
-![Shadow Rendering](screenshots/shadows.png)
 
 ## Author
 
